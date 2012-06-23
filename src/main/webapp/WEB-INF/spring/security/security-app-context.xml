@@ -1,0 +1,66 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                    http://www.springframework.org/schema/security 
+                    http://www.springframework.org/schema/security/spring-security-3.1.xsd
+                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+
+	<!-- The <http> block states that we want to use web security (which is 
+		applied by Spring Security's filters), with form-based login and access control 
+		expressions enabled. The <intercept-url> element says that the whole site 
+		("/**" means any request path) is accessible to anyone (the "permitAll" expression). 
+		The <authentication-manager> element is being used here to define a list 
+		of in-memory users and their passwords and role information, which is convenient 
+		for samples and demos. A real world application would more likely use a database, 
+		LDAP server or some single sign-on integration. Spring Security supports 
+		many other options out of the box. -->
+	<http use-expressions="false" auto-config="true">
+		<intercept-url pattern="/welcome*" access="ROLE_USER" />
+		<form-login login-page='/login' default-target-url="/welcome"
+			authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/logout" />
+	</http>
+
+	<beans:bean id="daoAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="authenticationManager"
+		class="org.springframework.security.authentication.ProviderManager">
+		<beans:property name="providers">
+			<beans:list>
+				<beans:ref local="daoAuthenticationProvider" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+	<authentication-manager>
+		<authentication-provider user-service-ref="userDetailsService">
+			<password-encoder ref="encoder" />
+			<!-- <user-service> -->
+			<!-- <user name="rod" -->
+			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
+			<!-- authorities="supervisor, teller, user" /> -->
+			<!-- <user name="dianne" -->
+			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
+			<!-- authorities="teller, user" /> -->
+			<!-- <user name="scott" -->
+			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
+			<!-- authorities="user" /> -->
+			<!-- <user name="peter" -->
+			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
+			<!-- authorities="user" /> -->
+			<!-- </user-service> -->
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
