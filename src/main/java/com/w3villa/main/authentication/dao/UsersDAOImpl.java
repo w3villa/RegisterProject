@@ -1,11 +1,12 @@
 package com.w3villa.main.authentication.dao;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,11 +27,16 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 		return list;
 	}
 
-	public Users findByEmailId(String emailId) {
+	public Users findByEmailId(String emailId, boolean disableLazy) {
 		UserRoles userRoles = null;
 		Users users = new Users();
 		users.setEmailId(emailId);
-		List<Users> usersList = getHibernateTemplate().findByExample(users);
+		Criteria ctr = getSession().createCriteria(Users.class);
+		ctr.add(Restrictions.eq("emailId", users.getEmailId()));
+		if (disableLazy)
+			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
+		List<Users> usersList = ctr.list();
+		// List<Users> usersList = getHibernateTemplate().findByExample(users);
 		if (usersList.size() > 0) {
 			users = usersList.get(0);
 		} else
@@ -39,7 +45,7 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 	}
 
 	public void saveUser(Users users) {
-		getHibernateTemplate().save(users);
+		getHibernateTemplate().saveOrUpdate(users);
 
 	}
 

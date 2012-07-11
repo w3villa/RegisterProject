@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Transactional
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		Users users = usersDAO.findByEmailId(username);
+		Users users = usersDAO.findByEmailId(username, false);
 		if(users == null)
 			throw new UsernameNotFoundException("UserName with emailId :"+username+" not found");
 		return assembler.buildUserFromUserEntity(users);

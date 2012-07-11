@@ -1,10 +1,13 @@
 package com.w3villa.main.authentication.domain;
 
-// Generated 21 Jun, 2012 12:37:38 PM by Hibernate Tools 3.4.0.CR1
+// Generated 9 Jul, 2012 2:47:13 PM by Hibernate Tools 3.4.0.CR1
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,26 +20,26 @@ import javax.persistence.Table;
 @Table(name = "user_roles", catalog = "w3villdb")
 public class UserRoles implements java.io.Serializable {
 
-	private int userRoleId;
+	private Integer userRoleId;
 	private Users users;
 	private String roleName;
 
 	public UserRoles() {
 	}
 
-	public UserRoles(int userRoleId, Users users, String roleName) {
-		this.userRoleId = userRoleId;
+	public UserRoles(Users users, String roleName) {
 		this.users = users;
 		this.roleName = roleName;
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "USER_ROLE_ID", unique = true, nullable = false)
-	public int getUserRoleId() {
+	public Integer getUserRoleId() {
 		return this.userRoleId;
 	}
 
-	public void setUserRoleId(int userRoleId) {
+	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
 	}
 

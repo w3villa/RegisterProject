@@ -8,7 +8,7 @@ public interface UsersDAO {
 
 	List<Users> getUsersList();
 
-	Users findByEmailId(String emailId);
+	Users findByEmailId(String emailId, boolean disableLazy);
 
 	void saveUser(Users users);
 

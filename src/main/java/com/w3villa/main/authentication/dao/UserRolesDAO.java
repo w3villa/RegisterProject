@@ -1,5 +1,7 @@
 package com.w3villa.main.authentication.dao;
 
-public interface UserRolesDAO {
+import com.w3villa.main.authentication.domain.UserRoles;
 
+public interface UserRolesDAO {
+	void saveRole(UserRoles userRoles);
 }

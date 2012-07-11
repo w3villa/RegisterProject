@@ -24,6 +24,12 @@
 
 	<!-- End for spring security -->
 
+	<!-- Concurrent Session Control -->
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+
+
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>

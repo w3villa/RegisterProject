@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.w3villa.main.authentication.bean.UserEntityBean;
 import com.w3villa.main.authentication.domain.Users;
-import com.w3villa.main.authentication.service.UsersService;
+import com.w3villa.main.authentication.userService.StylePreferenceService;
+import com.w3villa.main.authentication.userService.UsersService;
 
 /**
  * Handles requests for the application home page.
@@ -34,25 +35,41 @@ public class HomeController {
 	@Autowired
 	private UsersService usersService;
 
+	@Autowired
+	private StylePreferenceService stylePreferenceService;
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String forward(Locale locale, Model model) {
-		return "login";
+		return "welcomePage";
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model, HttpServletRequest request) {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		Users users = usersService.findByEmailId(user.getUsername());
+		HttpSession session = request.getSession(false);
+		Users users = usersService.findByEmailId(user.getUsername(), true);
+		session.setAttribute("users", users);
+		session.setAttribute("pp", "pp");
 		return "home";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login() {
+	@RequestMapping(value = "/invalidSession.htm", method = RequestMethod.GET)
+	public String invalidSession() {
 
+		return "login";
+
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(HttpServletRequest request, ModelMap model) {
+		String errorSession = request.getParameter("error");
+		if (errorSession != null) {
+			model.addAttribute("errorSession", errorSession);
+		}
 		return "login";
 
 	}
@@ -78,6 +95,8 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		session.invalidate();
 		model.addAttribute(new UserEntityBean());
+		model.addAttribute("stylePreferenceList",
+				stylePreferenceService.getStylePreferenceList());
 		logger.info("RegisterMeNavigate() exit.");
 		return "registerMe";
 	}
@@ -93,14 +112,27 @@ public class HomeController {
 		} else {
 			HttpSession session = request.getSession();
 			try {
-				usersService.saveUser(userEntityBean);
+				String[] stylePreferences = request
+						.getParameterValues("stylePreferences");
+				usersService.saveUser(userEntityBean, stylePreferences);
 				session.setAttribute("emailId", userEntityBean.getEmailId());
+				model.addAttribute("registerSuccess", "true");
 				logger.info("RegisterMe() exit.");
+				return "login";
 			} catch (Exception e) {
 				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
 				logger.error("Error in Controller");
+				return "registerMe";
 			}
-			return "loginSuccess";
+
 		}
+	}
+
+	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+	public String accessDenied(ModelMap model) {
+
+		return "accessDenied";
+
 	}
 }

@@ -19,17 +19,23 @@
 		for samples and demos. A real world application would more likely use a database, 
 		LDAP server or some single sign-on integration. Spring Security supports 
 		many other options out of the box. -->
-	<http use-expressions="false" auto-config="true">
+	<http use-expressions="false" auto-config="true"
+		access-denied-page="/accessDenied">
 		<intercept-url pattern="/welcome*" access="ROLE_USER" />
 		<form-login login-page='/login' default-target-url="/welcome"
 			authentication-failure-url="/loginfailed" />
-		<logout logout-success-url="/logout" />
+		<logout logout-success-url="/login" invalidate-session="true"
+			delete-cookies="JSESSIONID" />
+		<remember-me key="rememberMeKey" user-service-ref="userDetailsService" />
+		<session-management invalid-session-url="/login?error=sessionExpired"
+			session-authentication-error-url="/login?error=alreadyLogin" >
+			<concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+
 	</http>
 
-	<beans:bean id="daoAuthenticationProvider"
-		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<beans:property name="userDetailsService" ref="userDetailsService" />
-	</beans:bean>
+
 
 	<beans:bean id="authenticationManager"
 		class="org.springframework.security.authentication.ProviderManager">
@@ -41,26 +47,42 @@
 	</beans:bean>
 
 
-	<beans:bean id="encoder"
-		class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsService">
 			<password-encoder ref="encoder" />
-			<!-- <user-service> -->
-			<!-- <user name="rod" -->
-			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
-			<!-- authorities="supervisor, teller, user" /> -->
-			<!-- <user name="dianne" -->
-			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
-			<!-- authorities="teller, user" /> -->
-			<!-- <user name="scott" -->
-			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
-			<!-- authorities="user" /> -->
-			<!-- <user name="peter" -->
-			<!-- password="2598ac0eb967b7c8c49be17cce32ba66ddd22523413a1d4211cbbbb72dd46ac163d6a0efd7205487" -->
-			<!-- authorities="user" /> -->
-			<!-- </user-service> -->
 		</authentication-provider>
 	</authentication-manager>
+
+	<beans:bean id="daoAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+
+
+	<beans:bean id="concurrencyFilter"
+		class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<beans:property name="sessionRegistry" ref="sessionRegistry" />
+		<beans:property name="expiredUrl" value="/session-expired.htm" />
+	</beans:bean>
+
+	<beans:bean id="myAuthFilter"
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<beans:property name="sessionAuthenticationStrategy"
+			ref="sas" />
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
+
+	<beans:bean id="sas"
+		class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+		<beans:constructor-arg name="sessionRegistry"
+			ref="sessionRegistry" />
+		<beans:property name="maximumSessions" value="1" />
+	</beans:bean>
+
+	<beans:bean id="sessionRegistry"
+		class="org.springframework.security.core.session.SessionRegistryImpl" />
 
 </beans:beans>

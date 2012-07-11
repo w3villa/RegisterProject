@@ -1,3 +1,6 @@
+/*
+ * just a bean class
+ */
 package com.w3villa.main.authentication.bean;
 
 public class SecurityRoleEntity {

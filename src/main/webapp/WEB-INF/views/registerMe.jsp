@@ -6,11 +6,24 @@
 .errors {
 	background: #F7DEC0;
 }
+
+.errorblock {
+	color: #ff0000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
 </style>
 <div id="banner">
 	<form:form modelAttribute="userEntityBean" method="Post"
 		action="RegisterMe">
 		<div id="form_status">Incomplete</div>
+		<c:if test="${not empty error}">
+			<div class="errorblock">
+				Registration process failed.<br /> Caused : ${error}
+			</div>
+		</c:if>
 		<table width="100%">
 			<tr>
 				<!-- 		<td><img src="resources/images/img04.jpg" width="750" height="170" alt="" /></td> -->
@@ -65,7 +78,7 @@
 							</tr>
 							<tr>
 								<td class="date">Addres line 1</td>
-								<td><form:password path="addressLine1" /></td>
+								<td><form:input path="addressLine1" /></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
@@ -74,7 +87,7 @@
 							</tr>
 							<tr>
 								<td class="date">Addres line 2</td>
-								<td><form:password path="addressLine2" /></td>
+								<td><form:input path="addressLine2" /></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
@@ -83,7 +96,7 @@
 							</tr>
 							<tr>
 								<td class="date">City</td>
-								<td><form:password path="city" /></td>
+								<td><form:input path="city" /></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
@@ -92,7 +105,7 @@
 							</tr>
 							<tr>
 								<td class="date">State</td>
-								<td><form:password path="state" /></td>
+								<td><form:input path="state" /></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
@@ -101,7 +114,7 @@
 							</tr>
 							<tr>
 								<td class="date">Country</td>
-								<td><form:password path="country" /></td>
+								<td><form:input path="country" /></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
@@ -110,7 +123,7 @@
 							</tr>
 							<tr>
 								<td class="date">Contact No</td>
-								<td><form:password path="contactNo" /></td>
+								<td><form:input path="contactNo" /></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
@@ -118,8 +131,34 @@
 											path="contactNo" /></font></td>
 							</tr>
 							<tr>
+								<td><fieldset>
+										<legend>Style Preferences </legend>
+										<table width="90%" align="center">
+											<c:forEach items="${stylePreferenceList}"
+												var="stylePreference" varStatus="counter">
+												<c:choose>
+													<c:when test="${counter.count%2 != 0 }">
+														<tr>
+															<td><input type="checkbox" name="stylePreferences"
+																value="${stylePreference.stylePreferenceId}">&nbsp;${stylePreference.name}
+															</td>
+													</c:when>
+													<c:otherwise>
+														<td><input type="checkbox" name="stylePreferences"
+															value="${stylePreference.stylePreferenceId}">&nbsp;${stylePreference.name}
+														</td>
+														</tr>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+
+										</table>
+									</fieldset></td>
+							</tr>
+							<tr>
 								<td><input type="submit" value="SIGN UP" /></td>
 							</tr>
+
 						</table>
 					</fieldset>
 				</td>
