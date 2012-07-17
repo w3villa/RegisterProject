@@ -11,10 +11,12 @@
 	<div align="center">
 		<div class="body">
 			<jsp:include page="header.jsp"></jsp:include>
-			<div>
-				<a href="${pageContext.servletContext.contextPath}/RegisterMe">Sign Up</a>
-				<a href="${pageContext.servletContext.contextPath}/login">Sign In</a>
-			</div>
+			<img src="resources/images/background.jpg" />
+			<ul class="link-nav">
+				<li><a href="${pageContext.servletContext.contextPath}/faq">FAQ</a></li>
+				<li><a href="${pageContext.servletContext.contextPath}/contactus">Contact Us</a></li>
+				<li><a href="${pageContext.servletContext.contextPath}/login">Log In</a></li>
+			</ul>
 			<jsp:include page="footer.jsp"></jsp:include>
 		</div>	
 	</div>	
