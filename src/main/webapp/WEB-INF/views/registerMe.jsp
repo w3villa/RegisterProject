@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%><%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><jsp:include
-	page="header.jsp" />
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<link href="resources/css/style.css" rel="stylesheet" type="text/css"
+	media="screen" />
 <script type="text/javascript" src="resources/js/jquery-1.7.2.js"></script>
 <style>
 .errors {
@@ -15,157 +16,188 @@
 	margin: 16px;
 }
 </style>
-<div id="banner">
-	<form:form modelAttribute="userEntityBean" method="Post"
-		action="RegisterMe">
-		<div id="form_status">Incomplete</div>
-		<c:if test="${not empty error}">
-			<div class="errorblock">
-				Registration process failed.<br /> Caused : ${error}
-			</div>
-		</c:if>
-		<table width="100%">
-			<tr>
-				<!-- 		<td><img src="resources/images/img04.jpg" width="750" height="170" alt="" /></td> -->
-				<td>
-					<fieldset>
-						<legend>Register Me</legend>
-						<table width="90%" align="center">
-							<tr>
-								<td class="date">First Name</td>
-								<td><form:input path="firstName" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="firstName" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Last Name</td>
-								<td><form:input path="lastName" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="lastName" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Email Id</td>
-								<td><form:input path="emailId" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="emailId" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Password</td>
-								<td><form:password path="password" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="password" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Re-Type Password</td>
-								<td><form:password path="ReTypePassword" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="ReTypePassword" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Addres line 1</td>
-								<td><form:input path="addressLine1" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="addressLine1" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Addres line 2</td>
-								<td><form:input path="addressLine2" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="addressLine2" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">City</td>
-								<td><form:input path="city" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="city" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">State</td>
-								<td><form:input path="state" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="state" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Country</td>
-								<td><form:input path="country" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="country" /></font></td>
-							</tr>
-							<tr>
-								<td class="date">Contact No</td>
-								<td><form:input path="contactNo" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td><font color="red" size="1"><form:errors
-											path="contactNo" /></font></td>
-							</tr>
-							<tr>
-								<td><fieldset>
-										<legend>Style Preferences </legend>
-										<table width="90%" align="center">
-											<c:forEach items="${stylePreferenceList}"
-												var="stylePreference" varStatus="counter">
-												<c:choose>
-													<c:when test="${counter.count%2 != 0 }">
-														<tr>
-															<td><input type="checkbox" name="stylePreferences"
-																value="${stylePreference.stylePreferenceId}">&nbsp;${stylePreference.name}
-															</td>
-													</c:when>
-													<c:otherwise>
-														<td><input type="checkbox" name="stylePreferences"
-															value="${stylePreference.stylePreferenceId}">&nbsp;${stylePreference.name}
-														</td>
-														</tr>
-													</c:otherwise>
-												</c:choose>
-											</c:forEach>
+<body>
+	<div id="header">
+		<div class="inside">
+			<a href="${pageContext.servletContext.contextPath}" class="logo"><img
+				src="${pageContext.servletContext.contextPath}/resources/images/logo.jpg"
+				alt="" width="196" height="99" /></a>
+			<div id="content"></div>
+			<p class="slogan">Clients choose us!</p>
+			<a href="#" class="rss"><img
+				src="${pageContext.servletContext.contextPath}/resources/images/rss.jpg"
+				alt="" width="39" height="41" /></a>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="${pageContext.servletContext.contextPath}"><img
+						src="${pageContext.servletContext.contextPath}/resources/images/but1.gif"
+						alt="" width="148" height="40" /></a></li>
+				<li><a href="#"><img
+						src="${pageContext.servletContext.contextPath}/resources/images/but2.gif"
+						alt="" width="146" height="40" /></a></li>
+				<li><a href="#"><img
+						src="${pageContext.servletContext.contextPath}/resources/images/but3.gif"
+						alt="" width="146" height="40" /></a></li>
+				<li><a href="#"><img
+						src="${pageContext.servletContext.contextPath}/resources/images/but4.gif"
+						alt="" width="146" height="40" /></a></li>
+				<li><a href="#"><img
+						src="${pageContext.servletContext.contextPath}/resources/images/but5.gif"
+						alt="" width="146" height="40" /></a></li>
+				<li><a href="#"><img
+						src="${pageContext.servletContext.contextPath}/resources/images/but6.gif"
+						alt="" width="147" height="39" /></a></li>
+			</ul>
+		</div>
+		<div id="banner" class="inside">
+			<form:form modelAttribute="userEntityBean" method="Post"
+				action="RegisterMe">
+				<div id="form_status"></div>
+				<c:if test="${not empty error}">
+					<div class="errorblock">
+						Registration process failed.<br /> Caused : ${error}
+					</div>
+				</c:if>
+				<table width="100%">
+					<tr>
+						<!-- 		<td><img src="resources/images/img04.jpg" width="750" height="170" alt="" /></td> -->
+						<td>
+							<fieldset>
+								<legend>Register Me</legend>
+								<table width="90%" align="center">
+									<tr>
+										<td class="date">First Name</td>
+										<td><form:input path="firstName" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors
+													path="firstName" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Last Name</td>
+										<td><form:input path="lastName" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors path="lastName" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Email Id</td>
+										<td><form:input path="emailId" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors path="emailId" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Password</td>
+										<td><form:password path="password" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors path="password" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Re-Type Password</td>
+										<td><form:password path="ReTypePassword" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors
+													path="ReTypePassword" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Addres line 1</td>
+										<td><form:input path="addressLine1" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors
+													path="addressLine1" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Addres line 2</td>
+										<td><form:input path="addressLine2" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors
+													path="addressLine2" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">City</td>
+										<td><form:input path="city" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors path="city" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">State</td>
+										<td><form:input path="state" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors path="state" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Country</td>
+										<td><form:input path="country" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors path="country" /></font></td>
+									</tr>
+									<tr>
+										<td class="date">Contact No</td>
+										<td><form:input path="contactNo" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td><font color="red"><form:errors
+													path="contactNo" /></font></td>
+									</tr>
+									<tr>
+										<td colspan="2"><fieldset>
+												<legend>Style Preferences </legend>
+												<table width="90%" align="center">
+													<c:forEach items="${stylePreferenceList}"
+														var="stylePreference" varStatus="counter">
+														<c:choose>
+															<c:when test="${counter.count%2 != 0 }">
+																<tr>
+																	<td><input type="checkbox" name="stylePreferences"
+																		value="${stylePreference.stylePreferenceId}">&nbsp;${stylePreference.name}
+																	</td>
+															</c:when>
+															<c:otherwise>
+																<td><input type="checkbox" name="stylePreferences"
+																	value="${stylePreference.stylePreferenceId}">&nbsp;${stylePreference.name}
+																</td>
+																</tr>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
 
-										</table>
-									</fieldset></td>
-							</tr>
-							<tr>
-								<td><input type="submit" value="SIGN UP" /></td>
-							</tr>
+												</table>
+											</fieldset></td>
+									</tr>
+									<tr>
+										<td colspan="2" align="center"><input type="submit"
+											value="SIGN UP" /></td>
+									</tr>
 
-						</table>
-					</fieldset>
-				</td>
-			</tr>
-		</table>
-	</form:form>
-</div>
+								</table>
+							</fieldset>
+						</td>
+					</tr>
+				</table>
+			</form:form>
+		</div>
+	</div>
+</body>
 <script>
 	$("#ReTypePassword").live(
 			"blur",

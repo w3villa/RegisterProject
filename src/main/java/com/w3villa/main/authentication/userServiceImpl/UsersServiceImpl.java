@@ -1,4 +1,4 @@
-package com.w3villa.main.authentication.userService;
+package com.w3villa.main.authentication.userServiceImpl;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +19,7 @@ import com.w3villa.main.authentication.domain.StylePreference;
 import com.w3villa.main.authentication.domain.UserRoles;
 import com.w3villa.main.authentication.domain.UserStylePreferncesMpg;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.UsersService;
 
 @Service
 @Transactional(rollbackFor = Exception.class)

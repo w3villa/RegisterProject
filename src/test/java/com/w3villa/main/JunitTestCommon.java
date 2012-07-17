@@ -26,7 +26,7 @@ public class JunitTestCommon  {
 	public void testFindByEmailId(){
 		String emailId = "pgupta@xebia.com";
 		System.out.println("*********************** Start testFindByEmailId ******************************");
-		System.out.println(usersService.findByEmailId(emailId));
+		// System.out.println(usersService.findByEmailId(emailId));
 		System.out.println("*********************** End testFindByEmailId ******************************");
 	}
 }

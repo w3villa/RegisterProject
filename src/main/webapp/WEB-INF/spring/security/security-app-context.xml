@@ -19,6 +19,7 @@
 		for samples and demos. A real world application would more likely use a database, 
 		LDAP server or some single sign-on integration. Spring Security supports 
 		many other options out of the box. -->
+	<http pattern="/resources/**" security="none"/>
 	<http use-expressions="false" auto-config="true"
 		access-denied-page="/accessDenied">
 		<intercept-url pattern="/welcome*" access="ROLE_USER" />

@@ -1,7 +1,10 @@
 package com.w3villa.main.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -17,9 +20,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.w3villa.constants.ProjectConstant;
+import com.w3villa.main.authentication.bean.AmazonStructure;
 import com.w3villa.main.authentication.bean.UserEntityBean;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
 import com.w3villa.main.authentication.userService.UsersService;
 
@@ -38,6 +45,9 @@ public class HomeController {
 	@Autowired
 	private StylePreferenceService stylePreferenceService;
 
+	@Autowired
+	private RepositoryService repositoryService;
+
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -47,13 +57,16 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpServletRequest request) {
+	public String home(Locale locale, Model model, HttpServletRequest request)
+			throws Exception {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		HttpSession session = request.getSession(false);
 		Users users = usersService.findByEmailId(user.getUsername(), true);
 		session.setAttribute("users", users);
-		session.setAttribute("pp", "pp");
+		List<AmazonStructure> assetList = getAssestList(users, null, session);
+		System.out.println(assetList);
+		session.setAttribute("assetList", assetList);
 		return "home";
 	}
 
@@ -107,6 +120,8 @@ public class HomeController {
 		logger.info("RegisterMe() entry.");
 		if (result.hasErrors()) {
 			model.addAttribute("loginFail", "fail");
+			model.addAttribute("stylePreferenceList",
+					stylePreferenceService.getStylePreferenceList());
 			logger.info("RegisterMe() exit.");
 			return "registerMe";
 		} else {
@@ -134,5 +149,67 @@ public class HomeController {
 
 		return "accessDenied";
 
+	}
+
+	@RequestMapping(value = "/getAsset", method = RequestMethod.POST)
+	public @ResponseBody
+	List<AmazonStructure> getStatus(HttpSession session,
+			HttpServletRequest request) throws Exception {
+		request.getParameter("asset");
+		Users users = (Users) session.getAttribute("users");
+		String folderName = request.getParameter("folderName");
+		List<AmazonStructure> assetList = getAssestList(users,
+				"/" + folderName, session);
+		System.out.println(assetList);
+		return assetList;
+	}
+
+	private List<AmazonStructure> getAssestList(Users users, String path,
+			HttpSession session) throws Exception {
+		String[] split = null;
+		List<AmazonStructure> leftFolder = new ArrayList<AmazonStructure>();
+		ServletContext context = session.getServletContext();
+		String realContextPath = context.getRealPath("") + "/resources/";
+		session.setAttribute("realContextPath", realContextPath);
+		if (path == null)
+			path = users.getUserId() + "";
+		else
+			path = users.getUserId() + "" + path;
+		List<String> assetList = repositoryService.getAssetList(path);
+		AmazonStructure tempAmazonStructure = null;
+		int no_of_File_folder_inside = 0;
+		AmazonStructure amazonStructure = null;
+		for (String asset : assetList) {
+			amazonStructure = new AmazonStructure();
+			amazonStructure.setNo_of_File_folder_inside(1);
+			split = asset.split("/");
+			amazonStructure.setName(split[1]);
+			for (int i = 0; i < split.length; i++) {
+				amazonStructure.setUserId(users.getUserId() + "");
+				if (i == 1) {
+					if (!leftFolder.contains(amazonStructure)) {
+						if (i == split.length - 1) {
+							amazonStructure.setFullPath(path + asset);
+							amazonStructure.setImageLocation(asset);
+							repositoryService.getAssetByName(null,
+									amazonStructure.getFullPath(), session);
+						} else
+							amazonStructure
+									.setImageLocation(ProjectConstant.PICTURE_FOLDER);
+						leftFolder.add(amazonStructure);
+					} else {
+						int index = leftFolder.indexOf(amazonStructure);
+						tempAmazonStructure = leftFolder.get(index);
+						no_of_File_folder_inside = tempAmazonStructure
+								.getNo_of_File_folder_inside();
+						tempAmazonStructure
+								.setNo_of_File_folder_inside(no_of_File_folder_inside + 1);
+						// increment no_of_File_folder_inside by 1;
+					}
+				}
+			}
+
+		}
+		return leftFolder;
 	}
 }

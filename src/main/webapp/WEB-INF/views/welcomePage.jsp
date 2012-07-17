@@ -7,12 +7,13 @@
 <title>Welcome to igild</title>
 </head>
 <body>
-	<h1>Welcome Page</h1>
+	<jsp:include page="header.jsp"></jsp:include>
 	<div>
 		<a href="${pageContext.servletContext.contextPath}/RegisterMe">Sign
 			Up</a> <br> <a
 			href="${pageContext.servletContext.contextPath}/login">Sign
 			In</a>
 	</div>
+	<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
