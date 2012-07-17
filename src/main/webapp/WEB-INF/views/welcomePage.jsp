@@ -4,16 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="resources/css/style.css" rel="stylesheet" type="text/css" media="screen" />
 <title>Welcome to igild</title>
 </head>
 <body>
-	<jsp:include page="header.jsp"></jsp:include>
-	<div>
-		<a href="${pageContext.servletContext.contextPath}/RegisterMe">Sign
-			Up</a> <br> <a
-			href="${pageContext.servletContext.contextPath}/login">Sign
-			In</a>
-	</div>
-	<jsp:include page="footer.jsp"></jsp:include>
+	<div align="center">
+		<div class="body">
+			<jsp:include page="header.jsp"></jsp:include>
+			<div>
+				<a href="${pageContext.servletContext.contextPath}/RegisterMe">Sign Up</a>
+				<a href="${pageContext.servletContext.contextPath}/login">Sign In</a>
+			</div>
+			<jsp:include page="footer.jsp"></jsp:include>
+		</div>	
+	</div>	
 </body>
 </html>
