@@ -47,10 +47,20 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 		transferManager = new TransferManager(s3);
 	}
 
-	public FileStream getAssetByName(String path, String name,HttpSession session)
-			throws FileNotFoundException {
+	@Override
+	public FileStream getAssetByName(String path, String name,
+			HttpSession session) throws FileNotFoundException {
 		String realContextPath = (String) session
 				.getAttribute("realContextPath");
+		String[] pathElements = name.split("/");
+		String dirName = realContextPath;
+		for (int i = 0; i < pathElements.length - 1; i++)
+			dirName = dirName + "/" + pathElements[i];
+		System.out.println("dir : " + dirName);
+		File dir = new File(dirName);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 		File file = new File(realContextPath + name);
 		System.out
 				.println("file.getAbsolutePath() : " + file.getAbsolutePath());
@@ -61,7 +71,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
+		}
 		Download download = transferManager.download(bucket, name, file);
 		while (!download.isDone()) {
 			System.out.println("downloading competed :"
@@ -72,7 +82,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+
 		}
 		/*
 		 * S3Object obj = s3.getObject(new GetObjectRequest(bucket,
@@ -82,6 +92,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 		return null;
 	}
 
+	@Override
 	public List<String> getAssetList(String path) {
 		List<String> result = new ArrayList<String>();
 		ObjectListing objList = s3.listObjects(bucket, getS3Path(path));
@@ -94,6 +105,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 		return result;
 	}
 
+	@Override
 	public UploadFileResponse putAsset(String path, String assetName,
 			InputStream asset, HttpSession session, HttpServletRequest request,
 			UploadFileResponse uploadFileResponse, MultipartFile file,

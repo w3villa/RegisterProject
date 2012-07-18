@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,14 +47,6 @@ public class HomeController {
 	@Autowired
 	private RepositoryService repositoryService;
 
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String forward(Locale locale, Model model) {
-		return "welcomePage";
-	}
-
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest request)
 			throws Exception {
@@ -70,38 +61,6 @@ public class HomeController {
 		return "home";
 	}
 
-	@RequestMapping(value = "/invalidSession.htm", method = RequestMethod.GET)
-	public String invalidSession() {
-
-		return "login";
-
-	}
-
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(HttpServletRequest request, ModelMap model) {
-		String errorSession = request.getParameter("error");
-		if (errorSession != null) {
-			model.addAttribute("errorSession", errorSession);
-		}
-		return "login";
-
-	}
-
-	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
-	public String loginerror(ModelMap model) {
-
-		model.addAttribute("error", "true");
-		return "login";
-
-	}
-
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
-
-		return "login";
-
-	}
-
 	@RequestMapping(value = "/RegisterMe", method = RequestMethod.GET)
 	public String RegisterMeNavigate(Model model, HttpServletRequest request) {
 		logger.info("RegisterMeNavigate() entry.");
@@ -111,7 +70,7 @@ public class HomeController {
 		model.addAttribute("stylePreferenceList",
 				stylePreferenceService.getStylePreferenceList());
 		logger.info("RegisterMeNavigate() exit.");
-		return "registerMe";
+		return "sessionFree/registerMe";
 	}
 
 	@RequestMapping(value = "/RegisterMe", method = RequestMethod.POST)
@@ -123,7 +82,7 @@ public class HomeController {
 			model.addAttribute("stylePreferenceList",
 					stylePreferenceService.getStylePreferenceList());
 			logger.info("RegisterMe() exit.");
-			return "registerMe";
+			return "sessionFree/registerMe";
 		} else {
 			HttpSession session = request.getSession();
 			try {
@@ -133,22 +92,15 @@ public class HomeController {
 				session.setAttribute("emailId", userEntityBean.getEmailId());
 				model.addAttribute("registerSuccess", "true");
 				logger.info("RegisterMe() exit.");
-				return "login";
+				return "sessionFree/login";
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("error", e.getMessage());
 				logger.error("Error in Controller");
-				return "registerMe";
+				return "sessionFree/registerMe";
 			}
 
 		}
-	}
-
-	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
-	public String accessDenied(ModelMap model) {
-
-		return "accessDenied";
-
 	}
 
 	@RequestMapping(value = "/getAsset", method = RequestMethod.POST)
@@ -189,7 +141,8 @@ public class HomeController {
 				if (i == 1) {
 					if (!leftFolder.contains(amazonStructure)) {
 						if (i == split.length - 1) {
-							amazonStructure.setFullPath(path + asset);
+							amazonStructure.setFullPath(path
+									+ asset);
 							amazonStructure.setImageLocation(asset);
 							repositoryService.getAssetByName(null,
 									amazonStructure.getFullPath(), session);

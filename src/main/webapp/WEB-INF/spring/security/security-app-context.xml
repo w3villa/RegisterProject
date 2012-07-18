@@ -28,7 +28,7 @@
 		<logout logout-success-url="/login" invalidate-session="true"
 			delete-cookies="JSESSIONID" />
 		<remember-me key="rememberMeKey" user-service-ref="userDetailsService" />
-		<session-management invalid-session-url="/login?error=sessionExpired"
+		<session-management invalid-session-url="/login?error=sessionInvalid"
 			session-authentication-error-url="/login?error=alreadyLogin" >
 			<concurrency-control max-sessions="1"
 				error-if-maximum-exceeded="true" />

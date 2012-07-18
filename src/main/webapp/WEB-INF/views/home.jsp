@@ -21,9 +21,9 @@
 <title>Home</title>
 </head>
 <body>
-	<div align="right">
-		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
-	</div>
+<!-- 	<div align="right"> -->
+<%-- 		<a href="<c:url value="/j_spring_security_logout" />"> Logout</a> --%>
+<!-- 	</div> -->
 	<div class="messageblock">Hello ${sessionScope.users.firstName}
 		${sessionScope.users.lastName}</div>
 	<div class="errorblock">Your email Id :
