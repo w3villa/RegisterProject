@@ -130,3 +130,60 @@ textarea {
 #footer {
 	height:100px;
 }
+
+.faqs {
+	padding:0;
+}
+
+.faqs li {
+	padding:0;
+	list-style:none;
+}
+
+.faqs .ques {
+    color: #3399FF;
+    font-weight: bold;
+    margin-top: 30px;
+    font-size:13px;
+}
+
+.faqs .ans {
+	font-size:13px;
+}
+
+.page_header {
+	font-size:20px;
+	font-weight:bold;
+	color:#FFA70D;
+	display:block;
+}
+
+.hr {
+	margin-top:5px;
+	border-top:1px solid #3399FF;
+	height:10px;
+}
+
+.errorblock {
+	color: #ff0000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+
+.messageblock {
+	color: #00CC00;
+	background-color: #FFFF66;
+	border: 3px solid #00CC00;
+	padding: 8px;
+	margin: 16px;
+}
+
+.copyright {
+    float: right;
+    font-size: 11px;
+    font-weight: bold;
+    position: relative;
+    top: 5px;
+}

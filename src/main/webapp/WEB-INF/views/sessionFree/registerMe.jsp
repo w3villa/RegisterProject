@@ -17,6 +17,8 @@
 }
 </style>
 <body>
+<div class="hr">&nbsp;</div>
+<div class="page_header">Register</div>
 	<form:form modelAttribute="userEntityBean" method="Post"
 		action="RegisterMe">
 		<div id="form_status"></div>
