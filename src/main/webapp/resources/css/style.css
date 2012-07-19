@@ -40,3 +40,93 @@ a {
 a:hover {
 	color: #E1B663;
 }
+form {
+  width: 459px;
+  margin: 0 auto; }
+  
+body {
+  font-size: 100%;
+  font-family: Arial;
+  color: #3a3a3a;
+  margin: 0;
+  padding: 0;
+  position: relative; }  
+
+#submit {
+  background: url(/assets/submit.jpg);
+  width: 127px;
+  height: 38px;
+  text-indent: -9999px;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer; }
+
+label {
+  display: block;
+  font-size:12px;
+  margin-top: 20px;
+  letter-spacing: 2px; }
+
+input, textarea {
+  width: 439px;
+  height: 27px;
+  background: #efefef;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #dedede;
+  padding: 10px;
+  margin-top: 3px;
+  font-size: 0.9em;
+  color: #3a3a3a; }
+  
+textarea {
+  height: 100px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #efefef; }
+  
+
+.style_prefs {
+	margin: 20px 0;
+}
+
+.style_prefs input {
+    display: inline;
+    height: 13px;
+    margin: 0 0 0 10px;
+    padding: 0;
+    width: 13px;
+}
+
+.style_prefs label {
+    display: inline;
+    margin-left: 4px;
+    margin-top: 0;
+    position: relative;
+    top: -1px;
+}
+
+.error {
+	color: red;
+    font-size: 11px;
+}
+
+.gap10px {
+	height:10px;
+}
+
+.button {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+    background: none repeat scroll 0 0 #505151;
+    color: white;
+    font-weight: bold;
+    height: auto;
+    padding: 5px 20px;
+    width: auto;
+}
+
+#footer {
+	height:100px;
+}

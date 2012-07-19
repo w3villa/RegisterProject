@@ -21,7 +21,6 @@
 </style>
 </head>
 <body>
-	<div>Login Page</div>
 
 	<c:if test="${not empty error}">
 		<div class="errorblock">
@@ -39,33 +38,22 @@
 
 	<form name='f' action="<c:url value='j_spring_security_check' />"
 		method='POST'>
-
-		<table width = "100%">
-			<tr>
-				<td>User:</td>
-				<td><input type='text' name='j_username' value=''></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='j_password' /></td>
-			</tr>
-			<tr>
-				<td>Remember Me</td>
-				<td><input type="checkbox" name='_spring_security_remember_me' />
-				</td>
-			</tr>
-			<!-- tr>
-				<td colspan='2'>New User <a
-					href="${pageContext.servletContext.contextPath}/RegisterMe">Sign
-						Up</a>
-				</td>
-			</tr-->
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-					value="Sign In" /><input name="reset" type="reset" /></td>
-			</tr>
-
-		</table>
+				<div class="field">
+					<label for="j_username">User :</label>
+					<input type='text' name='j_username' value=''>
+				</div>
+				
+				<div class="field">
+					<label for="j_password">Password :</label>
+					<input type='password' name='j_password' value=''>
+				</div>
+				
+				<div class="style_prefs">
+					<input type="checkbox" id="rem_me" name='_spring_security_remember_me' /> <label for="rem_me">Remember Me</label>
+				</div>
+				
+				<input name="submit" type="submit" value="Sign In" class="button" />
+				<input name="reset" type="reset" class="button" />
 
 	</form>
 </body>
