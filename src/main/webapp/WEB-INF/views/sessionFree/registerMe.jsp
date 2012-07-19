@@ -101,6 +101,7 @@
 		</c:forEach>
 		</div>
 		<input type="submit" value="SIGN UP" class="button" />
+		<input name="reset" type="reset" class="button" />
 	</form:form>
 </body>
 <script>
