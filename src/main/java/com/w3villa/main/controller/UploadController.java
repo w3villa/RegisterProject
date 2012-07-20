@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +56,7 @@ public class UploadController {
 			return uploadFileResponse;
 		} else {
 			try {
-				MultipartFile file = uploadItem.getFileData();
+				MultipartFile file = uploadItem.getFileData()[0];
 				String fileName = null;
 				InputStream inputStream = null;
 				OutputStream outputStream = null;
@@ -150,7 +152,7 @@ public class UploadController {
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				df.format(dt);
 				folderPath = users.getUserId() + "/" + df.format(dt) + "/";
-				MultipartFile file = uploadItem.getFileData();
+				MultipartFile file = uploadItem.getFileData()[0];
 				fileOrignalName = file.getOriginalFilename();
 				repositoryService.putAsset(ASSET_PATH,
 						folderPath + file.getOriginalFilename(),
@@ -174,6 +176,64 @@ public class UploadController {
 			uploadFileResponse.setMessage(fileOrignalName
 					+ " uploaded Successfully.");
 			return uploadFileResponse;
+		}
+	}
+
+	@RequestMapping(value = "/FileUploadAmazonTemp", method = RequestMethod.POST)
+	public @ResponseBody
+	List<UploadFileResponse> createAmazonTemp(UploadItem uploadItem,
+			BindingResult result, HttpServletRequest request, Model model,
+			HttpSession session) {
+		List<UploadFileResponse> uploadFileResponses = new ArrayList<UploadFileResponse>();
+		UploadFileResponse uploadFileResponse = new UploadFileResponse();
+		String fileOrignalName = "";
+		String realContextPath = "";
+		String folderPath = "";
+		if (result.hasErrors()) {
+			model.addAttribute("uploadStatus", "fail");
+			uploadFileResponse.setStatus(ProjectConstant.UPLOAD_STATUS_FAIL);
+			uploadFileResponse.setMessage("Error in file upload.");
+			uploadFileResponses.add(uploadFileResponse);
+			return uploadFileResponses;
+		} else {
+			try {
+				ServletContext context = session.getServletContext();
+				// realContextPath =
+				// context.getRealPath(request.getContextPath())
+				realContextPath = context.getRealPath("") + "/resources/";
+				session.setAttribute("realContextPath", realContextPath);
+				System.out.println(realContextPath);
+				// Users users = (Users) session.getAttribute("users");
+				Date dt = new Date();
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				df.format(dt);
+				folderPath = "10020" + "/" + df.format(dt) + "/";
+				MultipartFile file = uploadItem.getFileData()[0];
+				fileOrignalName = file.getOriginalFilename();
+				repositoryService.putAsset(ASSET_PATH,
+						folderPath + file.getOriginalFilename(),
+						new ByteArrayInputStream(file.getBytes()), session,
+						request, uploadFileResponse, file, uploadItem);
+
+				session.setAttribute("uploadFile", file.getOriginalFilename());
+			} catch (Exception e) {
+				e.printStackTrace();
+				uploadFileResponse
+						.setStatus(ProjectConstant.UPLOAD_STATUS_FAIL);
+				uploadFileResponse
+						.setMessage("Exception thrown in file upload.["
+								+ e.getMessage() + "]");
+				uploadFileResponses.add(uploadFileResponse);
+				return uploadFileResponses;
+			}
+			uploadFileResponse.setUploadPath("resources/" + folderPath);
+			uploadFileResponse.setFileName(fileOrignalName);
+			uploadFileResponse.setStatus(ProjectConstant.UPLOAD_STATUS_PASS);
+			System.out.println(uploadFileResponse);
+			uploadFileResponse.setMessage(fileOrignalName
+					+ " uploaded Successfully.");
+			uploadFileResponses.add(uploadFileResponse);
+			return uploadFileResponses;
 		}
 	}
 

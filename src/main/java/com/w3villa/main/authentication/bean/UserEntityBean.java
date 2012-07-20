@@ -2,27 +2,34 @@ package com.w3villa.main.authentication.bean;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserEntityBean {
-	@Size(min = 1, max = 10, message = "User Id size lies between 1 to 10 character long.")
+	@Size(min = 1, max = 10, message = "User Id size lies between 1 to 10 character only.")
 	@Pattern(regexp = "^[0-9]+$", message = "only integer value allowed in user id.")
 	private String id;
 	@Pattern(regexp = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message = "Please enter email in the format xxx@xx.com")
 	private String emailId;
+	@Size(min = 1, max = 20, message = "First Name size lies between 1 to 20 character only.")
 	private String firstName;
+	@Size(min = 1, max = 20, message = "Last Name size lies between 1 to 20 character only.")
 	private String lastName;
-	@Size(min = 1, max = 20, message = "Password size lies between 1 to 20 character long.")
+	@Size(min = 1, max = 20, message = "Password size lies between 1 to 20 character only.")
 	private String password;
-	@Size(min = 1, max = 20, message = "Password size lies between 1 to 20 character long.")
+	@Size(min = 1, max = 20, message = "Password size lies between 1 to 20 character only.")
 	private String ReTypePassword;
 	private String isActive;
+	@Size(min = 1, max = 20, message = "Address Line 1 size lies between 1 to 20 character only.")
 	private String addressLine1;
 	private String addressLine2;
+	@Size(min = 1, max = 20, message = "City size lies between 1 to 20 character only.")
 	private String city;
 	private String state;
 	private String country;
+	@Pattern(regexp = "^[0-9]+$", message = "Only integer value allowed in Contact No.")
+	@Size(min = 1, max = 20, message = "Contact No. size lies between 1 to 20 character only.")
 	private String contactNo;
 	public String getId() {
 		return id;

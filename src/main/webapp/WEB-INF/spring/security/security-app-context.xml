@@ -24,9 +24,9 @@
 		access-denied-page="/accessDenied">
 		<intercept-url pattern="/welcome*" access="ROLE_USER" />
 		<form-login login-page='/login' default-target-url="/welcome"
-			authentication-failure-url="/loginfailed" />
-		<logout logout-success-url="/login" invalidate-session="true"
-			delete-cookies="JSESSIONID" />
+			authentication-failure-url="/loginfailed" /> 
+		<!-- logout logout-success-url="/login" invalidate-session="true" delete-cookies="JSESSIONID" /-->
+		<logout logout-success-url="/login" invalidate-session="true"/>
 		<remember-me key="rememberMeKey" user-service-ref="userDetailsService" />
 		<session-management invalid-session-url="/login?error=sessionInvalid"
 			session-authentication-error-url="/login?error=alreadyLogin" >

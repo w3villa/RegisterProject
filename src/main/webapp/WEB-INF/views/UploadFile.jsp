@@ -35,8 +35,8 @@
 				<td width="50%"><label>Please select a file to upload :
 				</label></td>
 				<td width="50%"><input id="fileData" name="fileData"
-					type="file" /> <input type="button" id="uploadbutton"
-					value="upload" onclick="ajaxFileUpload()" size="60" name="files[]" multiple/></td>
+					type="file" multiple=""/> <input type="button" id="uploadbutton"
+					value="upload" onclick="ajaxFileUpload()" size="60" name="files" /></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="hidden" id="uploadPath"

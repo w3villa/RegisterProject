@@ -74,4 +74,14 @@ public class BasicController {
 
 	}
 
+	@RequestMapping(value = "/jquery", method = RequestMethod.GET)
+	public String jquery(Locale locale, Model model) {
+		return "UploadFileJquery";
+	}
+
+	@RequestMapping(value = "/temp", method = RequestMethod.GET)
+	public String temp(Locale locale, Model model) {
+		return "uploadFileTemp";
+	}
+
 }
