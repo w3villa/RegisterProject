@@ -5,8 +5,6 @@
 
 <html>
 <head>
-<script type="text/javascript" src="resources/js/jquery-1.7.2.js"></script>
-<script src="resources/js/jquery-1.7.2.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>

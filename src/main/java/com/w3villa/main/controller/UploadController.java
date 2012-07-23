@@ -127,9 +127,10 @@ public class UploadController {
 
 	@RequestMapping(value = "/FileUploadAmazon", method = RequestMethod.POST)
 	public @ResponseBody
-	UploadFileResponse createAmazon(UploadItem uploadItem,
+	List<UploadFileResponse> createAmazon(UploadItem uploadItem,
 			BindingResult result, HttpServletRequest request, Model model,
 			HttpSession session) {
+		List<UploadFileResponse> uploadFileResponses = new ArrayList<UploadFileResponse>();
 		UploadFileResponse uploadFileResponse = new UploadFileResponse();
 		String fileOrignalName = "";
 		String realContextPath = "";
@@ -138,11 +139,11 @@ public class UploadController {
 			model.addAttribute("uploadStatus", "fail");
 			uploadFileResponse.setStatus(ProjectConstant.UPLOAD_STATUS_FAIL);
 			uploadFileResponse.setMessage("Error in file upload.");
-			return uploadFileResponse;
+			uploadFileResponses.add(uploadFileResponse);
+			return uploadFileResponses;
 		} else {
 			try {
 				ServletContext context = session.getServletContext();
-				//realContextPath = context.getRealPath(request.getContextPath())
 				realContextPath = context.getRealPath("")
 						+ "/resources/";
 				session.setAttribute("realContextPath", realContextPath);
@@ -167,7 +168,8 @@ public class UploadController {
 				uploadFileResponse
 						.setMessage("Exception thrown in file upload.["
 								+ e.getMessage() + "]");
-				return uploadFileResponse;
+				uploadFileResponses.add(uploadFileResponse);
+				return uploadFileResponses;
 			}
 			uploadFileResponse.setUploadPath("resources/" + folderPath);
 			uploadFileResponse.setFileName(fileOrignalName);
@@ -175,7 +177,8 @@ public class UploadController {
 			System.out.println(uploadFileResponse);
 			uploadFileResponse.setMessage(fileOrignalName
 					+ " uploaded Successfully.");
-			return uploadFileResponse;
+			uploadFileResponses.add(uploadFileResponse);
+			return uploadFileResponses;
 		}
 	}
 
@@ -210,11 +213,13 @@ public class UploadController {
 				folderPath = "10020" + "/" + df.format(dt) + "/";
 				MultipartFile file = uploadItem.getFileData()[0];
 				fileOrignalName = file.getOriginalFilename();
-				repositoryService.putAsset(ASSET_PATH,
-						folderPath + file.getOriginalFilename(),
-						new ByteArrayInputStream(file.getBytes()), session,
-						request, uploadFileResponse, file, uploadItem);
-
+				/*
+				 * repositoryService.putAsset(ASSET_PATH, folderPath +
+				 * file.getOriginalFilename(), new
+				 * ByteArrayInputStream(file.getBytes()), session, request,
+				 * uploadFileResponse, file, uploadItem);
+				 */
+				Thread.sleep(3000);
 				session.setAttribute("uploadFile", file.getOriginalFilename());
 			} catch (Exception e) {
 				e.printStackTrace();

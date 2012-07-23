@@ -136,7 +136,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 			session.setAttribute("uploadInfoBean", infoBean);
 		}
 
-		getAssetByName(path, assetName, session);
+		// getAssetByName(path, assetName, session);
 		return fileResponse;
 	}
 
