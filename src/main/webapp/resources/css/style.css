@@ -220,3 +220,6 @@ textarea {
     position: relative;
     top: 5px;
 }
+img{
+	border:0px;
+}

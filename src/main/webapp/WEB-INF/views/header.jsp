@@ -19,6 +19,6 @@
 	</c:when>
 	<c:otherwise>
 		<a href="${pageContext.servletContext.contextPath}/RegisterMe"
-			class='join_now'>Join Now</a>
+			class='join_now'>Click here for FREE Album Design</a>
 	</c:otherwise>
 </c:choose>

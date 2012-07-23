@@ -92,7 +92,7 @@ public class HomeController {
 				session.setAttribute("emailId", userEntityBean.getEmailId());
 				model.addAttribute("registerSuccess", "true");
 				logger.info("RegisterMe() exit.");
-				return "sessionFree/login";
+				return "albumChoice";
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("error", e.getMessage());

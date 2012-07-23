@@ -30,7 +30,7 @@
 		${sessionScope.users.emailId}</div>
 	<div class="messageblock">
 		Your address : <br>${sessionScope.users.addressLine1}<br>${sessionScope.users.addressLine2}<br>${sessionScope.users.city}
-		, ${sessionScope.users.state} , ${sessionScope.users.country}
+		, ${sessionScope.users.state} , ${sessionScope.users.country} - ${sessionScope.users.zipCode}
 	</div>
 	<div class="errorblock">Your phone No :
 		${sessionScope.users.contactNo}</div>

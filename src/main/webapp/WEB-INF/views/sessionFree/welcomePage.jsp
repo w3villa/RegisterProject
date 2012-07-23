@@ -11,7 +11,7 @@
 	<div align="center">
 		<div class="body">
 <%-- 			<jsp:include page="header.jsp"></jsp:include> --%>
-			<img src="resources/images/background.jpg" />
+			<a href="${pageContext.servletContext.contextPath}/RegisterMe"><img src="resources/images/background.jpg" /></a>
 
 <%-- 			<jsp:include page="footer.jsp"></jsp:include> --%>
 		</div>	

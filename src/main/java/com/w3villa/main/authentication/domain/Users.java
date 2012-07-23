@@ -41,6 +41,7 @@ public class Users implements java.io.Serializable {
 	private String contactNo;
 	private Date createdDt;
 	private Date updateDt;
+	private String zipCode;
 	private Set<UserStylePreferncesMpg> userStylePreferncesMpgs = new HashSet<UserStylePreferncesMpg>(
 			0);
 	private Set<UserRoles> userRoleses = new HashSet<UserRoles>(0);
@@ -188,6 +189,15 @@ public class Users implements java.io.Serializable {
 
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+
+	@Column(name = "ZIP_CODE", length = 20)
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

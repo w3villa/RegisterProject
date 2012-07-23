@@ -17,8 +17,7 @@
 }
 </style>
 <body>
-<div class="hr">&nbsp;</div>
-<div class="page_header">Register</div>
+	<div class="hr">&nbsp;</div>
 	<form:form modelAttribute="userEntityBean" method="Post"
 		action="RegisterMe">
 		<div id="form_status"></div>
@@ -79,6 +78,12 @@
 		</div>
 
 		<div class="field">
+			<label for="zipCode">Zip Code</label>
+			<form:input path="zipCode" />
+			<span class="error"><form:errors path="zipCode" /></span>
+		</div>
+
+		<div class="field">
 			<label for="country">Country</label>
 			<form:input path="country" />
 			<span class="error"><form:errors path="country" /></span>
@@ -91,18 +96,20 @@
 		</div>
 
 		<div class="style_prefs">
-		Select Style Preferences:
-		<div class="gap10px">&nbsp;</div>
-		<c:forEach items="${stylePreferenceList}" var="stylePreference"
-			varStatus="counter">
-			
-			<div class="field">	
-			<input type="checkbox" name="stylePreferences" id="style_pref_${counter.count}"
-				value="${stylePreference.stylePreferenceId}"><label for="style_pref_${counter.count}">${stylePreference.name}</label>
-			</div>	
-		</c:forEach>
+			Select Style Preferences:
+			<div class="gap10px">&nbsp;</div>
+			<c:forEach items="${stylePreferenceList}" var="stylePreference"
+				varStatus="counter">
+
+				<div class="field">
+					<input type="checkbox" name="stylePreferences"
+						id="style_pref_${counter.count}"
+						value="${stylePreference.stylePreferenceId}"><label
+						for="style_pref_${counter.count}">${stylePreference.name}</label>
+				</div>
+			</c:forEach>
 		</div>
-		<input type="submit" value="SIGN UP" class="button" />
+		<input type="submit" value="Create Account" class="button" />
 		<input name="reset" type="reset" class="button" />
 	</form:form>
 </body>

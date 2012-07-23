@@ -21,12 +21,15 @@ public class UserEntityBean {
 	@Size(min = 1, max = 20, message = "Password size lies between 1 to 20 character only.")
 	private String ReTypePassword;
 	private String isActive;
-	@Size(min = 1, max = 20, message = "Address Line 1 size lies between 1 to 20 character only.")
+	@Size(min = 1, max = 200, message = "Address Line 1 size lies between 1 to 200 character only.")
 	private String addressLine1;
 	private String addressLine2;
 	@Size(min = 1, max = 20, message = "City size lies between 1 to 20 character only.")
 	private String city;
 	private String state;
+	@Size(min = 1, max = 10, message = "Zip Code size lies between 1 to 10 character only.")
+	@Pattern(regexp = "^[0-9]+$", message = "Only integer value allowed in Zip Code.")
+	private String zipCode;
 	private String country;
 	@Pattern(regexp = "^[0-9]+$", message = "Only integer value allowed in Contact No.")
 	@Size(min = 1, max = 20, message = "Contact No. size lies between 1 to 20 character only.")
@@ -108,6 +111,14 @@ public class UserEntityBean {
 	}
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	
