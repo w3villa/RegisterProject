@@ -11,7 +11,11 @@
 	<div align="center">
 		<div class="body">
 <%-- 			<jsp:include page="header.jsp"></jsp:include> --%>
-			<a href="${pageContext.servletContext.contextPath}/RegisterMe"><img src="resources/images/background.jpg" /></a>
+			<a href="${pageContext.servletContext.contextPath}/RegisterMe" style="position:relative">
+				<img src="resources/images/background.jpg"  />
+				<span class="click_here">Click here for FREE Album Design</span>
+			</a>
+			
 
 <%-- 			<jsp:include page="footer.jsp"></jsp:include> --%>
 		</div>	

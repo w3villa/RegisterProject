@@ -83,5 +83,10 @@ public class BasicController {
 	public String temp(Locale locale, Model model) {
 		return "uploadFileTemp";
 	}
+	
+	@RequestMapping(value = "/albumChoice", method = RequestMethod.GET)
+	public String albumChoice(Locale locale, Model model) {
+		return "albumChoice";
+	}
 
 }
