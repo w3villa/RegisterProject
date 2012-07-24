@@ -63,5 +63,43 @@
 		</constructor-arg>
 	</bean>
 
-	<context:property-placeholder location="classpath:properties/database.properties" />
+	<context:property-placeholder
+		location="classpath:properties/database.properties" />
+
+
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+
+	<!-- Mail sender configured for using Gmail -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="username" value="thisisatestacccount@gmail.com" />
+		<property name="password" value="pass123654" />
+		<property name="port" value="587" />
+		<property name="javaMailProperties">
+			<props>
+				<!-- Use SMTP transport protocol -->
+				<prop key="mail.transport.protocol">smtp</prop>
+				<!-- Use SMTP-AUTH to authenticate to SMTP server -->
+				<prop key="mail.smtp.auth">true</prop>
+				<!-- Use TLS to encrypt communication with SMTP server -->
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage"> -->
+	<!-- <property name="from" value="pinkmaniya@gmail.com" /> -->
+	<!-- <property name="to" value="priyank1985gupta@rediffmail.com" /> -->
+	<!-- <property name="subject" value="Greetings from Igild" /> -->
+	<!-- </bean> -->
 </beans>

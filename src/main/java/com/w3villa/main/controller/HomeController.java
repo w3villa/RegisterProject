@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.w3villa.constants.ProjectConstant;
 import com.w3villa.main.authentication.bean.AmazonStructure;
+import com.w3villa.main.authentication.bean.ContactUsBean;
 import com.w3villa.main.authentication.bean.UserEntityBean;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.ContactUsService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
 import com.w3villa.main.authentication.userService.UsersService;
@@ -46,6 +49,9 @@ public class HomeController {
 
 	@Autowired
 	private RepositoryService repositoryService;
+
+	@Autowired
+	private ContactUsService contactUsService;
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest request)
@@ -103,6 +109,38 @@ public class HomeController {
 		}
 	}
 
+	@RequestMapping(value = "/contactus", method = RequestMethod.GET)
+	public String contactUsNavigate(ModelMap model) {
+		model.addAttribute(new ContactUsBean());
+		return "sessionFree/contactUs";
+
+	}
+
+	@RequestMapping(value = "/contactus", method = RequestMethod.POST)
+	public String ContactUs(@Valid ContactUsBean contactUsBean,
+			BindingResult result, Model model, HttpServletRequest request) {
+		logger.info("ContactUs() entry.");
+		if (result.hasErrors()) {
+			logger.info("ContactUs() exit.");
+			return "sessionFree/contactUs";
+		} else {
+			HttpSession session = request.getSession();
+			try {
+				contactUsService.saveContactUs(contactUsBean);
+				session.setAttribute("message",
+						"Thank you for your comments.<br>We will contact you soon.");
+				logger.info("ContactUs() exit.");
+				return "sessionFree/contactUsSuccess";
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("error", e.getMessage());
+				logger.error("Error in Controller");
+				return "sessionFree/contactUs";
+			}
+
+		}
+	}
+
 	@RequestMapping(value = "/getAsset", method = RequestMethod.POST)
 	public @ResponseBody
 	List<AmazonStructure> getStatus(HttpSession session,
@@ -141,8 +179,7 @@ public class HomeController {
 				if (i == 1) {
 					if (!leftFolder.contains(amazonStructure)) {
 						if (i == split.length - 1) {
-							amazonStructure.setFullPath(path
-									+ asset);
+							amazonStructure.setFullPath(path + asset);
 							amazonStructure.setImageLocation(asset);
 							repositoryService.getAssetByName(null,
 									amazonStructure.getFullPath(), session);

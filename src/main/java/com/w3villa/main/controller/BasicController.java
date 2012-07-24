@@ -67,13 +67,6 @@ public class BasicController {
 
 	}
 
-	@RequestMapping(value = "/contactus", method = RequestMethod.GET)
-	public String contactUs(ModelMap model) {
-
-		return "sessionFree/contactUs";
-
-	}
-
 	@RequestMapping(value = "/jquery", method = RequestMethod.GET)
 	public String jquery(Locale locale, Model model) {
 		return "UploadFileJquery";
@@ -83,7 +76,7 @@ public class BasicController {
 	public String temp(Locale locale, Model model) {
 		return "uploadFileTemp";
 	}
-	
+
 	@RequestMapping(value = "/albumChoice", method = RequestMethod.GET)
 	public String albumChoice(Locale locale, Model model) {
 		return "albumChoice";
