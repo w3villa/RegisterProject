@@ -1,13 +1,12 @@
 <html>
 <body>
-<h3>Hi ${contactUsBean.name}, welcome </h3>
+<h3>Hi ${contactUsBean.name}, </h3>
 
-<div>
-   Your email address is <a href="mailto:${contactUsBean.email}">${contactUsBean.email}</a>.
-</div>
-<div>
-   Your Comments : ${contactUsBean.comments}
-</div>
+We have received your comment :
+<i>"${contactUsBean.comments}"</i>
+We will repond you as soon as possible!
+
+Thanks
 </body>
 
 </html>

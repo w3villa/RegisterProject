@@ -107,6 +107,7 @@ textarea {
 .error {
 	color: red;
     font-size: 11px;
+    display:block;
 }
 
 .gap10px {

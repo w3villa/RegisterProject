@@ -12,7 +12,7 @@
 		<div class="body">
 <%-- 			<jsp:include page="header.jsp"></jsp:include> --%>
 			<a href="${pageContext.servletContext.contextPath}/RegisterMe" style="position:relative">
-				<img src="resources/images/background.jpg"  />
+				<img src="resources/images/background.jpg" style="width:960px;height:555px;"  />
 				<span class="click_here">Click here for FREE Album Design</span>
 			</a>
 			

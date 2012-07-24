@@ -1,25 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="hr">&nbsp;</div>
 
-
-<link href="resources/css/style.css" rel="stylesheet" type="text/css"
-	media="screen" />
-<script type="text/javascript" src="resources/js/jquery-1.7.2.js"></script>
-<style>
-.errors {
-	background: #F7DEC0;
-}
-
-.errorblock {
-	color: #ff0000;
-	background-color: #ffEEEE;
-	border: 3px solid #ff0000;
-	padding: 8px;
-	margin: 16px;
-}
-</style>
-<body>
 	<div class="hr">&nbsp;</div>
 	<div class="page_header">Contact Us</div>
 	<form:form modelAttribute="contactUsBean" method="Post"
@@ -50,7 +31,8 @@
 			<form:textarea path="comments" />
 			<span class="error"><form:errors path="comments" /></span>
 		</div>
-		<input type="submit" value="Save Details" class="button" />
+		<div class="gap10px"></div>
+		<input type="submit" value="Post Details" class="button" />
 		<input name="reset" type="reset" class="button" />
 	</form:form>
 </body>
