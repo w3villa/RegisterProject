@@ -22,9 +22,6 @@
 <body>
 	<div class="hr">&nbsp;</div>
 	<div class="page_header">Contact Us</div>
-	<br />
-	<br /> Please mail us at :
-	<a href="mailto:mybook@igild.com">mybook@igild.com</a>
 	<form:form modelAttribute="contactUsBean" method="Post"
 		action="contactus">
 		<div id="form_status"></div>
