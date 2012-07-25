@@ -7,7 +7,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -68,7 +67,7 @@ public class StylePreference implements java.io.Serializable {
 		this.description = description;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stylePreference", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stylePreference")
 	public Set<UserStylePreferncesMpg> getUserStylePreferncesMpgs() {
 		return this.userStylePreferncesMpgs;
 	}
@@ -76,6 +75,12 @@ public class StylePreference implements java.io.Serializable {
 	public void setUserStylePreferncesMpgs(
 			Set<UserStylePreferncesMpg> userStylePreferncesMpgs) {
 		this.userStylePreferncesMpgs = userStylePreferncesMpgs;
+	}
+
+	@Override
+	public String toString() {
+		return "StylePreference [stylePreferenceId=" + stylePreferenceId
+				+ ", name=" + name + ", description=" + description + "]";
 	}
 
 }

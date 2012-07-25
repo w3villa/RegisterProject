@@ -19,17 +19,18 @@
 		for samples and demos. A real world application would more likely use a database, 
 		LDAP server or some single sign-on integration. Spring Security supports 
 		many other options out of the box. -->
-	<http pattern="/resources/**" security="none"/>
+	<http pattern="/resources/**" security="none" />
+	<http pattern="/" security="none" />
 	<http use-expressions="false" auto-config="true"
-		access-denied-page="/accessDenied">
-		<intercept-url pattern="/welcome*" access="ROLE_USER" />
-		<form-login login-page='/login' default-target-url="/welcome"
-			authentication-failure-url="/loginfailed" /> 
-		<!-- logout logout-success-url="/login" invalidate-session="true" delete-cookies="JSESSIONID" /-->
-		<logout logout-success-url="/login" invalidate-session="true"/>
+		access-denied-page="/accessDenied" >
+		<intercept-url pattern="/welcomeUser*" access="ROLE_USER" />
+		<intercept-url pattern="/welcomeAdmin*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/crudStylePref" access="ROLE_ADMIN" />
+		<form-login login-page='/login' authentication-failure-url="/loginfailed" />
+		<logout logout-success-url="/login?error=Logged out successfully" delete-cookies="JSESSIONID" />
 		<remember-me key="rememberMeKey" user-service-ref="userDetailsService" />
-		<session-management invalid-session-url="/login?error=sessionInvalid"
-			session-authentication-error-url="/login?error=alreadyLogin" >
+		<session-management invalid-session-url="/login?error=Logged out successfully"
+			session-authentication-error-url="/login?error=already Login">
 			<concurrency-control max-sessions="1"
 				error-if-maximum-exceeded="true" />
 		</session-management>

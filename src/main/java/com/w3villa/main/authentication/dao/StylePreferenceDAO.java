@@ -10,4 +10,10 @@ public interface StylePreferenceDAO {
 	StylePreference getById(int id);
 
 	void saveStylePreference(StylePreference stylePreference);
+
+	List<StylePreference> getAllStylePreference();
+
+	void update(StylePreference stylePreference);
+
+	void delete(int id);
 }

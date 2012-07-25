@@ -53,18 +53,35 @@ public class HomeController {
 	@Autowired
 	private ContactUsService contactUsService;
 
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpServletRequest request)
+	@RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
+	public String homeUser(Locale locale, Model model,
+			HttpServletRequest request) throws Exception {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		HttpSession session = request.getSession(false);
+		Users users = usersService.findByEmailId(user.getUsername(), true);
+		session.setAttribute("users", users);
+		session.setAttribute("role", ProjectConstant.ROLE_USER);
+		List<AmazonStructure> assetList = getAssestList(users, null, session);
+		System.out.println(assetList);
+		session.setAttribute("assetList", assetList);
+		return "homeUser";
+	}
+
+	@RequestMapping(value = "/welcomeAdmin", method = RequestMethod.GET)
+	public String homeAdmin(Locale locale, Model model,
+			HttpServletRequest request)
 			throws Exception {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		HttpSession session = request.getSession(false);
 		Users users = usersService.findByEmailId(user.getUsername(), true);
 		session.setAttribute("users", users);
+		session.setAttribute("role", ProjectConstant.ROLE_ADMIN);
 		List<AmazonStructure> assetList = getAssestList(users, null, session);
 		System.out.println(assetList);
 		session.setAttribute("assetList", assetList);
-		return "home";
+		return "homeAdmin";
 	}
 
 	@RequestMapping(value = "/RegisterMe", method = RequestMethod.GET)

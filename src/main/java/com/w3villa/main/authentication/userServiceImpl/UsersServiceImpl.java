@@ -34,14 +34,17 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private UserStylePreferncesMpgDAO userStylePreferncesMpgDAO;
 
+	@Override
 	public List<Users> getUsersList() {
 		return usersDAO.getUsersList();
 	}
 
+	@Override
 	public Users findByEmailId(String emailId, boolean disableLazy) {
 		return usersDAO.findByEmailId(emailId, disableLazy);
 	}
 
+	@Override
 	public void saveUser(UserEntityBean userEntityBean,
 			String[] stylePreferences) {
 		Users users = new Users();

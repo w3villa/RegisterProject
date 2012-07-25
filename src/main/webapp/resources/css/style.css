@@ -263,3 +263,41 @@ img {
     top: -423px;
     text-shadow: 4px 3px #353638;
 }
+
+.crud {
+	margin: 0 0;
+	text-align: left;
+	position: static;
+	
+	
+}
+
+.crud input {
+    display: inline;
+    height: 26px;
+    margin: 10px;
+    padding: 0;
+    width: 200px;
+}
+
+.crud fieldset {
+    margin-left: -210px;
+    position: relative;
+}
+
+.crud label {
+	display:inline;	
+}
+
+.buttonCrud {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+    background: none repeat scroll 0 0 #505151;
+    color: white;
+    font-weight: bold;
+    height: auto;
+    padding: 5px 20px;
+    width: auto;
+}
+
