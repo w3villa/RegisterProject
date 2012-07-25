@@ -75,10 +75,12 @@
 <script type="text/javascript">
 
 $(".admin_data tr").live("click", function() {
+	$(".admin_data tr").removeClass("selected_row");	
 	$("#stylePreferenceId").val($(this).data("id"));
 	$("#name").val($(this).find(".style_pref_name").text());
 	$("#description").val($(this).find(".style_pref_desc").text());
 	$(this).find("input[type='radio']").attr("checked", true)
+	$(this).addClass("selected_row")
 });
 
 // 	function onClickRadio(id, counter) {

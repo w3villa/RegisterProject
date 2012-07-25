@@ -306,7 +306,7 @@ img {
 
 .admin_data tr:hover {
 	cursor:pointer;
-	background: #349DFF;
+	background: #B5DCFF;
 }
 
 .admin_data td {
@@ -324,4 +324,8 @@ img {
 
 .admin_form {
     border: 1px dashed #546545;
+}
+
+.selected_row {
+	background: #B5DCFF;
 }
