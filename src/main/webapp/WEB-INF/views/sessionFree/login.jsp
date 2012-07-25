@@ -16,15 +16,15 @@
 </c:if>
 
 <form name='f' action="<c:url value='j_spring_security_check' />"
-	method='POST'>
+	method='POST' class="user_form">
 	<div class="field">
 		<label for="j_username">User :</label> <input type='text'
-			name='j_username' value=''>
+			name='j_username' value='' class="user_input">
 	</div>
 
 	<div class="field">
 		<label for="j_password">Password :</label> <input type='password'
-			name='j_password' value=''>
+			name='j_password' value='' class="user_input">
 	</div>
 
 	<div class="style_prefs">

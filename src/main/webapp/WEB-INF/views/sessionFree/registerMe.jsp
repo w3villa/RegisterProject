@@ -19,7 +19,7 @@
 <body>
 	<div class="hr">&nbsp;</div>
 	<form:form modelAttribute="userEntityBean" method="Post"
-		action="RegisterMe">
+		action="RegisterMe" cssClass="user_form">
 		<div id="form_status"></div>
 		<c:if test="${not empty error}">
 			<div class="errorblock">
@@ -28,70 +28,70 @@
 		</c:if>
 		<div class="field">
 			<label for="firstName">First Name</label>
-			<form:input path="firstName" />
+			<form:input path="firstName" cssClass="user_input" />
 			<span class="error"><form:errors path="firstName" /></span>
 		</div>
 		<div class="field">
 			<label for="lastName">Last Name</label>
-			<form:input path="lastName" />
+			<form:input path="lastName" cssClass="user_input" />
 			<span class="error"><form:errors path="lastName" /></span>
 		</div>
 		<div class="field">
 			<label for="emailId">Email</label>
-			<form:input path="emailId" />
+			<form:input path="emailId" cssClass="user_input" />
 			<span class="error"><form:errors path="emailId" /></span>
 		</div>
 
 		<div class="field">
 			<label for="password">Password</label>
-			<form:password path="password" />
+			<form:password path="password" cssClass="user_input" />
 			<span class="error"><form:errors path="password" /></span>
 		</div>
 		<div class="field">
 			<label for="ReTypePassword">Retype Password</label>
-			<form:password path="ReTypePassword" />
+			<form:password path="ReTypePassword" cssClass="user_input" />
 			<span class="error"><form:errors path="ReTypePassword" /></span>
 		</div>
 
 		<div class="field">
 			<label for="addressLine1">Address Line 1</label>
-			<form:textarea path="addressLine1" />
+			<form:textarea path="addressLine1" cssClass="user_input user_textarea" />
 			<span class="error"><form:errors path="addressLine1" /></span>
 		</div>
 
 		<div class="field">
 			<label for="addressLine2">Address Line 2</label>
-			<form:textarea path="addressLine2" />
+			<form:textarea path="addressLine2" cssClass="user_input user_textarea" />
 			<span class="error"><form:errors path="addressLine2" /></span>
 		</div>
 
 		<div class="field">
 			<label for="city">City</label>
-			<form:input path="city" />
+			<form:input path="city" cssClass="user_input" />
 			<span class="error"><form:errors path="city" /></span>
 		</div>
 
 		<div class="field">
 			<label for="state">State</label>
-			<form:input path="state" />
+			<form:input path="state" cssClass="user_input" />
 			<span class="error"><form:errors path="state" /></span>
 		</div>
 
 		<div class="field">
 			<label for="zipCode">Zip Code</label>
-			<form:input path="zipCode" />
+			<form:input path="zipCode" cssClass="user_input" />
 			<span class="error"><form:errors path="zipCode" /></span>
 		</div>
 
 		<div class="field">
 			<label for="country">Country</label>
-			<form:input path="country" />
+			<form:input path="country" cssClass="user_input" />
 			<span class="error"><form:errors path="country" /></span>
 		</div>
 
 		<div class="field">
 			<label for="contactNo">Contact Number</label>
-			<form:input path="contactNo" />
+			<form:input path="contactNo" cssClass="user_input" />
 			<span class="error"><form:errors path="contactNo" /></span>
 		</div>
 

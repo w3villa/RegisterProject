@@ -40,7 +40,7 @@ a {
 a:hover {
 	color: #E1B663;
 }
-form {
+.user_form {
   width: 459px;
   margin: 0 auto; }
   
@@ -67,8 +67,8 @@ label {
   margin-top: 20px;
   letter-spacing: 2px; }
 
-input, textarea {
-     background: none repeat scroll 0 0 #EFEFEF;
+.user_input {
+	background: none repeat scroll 0 0 #EFEFEF;
     border: 2px solid #969696;
     color: #3A3A3A;
     font-size: 0.9em;
@@ -77,8 +77,8 @@ input, textarea {
     padding: 0 6px;
     width: 400px;
 }
-  
-textarea {
+
+.user_textarea {
   height: 50px;
   font-family: Arial, Helvetica, sans-serif;
   background: #efefef; }
@@ -268,25 +268,6 @@ img {
 	margin: 0 0;
 	text-align: left;
 	position: static;
-	
-	
-}
-
-.crud input {
-    display: inline;
-    height: 26px;
-    margin: 10px;
-    padding: 0;
-    width: 200px;
-}
-
-.crud fieldset {
-    margin-left: -210px;
-    position: relative;
-}
-
-.crud label {
-	display:inline;	
 }
 
 .buttonCrud {
@@ -299,5 +280,48 @@ img {
     height: auto;
     padding: 5px 20px;
     width: auto;
+    cursor:pointer;
 }
 
+.admin_data {
+	margin-top:20px;
+	border: 0px solid #000000;
+    width: 100%;
+    border-spacing: 0px;
+    background: #F7FBFF;
+}
+
+.admin_data th {
+	background: none repeat scroll 0 0 #349DFF;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 3px 0;
+    text-align: left;
+}
+
+.admin_data tr {
+	cursor:pointer;
+}
+
+.admin_data tr:hover {
+	cursor:pointer;
+	background: #349DFF;
+}
+
+.admin_data td {
+	padding:4px;
+	font-size:12px;
+	border: 1px solid #FFFFFF;
+}
+
+.admin_fields {
+	display:inline;
+	float:left;
+	margin:30px;
+	text-align: left;
+}
+
+.admin_form {
+    border: 1px dashed #546545;
+}
