@@ -37,14 +37,10 @@
 			</div>
 			<div class="gap10px"></div>
 			<div class="gap10px"></div>
-			<input type="button" name="clearAll" value="Clear All" id="clearAll"
-				class="buttonCrud" onclick="resetAll();clearData();clearRadio();" />&nbsp;&nbsp;
-			<input type="button" name="save" id="save" value="Save"
-				class="buttonCrud" onclick="saveMe();" />&nbsp;&nbsp; <input
-				type="button" class="buttonCrud" name="update" id="update"
-				value="Update" onclick="updateMe();" disabled />&nbsp;&nbsp; <input
-				type="button" name="delete" class="buttonCrud" id="delete"
-				value="Delete" onclick="deleteMe();" disabled />
+			<input type="button" name="clearAll" value="Clear All" id="clearAll" class="buttonCrud" onclick="resetAll();clearData();clearRadio();" />&nbsp;&nbsp;
+			<input type="button" name="save" id="save" value="Save" class="buttonCrud" onclick="saveMe();" />&nbsp;&nbsp; 
+			<input type="button" class="buttonCrud" name="update" id="update" value="Update" onclick="updateMe();" disabled />&nbsp;&nbsp; 
+			<input type="button" name="delete" class="buttonCrud" id="delete" value="Delete" onclick="deleteMe();" disabled />
 	</form:form>
 </div>
 <div id="tableDataList" align="center">
