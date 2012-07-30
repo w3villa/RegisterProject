@@ -26,7 +26,8 @@
 		<intercept-url pattern="/welcomeUser*" access="ROLE_USER" />
 		<intercept-url pattern="/welcomeAdmin*" access="ROLE_ADMIN" />
 		<intercept-url pattern="/crudStylePref" access="ROLE_ADMIN" />
-		<form-login login-page='/login' authentication-failure-url="/loginfailed" />
+		<intercept-url pattern="/contactUsView" access="ROLE_ADMIN" />
+		<form-login login-page='/login' authentication-failure-url="/loginfailed" default-target-url="/welcomeUser"/>
 		<logout logout-success-url="/login?error=Logged out successfully" delete-cookies="JSESSIONID" />
 		<remember-me key="rememberMeKey" user-service-ref="userDetailsService" />
 		<session-management invalid-session-url="/login?error=Logged out successfully"

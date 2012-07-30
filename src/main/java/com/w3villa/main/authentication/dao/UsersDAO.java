@@ -12,4 +12,6 @@ public interface UsersDAO {
 
 	void saveUser(Users users);
 
+	Users findByUserName(String userName, boolean disableLazy);
+
 }

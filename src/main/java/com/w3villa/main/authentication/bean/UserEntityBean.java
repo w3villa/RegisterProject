@@ -10,6 +10,8 @@ public class UserEntityBean {
 	@Size(min = 1, max = 10, message = "User Id size lies between 1 to 10 character only.")
 	@Pattern(regexp = "^[0-9]+$", message = "only integer value allowed in user id.")
 	private String id;
+	@Size(min = 1, max = 45, message = "User Name size lies between 1 to 45 character only.")
+	private String userName;
 	@Pattern(regexp = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message = "Please enter email in the format xxx@xx.com")
 	private String emailId;
 	@Size(min = 1, max = 20, message = "First Name size lies between 1 to 20 character only.")
@@ -39,6 +41,14 @@ public class UserEntityBean {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getEmailId() {
 		return emailId;

@@ -45,6 +45,11 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
+	public Users findByUserName(String userName, boolean disableLazy) {
+		return usersDAO.findByUserName(userName, disableLazy);
+	}
+
+	@Override
 	public void saveUser(UserEntityBean userEntityBean,
 			String[] stylePreferences) {
 		Users users = new Users();
@@ -84,16 +89,17 @@ public class UsersServiceImpl implements UsersService {
 		usersDAO.saveUser(users);
 
 		StylePreference preference = null;
-		for (String stylePreferenceId : stylePreferences) {
-			preference = stylePreferenceDAO.getById(Integer
-					.parseInt(stylePreferenceId));
-			userStylePreferncesMpg = new UserStylePreferncesMpg();
-			userStylePreferncesMpg.setUsers(users);
-			userStylePreferncesMpg.setStylePreference(preference);
-			userStylePreferncesMpgDAO
-					.saveUserStylePreferncesMpg(userStylePreferncesMpg);
+		if (stylePreferences != null && stylePreferences.length != 0) {
+			for (String stylePreferenceId : stylePreferences) {
+				preference = stylePreferenceDAO.getById(Integer
+						.parseInt(stylePreferenceId));
+				userStylePreferncesMpg = new UserStylePreferncesMpg();
+				userStylePreferncesMpg.setUsers(users);
+				userStylePreferncesMpg.setStylePreference(preference);
+				userStylePreferncesMpgDAO
+						.saveUserStylePreferncesMpg(userStylePreferncesMpg);
+			}
 		}
-
 		getUserVoFromDomain(userEntityBean, users);
 	}
 

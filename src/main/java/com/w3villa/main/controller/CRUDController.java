@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.w3villa.constants.ProjectConstant;
 import com.w3villa.main.authentication.bean.StylePreferenceBean;
+import com.w3villa.main.authentication.userService.ContactUsService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
 
 @Controller
@@ -21,6 +22,9 @@ public class CRUDController {
 
 	@Autowired
 	StylePreferenceService stylePreferenceService;
+
+	@Autowired
+	ContactUsService contactUsService;
 
 	@RequestMapping(value = "/crudStylePref", method = RequestMethod.GET)
 	public String crudStylePrefNavigate(Locale locale, Model model,
@@ -83,6 +87,14 @@ public class CRUDController {
 			model.addAttribute("message", message);
 			return "crud/stylePreferencesCRUD";
 		}
+	}
+
+	@RequestMapping(value = "/contactUsView", method = RequestMethod.GET)
+	public String contactUsViewNavigate(Locale locale, Model model,
+			HttpServletRequest request) throws Exception {
+		model.addAttribute("objectList",
+ contactUsService.getAllContactUs());
+		return "crud/contactUsView";
 	}
 
 }

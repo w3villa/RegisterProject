@@ -19,12 +19,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UsersDAO usersDAO;
 	
+	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		Users users = usersDAO.findByEmailId(username, false);
-		if(users == null)
-			throw new UsernameNotFoundException("UserName with emailId :"+username+" not found");
+		System.out.println(username);
+		Users users = usersDAO.findByUserName(username, false);
+
+		if (users == null) {
+			throw new UsernameNotFoundException("User with user name :"
+					+ username + " not found");
+		}
+		System.out.println(users.getUserName());
 		return assembler.buildUserFromUserEntity(users);
 	}
 

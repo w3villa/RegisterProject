@@ -59,7 +59,7 @@ public class HomeController {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		HttpSession session = request.getSession(false);
-		Users users = usersService.findByEmailId(user.getUsername(), true);
+		Users users = usersService.findByUserName(user.getUsername(), true);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_USER);
 		List<AmazonStructure> assetList = getAssestList(users, null, session);
@@ -75,7 +75,7 @@ public class HomeController {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		HttpSession session = request.getSession(false);
-		Users users = usersService.findByEmailId(user.getUsername(), true);
+		Users users = usersService.findByUserName(user.getUsername(), true);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_ADMIN);
 		List<AmazonStructure> assetList = getAssestList(users, null, session);

@@ -10,7 +10,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.w3villa.main.authentication.domain.UserRoles;
 import com.w3villa.main.authentication.domain.Users;
 
 @Component
@@ -21,18 +20,18 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 		setSessionFactory(sessionFactory);
 	}
 
+	@Override
 	public List<Users> getUsersList() {
 		Query query = getSession().createQuery("from Users");
 		List<Users> list = query.list();
 		return list;
 	}
 
+	@Override
 	public Users findByEmailId(String emailId, boolean disableLazy) {
-		UserRoles userRoles = null;
-		Users users = new Users();
-		users.setEmailId(emailId);
+		Users users = null;
 		Criteria ctr = getSession().createCriteria(Users.class);
-		ctr.add(Restrictions.eq("emailId", users.getEmailId()));
+		ctr.add(Restrictions.eq("emailId", users.getEmailId()).ignoreCase());
 		if (disableLazy)
 			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
 		List<Users> usersList = ctr.list();
@@ -44,9 +43,26 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 		return users;
 	}
 
+	@Override
 	public void saveUser(Users users) {
 		getHibernateTemplate().saveOrUpdate(users);
 
+	}
+
+	@Override
+	public Users findByUserName(String userName, boolean disableLazy) {
+		Users users = null;
+		Criteria ctr = getSession().createCriteria(Users.class);
+		ctr.add(Restrictions.eq("userName", userName).ignoreCase());
+		if (disableLazy)
+			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
+		List<Users> usersList = ctr.list();
+		// List<Users> usersList = getHibernateTemplate().findByExample(users);
+		if (usersList.size() > 0) {
+			users = usersList.get(0);
+		} else
+			users = null;
+		return users;
 	}
 
 }

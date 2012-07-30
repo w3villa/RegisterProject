@@ -37,6 +37,11 @@
 			<span class="error"><form:errors path="lastName" /></span>
 		</div>
 		<div class="field">
+			<label for="userName">User Name</label>
+			<form:input path="userName" cssClass="user_input" />
+			<span class="error"><form:errors path="userName" /></span>
+		</div>
+		<div class="field">
 			<label for="emailId">Email</label>
 			<form:input path="emailId" cssClass="user_input" />
 			<span class="error"><form:errors path="emailId" /></span>
@@ -55,13 +60,15 @@
 
 		<div class="field">
 			<label for="addressLine1">Address Line 1</label>
-			<form:textarea path="addressLine1" cssClass="user_input user_textarea" />
+			<form:textarea path="addressLine1"
+				cssClass="user_input user_textarea" />
 			<span class="error"><form:errors path="addressLine1" /></span>
 		</div>
 
 		<div class="field">
 			<label for="addressLine2">Address Line 2</label>
-			<form:textarea path="addressLine2" cssClass="user_input user_textarea" />
+			<form:textarea path="addressLine2"
+				cssClass="user_input user_textarea" />
 			<span class="error"><form:errors path="addressLine2" /></span>
 		</div>
 
@@ -89,11 +96,6 @@
 			<span class="error"><form:errors path="country" /></span>
 		</div>
 
-		<div class="field">
-			<label for="contactNo">Contact Number</label>
-			<form:input path="contactNo" cssClass="user_input" />
-			<span class="error"><form:errors path="contactNo" /></span>
-		</div>
 
 		<div class="style_prefs">
 			Select Style Preferences:

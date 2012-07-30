@@ -28,6 +28,7 @@ import javax.persistence.UniqueConstraint;
 public class Users implements java.io.Serializable {
 
 	private Integer userId;
+	private String userName;
 	private String firstName;
 	private String password;
 	private String isActive;
@@ -49,16 +50,19 @@ public class Users implements java.io.Serializable {
 	public Users() {
 	}
 
-	public Users(String firstName, String password, String isActive,
+	public Users(String firstName, String userName, String password,
+			String isActive,
 			String lastName, String emailId) {
 		this.firstName = firstName;
 		this.password = password;
 		this.isActive = isActive;
 		this.lastName = lastName;
 		this.emailId = emailId;
+		this.userName = userName;
 	}
 
-	public Users(String firstName, String password, String isActive,
+	public Users(String firstName, String userName, String password,
+			String isActive,
 			String lastName, String emailId, String addressLine1,
 			String addressLine2, String city, String state, String country,
 			String contactNo, Date createdDt, Date updateDt,
@@ -79,6 +83,7 @@ public class Users implements java.io.Serializable {
 		this.updateDt = updateDt;
 		this.userStylePreferncesMpgs = userStylePreferncesMpgs;
 		this.userRoleses = userRoleses;
+		this.userName = userName;
 	}
 
 	@Id
@@ -99,6 +104,15 @@ public class Users implements java.io.Serializable {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	@Column(name = "USER_NAME", unique = true, nullable = false, length = 45)
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	@Column(name = "PASSWORD", nullable = false, length = 2000)

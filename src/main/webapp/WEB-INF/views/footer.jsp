@@ -9,10 +9,10 @@
 				Us</a></li>
 		<li><a
 			href="${pageContext.servletContext.contextPath}/welcomeUser">Log
-				In as User</a></li>
-		<li><a
+				In</a></li>
+		<%--li><a
 			href="${pageContext.servletContext.contextPath}/welcomeAdmin">Log
-				In as Admin</a></li>
+				In as Admin</a></li--%>
 	</ul>
 	<div class="copyright">&copy; 2012, IGILD</div>
 </div>

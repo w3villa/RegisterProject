@@ -16,7 +16,7 @@ public class Assembler {
 
 	@Transactional(readOnly = true)
 	User buildUserFromUserEntity(Users users) {
-		String username = users.getEmailId();
+		String username = users.getUserName();
 		String password = users.getPassword();
 		boolean isActive = false;
 		if ("Y".equals(users.getIsActive()))

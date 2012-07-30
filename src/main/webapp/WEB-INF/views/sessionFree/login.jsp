@@ -3,8 +3,8 @@
 <div class="page_header">Login</div>
 <c:if test="${not empty error}">
 	<div class="errorblock">
-		Your login attempt was not successful, try again.<br /> Caused :
-		${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+		Your login attempt was not successful, please try again.<%--><br /> Caused :
+		${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message} --%>
 	</div>
 </c:if>
 <c:if test="${not empty errorSession}">
@@ -18,7 +18,7 @@
 <form name='f' action="<c:url value='j_spring_security_check' />"
 	method='POST' class="user_form">
 	<div class="field">
-		<label for="j_username">User :</label> <input type='text'
+		<label for="j_username">User Name :</label> <input type='text'
 			name='j_username' value='' class="user_input">
 	</div>
 

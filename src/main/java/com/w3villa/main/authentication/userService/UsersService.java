@@ -11,4 +11,6 @@ public interface UsersService {
 	Users findByEmailId(String emailId, boolean disableLazy);
 
 	void saveUser(UserEntityBean userEntityBean, String[] stylePreferences);
+
+	Users findByUserName(String userName, boolean disableLazy);
 }

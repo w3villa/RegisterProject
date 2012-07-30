@@ -17,7 +17,12 @@ public class BasicController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String forward(Locale locale, Model model) {
+	public String forward(Locale locale, Model model, HttpServletRequest request) {
+		String msg = request.getParameter("msg");
+		if (msg != null && !"".equals(msg)) {
+			model.addAttribute("msg", msg);
+
+		}
 		return "sessionFree/welcomePage";
 	}
 

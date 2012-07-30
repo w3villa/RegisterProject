@@ -21,11 +21,7 @@
 			<form:input path="email" cssClass="user_input" />
 			<span class="error"><form:errors path="email" /></span>
 		</div>
-		<div class="field">
-			<label for="contactNo">Contact Number</label>
-			<form:input path="contactNo" cssClass="user_input" />
-			<span class="error"><form:errors path="contactNo" /></span>
-		</div>
+		
 		<div class="field">
 			<label for="comments">Comments</label>
 			<form:textarea path="comments" cssClass="user_input user_textarea" />
