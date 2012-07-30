@@ -43,7 +43,7 @@
 </div>
 <form action="${pageContext.servletContext.contextPath}/"
 	style="padding: 0px; margin: 0px;" method="get">
-	<input type="hidden" name="msg" value="Account Successfully Created!" />
+	<input type="hidden" name="msg" value="Account Successfully Created! Please log in." />
 	<div style="padding: 0 0 0 44px;">
 		<input type="submit" class="button" value="Continue" />
 	</div>

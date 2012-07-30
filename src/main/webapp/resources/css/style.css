@@ -329,3 +329,31 @@ img {
 .selected_row {
 	background: #B5DCFF;
 }
+
+.flash {
+    color: green;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+}
+
+.admin_menu {
+	padding:0px;
+	margin:0px;
+}
+
+.admin_menu li {
+    background: #3399FF;
+    border-left: 1px solid white;
+    float: left;
+    list-style: none outside none;
+    padding: 0;
+}
+
+.admin_menu li a {
+	color:white;
+    display: block;
+    font-weight: bold;
+    padding: 5px 20px;
+}

@@ -7,7 +7,7 @@
 <c:set var="pass" value="<%=ProjectConstant.UPLOAD_STATUS_PASS%>" />
 <c:set var="fail" value="<%=ProjectConstant.UPLOAD_STATUS_FAIL%>" />
 <c:set var="listSize" value="0" />
-<div class="hr">&nbsp;</div>
+<jsp:include page="../adminNavBar.jsp"></jsp:include>
 <div class="page_header">Style Preference</div>
 <c:if test="${status eq fail}">
 	<div class="errorblock">${message}</div>

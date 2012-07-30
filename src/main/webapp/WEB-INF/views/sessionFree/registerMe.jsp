@@ -60,15 +60,15 @@
 
 		<div class="field">
 			<label for="addressLine1">Address Line 1</label>
-			<form:textarea path="addressLine1"
-				cssClass="user_input user_textarea" />
+			<form:input path="addressLine1"
+				cssClass="user_input" />
 			<span class="error"><form:errors path="addressLine1" /></span>
 		</div>
 
 		<div class="field">
 			<label for="addressLine2">Address Line 2</label>
-			<form:textarea path="addressLine2"
-				cssClass="user_input user_textarea" />
+			<form:input path="addressLine2"
+				cssClass="user_input" />
 			<span class="error"><form:errors path="addressLine2" /></span>
 		</div>
 

@@ -8,7 +8,7 @@
 <title>Welcome to igild</title>
 </head>
 <body>
-	<div>${msg}</div>
+	<div class="flash">${msg}</div>
 	<div align="center">
 		<div class="body">
 <%-- 			<jsp:include page="header.jsp"></jsp:include> --%>

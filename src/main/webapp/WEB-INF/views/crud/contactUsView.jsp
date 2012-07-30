@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="objectList" value="${objectList}" />
-<div class="hr">&nbsp;</div>
+<jsp:include page="../adminNavBar.jsp"></jsp:include>
 <div class="page_header">Contact Us Requests</div>
 
 <div id="tableDataList" align="center">
