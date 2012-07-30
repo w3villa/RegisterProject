@@ -3,7 +3,7 @@
 <br><br>
 
 <div class="album_choices">
-	<span class="title"><input type="radio" name="album_choice" id="1" /> <label for="1">5x7 Parent/Grandparent Album</label></span>
+	<span class="title"><input type="checkbox" name="album_choice" id="1" /> <label for="1">5x7 Parent/Grandparent Album</label></span>
 	<ul>
 		<li>24 images on 24 sides</li>
 		<li>Leather bound       $425</li>
@@ -12,7 +12,7 @@
 </div>
 
 <div class="album_choices">
-	<span class="title"><input type="radio" name="album_choice" id="2" /> <label for="2">8x10 Master Album</label></span>
+	<span class="title"><input type="checkbox" name="album_choice" id="2" /> <label for="2">8x10 Master Album</label></span>
 	<ul>
 		<li>50 images on 50 sides</li>
 		<li>Leather Bound       $675</li>
@@ -21,7 +21,7 @@
 </div>
 
 <div class="album_choices">
-	<span class="title"><input type="radio" name="album_choice" id="3" /> <label for="3">8x8 Designed Parent Album</label> </span>
+	<span class="title"><input type="checkbox" name="album_choice" id="3" /> <label for="3">8x8 Designed Parent Album</label> </span>
 	<ul>
 		<li>up to 50 images on 20 sides</li>
 		<li>Leather Bound       $645</li>
@@ -31,7 +31,7 @@
 </div>
 
 <div class="album_choices">
-	<span class="title"><input type="radio" name="album_choice" id="4" /> <label for="4">12x12 Master Album</label></span>
+	<span class="title"><input type="checkbox" name="album_choice" id="4" /> <label for="4">12x12 Master Album</label></span>
 	<ul>
 		<li>up to 85 images on 40 sides</li>
 		<li>Leather Bound        $895</li>
