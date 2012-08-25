@@ -20,7 +20,7 @@
 	<div class="hr"></div>
 	<div class="upload" align="center">
 		<div class="title">Upload your album here</div>
-		<div class="info">Please select images of your wedding by clicking the button below. You can upload multiple image at a time</div>
+		<div class="info">Please select images of your wedding after clicking the 'Select File' button below. You can upload multiple images at a time</div>
 		<jsp:include page="uploadFileUploadify.jsp"></jsp:include>
 		<div class="uploader"></div>
 	</div>
