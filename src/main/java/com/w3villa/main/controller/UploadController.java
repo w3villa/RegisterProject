@@ -1,7 +1,11 @@
 package com.w3villa.main.controller;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -10,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.w3villa.constants.ProjectConstant;
+import com.w3villa.main.authentication.constant.RegisterConstant;
 import com.w3villa.main.authentication.domain.Users;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.upload.UploadFileResponse;
@@ -146,8 +152,7 @@ public class UploadController {
 		} else {
 			try {
 				ServletContext context = session.getServletContext();
-				realContextPath = context.getRealPath("")
-						+ "/resources/";
+				realContextPath = context.getRealPath("") + "/resources/";
 				session.setAttribute("realContextPath", realContextPath);
 				System.out.println(realContextPath);
 				Users users = (Users) session.getAttribute("users");
@@ -283,15 +288,38 @@ public class UploadController {
 
 	@RequestMapping(value = "/FileUploadUploadify", method = RequestMethod.POST)
 	public @ResponseBody
-	String createUploadify(UploadBean uploadBean,
-			BindingResult result, HttpServletRequest request, Model model,
-			MultipartRequest mrequest,
-			HttpSession session) {
+	String createUploadify(UploadBean uploadBean, BindingResult result,
+			HttpServletRequest request, Model model, MultipartRequest mrequest,
+			HttpSession session) throws IOException {
 		System.out.println("started uploading");
-		UploadFileResponse fileResponse = new UploadFileResponse();
 		System.out.println("file name : "
 				+ mrequest.getFile("Filedata").getOriginalFilename());
+		BufferedImage originalImage = ImageIO.read(mrequest.getFile("Filedata")
+				.getInputStream());
+		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
+				: originalImage.getType();
+
+		BufferedImage resizeImageJpg = resizeImage(originalImage, type);
+		ImageIO.write(resizeImageJpg, "jpg", new File("c:\\resizedImage\\"
+				+ mrequest.getFile("Filedata").getOriginalFilename()
+				+ "_small.jpg"));
+		// new BufferedImage(RegisterConstant.IMG_WIDTH_1,
+		// RegisterConstant.IMG_HEIGHT_1, BufferedImage.TYPE_4BYTE_ABGR);
+
 		return "true";
 
+	}
+
+	private static BufferedImage resizeImage(BufferedImage originalImage,
+			int type) {
+		BufferedImage resizedImage = new BufferedImage(
+				RegisterConstant.IMG_WIDTH_1, RegisterConstant.IMG_HEIGHT_1,
+				type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, RegisterConstant.IMG_WIDTH_1,
+				RegisterConstant.IMG_HEIGHT_1, null);
+		g.dispose();
+
+		return resizedImage;
 	}
 }
