@@ -20,29 +20,36 @@
 body {
 	font-family: Arial;
 }
+
 .link-nav {
 	padding:0px;
 }
+
 .link-nav li {
 	padding:0px;
 	list-style: none;
 	float: left;
 }
+
 .link-nav li a {
 	display: block;
     padding: 5px 15px;
     font-weight: bold;
 }
+
 a {
 	color: #3399FF;
     text-decoration: none;
 }
+
 a:hover {
 	color: #E1B663;
 }
+
 .user_form {
   width: 459px;
-  margin: 0 auto; }
+  margin: 0 auto; 
+}
   
 body {
   font-size: 100%;
@@ -50,7 +57,8 @@ body {
   color: #3a3a3a;
   margin: 0;
   padding: 0;
-  position: relative; }  
+  position: relative; 
+}  
 
 #submit {
   background: url(/assets/submit.jpg);
@@ -369,7 +377,6 @@ img {
     width:600px;
     height:450px;
     border:20px solid black;
-    margin: 0 160px;
 }
 
 .slides_container div {
@@ -378,6 +385,15 @@ img {
     display:block;
 }
 
-#slides {
-	text-align: center;
+.upload .title {
+	font-weight: bold;
+	font-size: 13px;
+}
+
+.upload .info {
+	font-size: 12px;
+	padding: 0 0 10px 0;	
+}	
+.upload_form {
+	width:400px;
 }
