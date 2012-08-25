@@ -148,4 +148,28 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 
 		return path + FOLDER_SUFFIX;
 	}
+
+	@Override
+	public void putAsset(String assetPath, String assetName,
+			ByteArrayInputStream byteArrayInputStream, MultipartFile file) {
+		ObjectMetadata meta = new ObjectMetadata();
+		meta.setContentLength(byteArrayInputStream.available());
+		Upload upload = transferManager.upload(bucket, assetName,
+				byteArrayInputStream, meta);
+		UploadInfoBean infoBean = new UploadInfoBean();
+		while (!upload.isDone()) {
+			System.out.println("Uploaded percentage : "
+					+ upload.getProgress().getPercentTransfered() + " %");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (upload.isDone()) {
+			System.out.println("file Uploaded.");
+		}
+
+	}
 }

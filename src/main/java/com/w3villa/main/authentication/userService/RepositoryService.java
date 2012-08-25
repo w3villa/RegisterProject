@@ -1,5 +1,6 @@
 package com.w3villa.main.authentication.userService;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
@@ -23,4 +24,7 @@ public interface RepositoryService {
 
 	public FileStream getAssetByName(String path, String name,
 			HttpSession session) throws FileNotFoundException;
+
+	public void putAsset(String assetPath, String string,
+			ByteArrayInputStream byteArrayInputStream, MultipartFile file);
 }

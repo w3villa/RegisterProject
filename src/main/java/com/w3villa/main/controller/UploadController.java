@@ -3,9 +3,8 @@ package com.w3villa.main.controller;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -290,22 +289,45 @@ public class UploadController {
 	public @ResponseBody
 	String createUploadify(UploadBean uploadBean, BindingResult result,
 			HttpServletRequest request, Model model, MultipartRequest mrequest,
-			HttpSession session) throws IOException {
-		System.out.println("started uploading");
-		System.out.println("file name : "
-				+ mrequest.getFile("Filedata").getOriginalFilename());
-		BufferedImage originalImage = ImageIO.read(mrequest.getFile("Filedata")
-				.getInputStream());
-		int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
-				: originalImage.getType();
+			HttpSession session) throws Exception {
+		String folderPathOrignal = "";
+		String folderPathLogo = "";
+		String fileOrignalName = "";
+		try {
+			System.out.println("started uploading");
+			MultipartFile file = mrequest.getFile("Filedata");
 
-		BufferedImage resizeImageJpg = resizeImage(originalImage, type);
-		ImageIO.write(resizeImageJpg, "jpg", new File("c:\\resizedImage\\"
-				+ mrequest.getFile("Filedata").getOriginalFilename()
-				+ "_small.jpg"));
-		// new BufferedImage(RegisterConstant.IMG_WIDTH_1,
-		// RegisterConstant.IMG_HEIGHT_1, BufferedImage.TYPE_4BYTE_ABGR);
+			BufferedImage originalImage = ImageIO.read(mrequest.getFile(
+					"Filedata").getInputStream());
+			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
+					: originalImage.getType();
 
+			BufferedImage resizeImageJpg = resizeImage(originalImage, type);
+			// ImageIO.write(resizeImageJpg, "jpg", new
+			// File("c:\\resizedImage\\"
+			// + mrequest.getFile("Filedata").getOriginalFilename()
+			// + "_small.jpg"));
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			ImageIO.write(resizeImageJpg, "jpg", os);
+			System.out.println("session : " + session);
+			Users users = (Users) session.getAttribute("users");
+			folderPathOrignal = users.getUserName() + "/orignal/";
+			folderPathLogo = users.getUserName() + "/logo/";
+			System.out.println("folderPathOrignal : " + folderPathOrignal);
+			fileOrignalName = file.getOriginalFilename();
+			System.out.println("file name : " + file.getOriginalFilename());
+			repositoryService.putAsset(ASSET_PATH,
+					folderPathOrignal + file.getOriginalFilename(),
+					new ByteArrayInputStream(file.getBytes()), file);
+			System.out.println("Orignal file uploaded");
+			repositoryService.putAsset(ASSET_PATH,
+					folderPathLogo + file.getOriginalFilename(),
+					new ByteArrayInputStream(os.toByteArray()), file);
+			System.out.println("Logo file uploaded");
+
+		} catch (Exception e) {
+			throw e;
+		}
 		return "true";
 
 	}

@@ -1,5 +1,6 @@
 package com.w3villa.main.authentication.userServiceImpl;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -21,6 +22,7 @@ import com.w3villa.voBean.UploadItem;
 //@Resource(name = "RepositoryFileSystemImpl")
 public class RepositoryFileSystemImpl implements RepositoryService {
 
+	@Override
 	public UploadFileResponse putAsset(String path, String assetName,
 			InputStream asset, HttpSession session, HttpServletRequest request,
 			UploadFileResponse uploadFileResponse, MultipartFile file,
@@ -68,16 +70,25 @@ public class RepositoryFileSystemImpl implements RepositoryService {
 		return uploadFileResponse;
 	}
 
+	@Override
 	public List<String> getAssetList(String path) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public FileStream getAssetByName(String path, String name,
 			HttpSession session)
 			throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void putAsset(String assetPath, String string,
+			ByteArrayInputStream byteArrayInputStream, MultipartFile file) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

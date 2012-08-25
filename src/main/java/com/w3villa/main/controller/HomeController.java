@@ -67,13 +67,14 @@ public class HomeController {
 
 	@RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
 	public String homeUser(Locale locale, Model model,
-			HttpServletRequest request) throws Exception {
+			HttpServletRequest request, HttpSession session) throws Exception {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		HttpSession session = request.getSession(false);
 		Users users = usersService.findByUserName(user.getUsername(), true);
+		System.out.println("users : " + users);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_USER);
+		System.out.println("session : " + session);
 		// List<AmazonStructure> assetList = getAssestList(users, null,
 		// session);
 		// System.out.println(assetList);
@@ -84,14 +85,14 @@ public class HomeController {
 
 	@RequestMapping(value = "/welcomeAdmin", method = RequestMethod.GET)
 	public String homeAdmin(Locale locale, Model model,
-			HttpServletRequest request)
+			HttpServletRequest request, HttpSession session)
 			throws Exception {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		HttpSession session = request.getSession(false);
 		Users users = usersService.findByUserName(user.getUsername(), true);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_ADMIN);
+		System.out.println("session : " + session);
 		List<AmazonStructure> assetList = getAssestList(users, null, session);
 		System.out.println(assetList);
 		session.setAttribute("assetList", assetList);
