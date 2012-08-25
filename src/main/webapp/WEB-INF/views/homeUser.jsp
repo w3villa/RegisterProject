@@ -57,7 +57,8 @@
 	</div>
 	<div class="errorblock"><jsp:include page="directory.jsp"></jsp:include></div>
 <%-- 	<div class="messageblock"><jsp:include page="UploadFile.jsp"></jsp:include></div> --%>
-	<div class="messageblock"><jsp:include page="UploadFileJquery.jsp"></jsp:include></div>
+<%-- 	<div class="messageblock"><jsp:include page="UploadFileJquery.jsp"></jsp:include></div> --%>
+<div class="messageblock"><jsp:include page="uploadFileUploadify.jsp"></jsp:include></div>
 
 </body>
 </html>

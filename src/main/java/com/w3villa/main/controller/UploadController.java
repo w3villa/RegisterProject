@@ -24,12 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.w3villa.constants.ProjectConstant;
 import com.w3villa.main.authentication.domain.Users;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.upload.UploadFileResponse;
 import com.w3villa.upload.UploadInfoBean;
+import com.w3villa.voBean.UploadBean;
 import com.w3villa.voBean.UploadItem;
 
 @Controller
@@ -279,5 +281,17 @@ public class UploadController {
 		return uploadInfoBean;
 	}
 
+	@RequestMapping(value = "/FileUploadUploadify", method = RequestMethod.POST)
+	public @ResponseBody
+	String createUploadify(UploadBean uploadBean,
+			BindingResult result, HttpServletRequest request, Model model,
+			MultipartRequest mrequest,
+			HttpSession session) {
+		System.out.println("started uploading");
+		UploadFileResponse fileResponse = new UploadFileResponse();
+		System.out.println("file name : "
+				+ mrequest.getFile("Filedata").getOriginalFilename());
+		return "true";
 
+	}
 }

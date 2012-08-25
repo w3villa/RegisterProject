@@ -5,6 +5,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 public class UploadItem {
 	private String filename;
 	private CommonsMultipartFile[] fileData;
+	private CommonsMultipartFile fileDataSingle;
 	private String id;
 	private String uploadPath;
 
@@ -30,6 +31,14 @@ public class UploadItem {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+
+	public CommonsMultipartFile getFileDataSingle() {
+		return fileDataSingle;
+	}
+
+	public void setFileDataSingle(CommonsMultipartFile fileDataSingle) {
+		this.fileDataSingle = fileDataSingle;
 	}
 
 	public CommonsMultipartFile[] getFileData() {

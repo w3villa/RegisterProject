@@ -36,6 +36,7 @@ import com.w3villa.main.authentication.userService.ContactUsService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
 import com.w3villa.main.authentication.userService.UsersService;
+import com.w3villa.voBean.UploadBean;
 
 /**
  * Handles requests for the application home page.
@@ -73,9 +74,11 @@ public class HomeController {
 		Users users = usersService.findByUserName(user.getUsername(), true);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_USER);
-		List<AmazonStructure> assetList = getAssestList(users, null, session);
-		System.out.println(assetList);
-		session.setAttribute("assetList", assetList);
+		// List<AmazonStructure> assetList = getAssestList(users, null,
+		// session);
+		// System.out.println(assetList);
+		// session.setAttribute("assetList", assetList);
+		model.addAttribute("uploadBean", new UploadBean());
 		return "homeUser";
 	}
 
