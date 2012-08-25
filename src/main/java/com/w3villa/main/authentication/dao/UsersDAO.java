@@ -14,4 +14,10 @@ public interface UsersDAO {
 
 	Users findByUserName(String userName, boolean disableLazy);
 
+	void update(Users users);
+
+	void delete(int id);
+
+	Users findById(int id, boolean disableLazy);
+
 }

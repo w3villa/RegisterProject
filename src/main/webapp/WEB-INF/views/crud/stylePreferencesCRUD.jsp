@@ -33,7 +33,7 @@
 				<form:textarea path="description" class="user_input user_textarea" />
 				<span class="error"><form:errors path="description" /></span>
 			</div>
-			<div class="clear_both"></div>
+			<div class="clear_both_admin"></div>
 		</div>
 		<div class="gap10px"></div>
 		<div class="gap10px"></div>

@@ -12,8 +12,13 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -52,6 +57,12 @@ public class HomeController {
 
 	@Autowired
 	private ContactUsService contactUsService;
+
+	@Autowired
+	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	@RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
 	public String homeUser(Locale locale, Model model,
@@ -107,15 +118,26 @@ public class HomeController {
 			logger.info("RegisterMe() exit.");
 			return "sessionFree/registerMe";
 		} else {
-			HttpSession session = request.getSession();
+			HttpSession session = null;
 			try {
 				String[] stylePreferences = request
 						.getParameterValues("stylePreferences");
 				usersService.saveUser(userEntityBean, stylePreferences);
-				session.setAttribute("emailId", userEntityBean.getEmailId());
 				model.addAttribute("registerSuccess", "true");
+				boolean successFlag = autoLogin(userEntityBean.getUserName());
+				if (successFlag) {
+					session = request.getSession();
+					session.setAttribute("emailId", userEntityBean.getEmailId());
+					Users users = usersService.findByUserName(
+							userEntityBean.getUserName(), true);
+					session.setAttribute("users", users);
+					session.setAttribute("role", ProjectConstant.ROLE_USER);
+					List<AmazonStructure> assetList = getAssestList(users,
+							null, session);
+					session.setAttribute("assetList", assetList);
+				}
 				logger.info("RegisterMe() exit.");
-				return "albumChoice";
+				return "homeUser";
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("error", e.getMessage());
@@ -218,5 +240,24 @@ public class HomeController {
 
 		}
 		return leftFolder;
+	}
+
+	public boolean autoLogin(String userName) {
+		try {
+			UserDetails userDetails = userDetailsService
+					.loadUserByUsername(userName);
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+					userName, userDetails.getPassword(),
+					userDetails.getAuthorities());
+			Authentication authentication = authenticationManager
+					.authenticate(token);
+			SecurityContextHolder.getContext()
+					.setAuthentication(authentication);
+			} catch (Exception e) {
+			SecurityContextHolder.getContext().setAuthentication(null);
+			logger.error("Exception", e);
+			return false;
+		}
+		return true;
 	}
 }

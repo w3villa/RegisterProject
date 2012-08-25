@@ -65,4 +65,31 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 		return users;
 	}
 
+	@Override
+	public void update(Users users) {
+		getHibernateTemplate().merge(users);
+	}
+
+	@Override
+	public Users findById(int id, boolean disableLazy) {
+		Users users = null;
+		Criteria ctr = getSession().createCriteria(Users.class);
+		ctr.add(Restrictions.eq("userId", id));
+		if (disableLazy)
+			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
+		List<Users> usersList = ctr.list();
+		// List<Users> usersList = getHibernateTemplate().findByExample(users);
+		if (usersList.size() > 0) {
+			users = usersList.get(0);
+		} else
+			users = null;
+		return users;
+	}
+
+	@Override
+	public void delete(int id) {
+		Users users = getHibernateTemplate().get(Users.class, id);
+		getHibernateTemplate().delete(users);
+	}
+
 }

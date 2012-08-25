@@ -1,12 +1,12 @@
 package com.w3villa.main.authentication.userServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +34,9 @@ public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private UserStylePreferncesMpgDAO userStylePreferncesMpgDAO;
 
+	@Autowired
+	private PasswordEncoder encoder;
+
 	@Override
 	public List<Users> getUsersList() {
 		return usersDAO.getUsersList();
@@ -56,7 +59,6 @@ public class UsersServiceImpl implements UsersService {
 
 		userEntityBean.setIsActive("Y");
 		String password = userEntityBean.getPassword();
-		PasswordEncoder encoder = new StandardPasswordEncoder();
 		String encodedPass = encoder.encode(password);
 		userEntityBean.setPassword(encodedPass);
 		getUserDomainFromVo(userEntityBean, users);
@@ -103,21 +105,48 @@ public class UsersServiceImpl implements UsersService {
 		getUserVoFromDomain(userEntityBean, users);
 	}
 
+	@Override
+	public List<UserEntityBean> getAllUserEntityBean() {
+		List<UserEntityBean> userEntityBeanList = null;
+		UserEntityBean userEntityBean = null;
+		List<Users> usersList = getUsersList();
+		if (!usersList.isEmpty())
+			userEntityBeanList = new ArrayList<UserEntityBean>();
+		for (Users users : usersList) {
+			userEntityBean = new UserEntityBean();
+			userEntityBeanList.add(getUserVoFromDomain(userEntityBean, users));
+		}
+		return userEntityBeanList;
+	}
+
+	@Override
+	public void update(UserEntityBean userEntityBean) {
+		// Users users = new Users();
+		Users users = usersDAO.findById(
+				Integer.parseInt(userEntityBean.getId()), false);
+		users = getUserDomainFromVo(userEntityBean, users);
+		users.setUpdateDt(new Date());
+		usersDAO.update(users);
+	}
+
+	@Override
+	public void delete(int id) {
+		usersDAO.delete(id);
+	}
+
 	private Users getUserDomainFromVo(UserEntityBean userEntityBean, Users users) {
-		BeanUtils.copyProperties(userEntityBean, users);
-		users.setEmailId(userEntityBean.getEmailId());
-		users.setFirstName(userEntityBean.getFirstName());
-		users.setIsActive(userEntityBean.getIsActive());
-		users.setLastName(userEntityBean.getLastName());
-		users.setPassword(userEntityBean.getPassword());
+		BeanUtils.copyProperties(userEntityBean, users, new String[] {
+				"createdDt", "updateDt" });
 		return users;
 	}
 
 	private UserEntityBean getUserVoFromDomain(UserEntityBean userEntityBean,
 			Users users) {
-		BeanUtils.copyProperties(users, userEntityBean);
-		userEntityBean.setEmailId(users.getEmailId());
-		userEntityBean.setFirstName(users.getFirstName());
+		BeanUtils.copyProperties(users, userEntityBean, new String[] {
+				"createdDt", "updateDt" });
+		userEntityBean.setId(users.getUserId() + "");
+		userEntityBean.setCreatedDt(users.getCreatedDt().toGMTString());
+		userEntityBean.setUpdateDt(users.getUpdateDt().toGMTString());
 		userEntityBean.setIsActive(users.getIsActive());
 		userEntityBean.setLastName(users.getLastName());
 		return userEntityBean;

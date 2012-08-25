@@ -219,6 +219,11 @@
 			<version>4.2-beta1</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.5</version>
