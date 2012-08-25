@@ -364,3 +364,20 @@ img {
     font-weight: bold;
     padding: 5px 20px;
 }
+
+.slides_container {
+    width:600px;
+    height:450px;
+    border:20px solid black;
+    margin: 0 160px;
+}
+
+.slides_container div {
+    width:600px;
+    height:450px;
+    display:block;
+}
+
+#slides {
+	text-align: center;
+}
