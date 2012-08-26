@@ -22,7 +22,7 @@ $(function() {
 		'uploader' : '${pageContext.servletContext.contextPath}/FileUploadUploadify',
 		'onUploadStart' : function(file) {
 	    },
-		'onUploadSuccess' : function(file,data,response){
+		'onUploadSuccess' : function(file,data,response){alert(data);
 		}
 	});
 });

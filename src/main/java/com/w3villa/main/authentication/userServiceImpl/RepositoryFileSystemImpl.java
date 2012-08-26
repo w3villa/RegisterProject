@@ -85,10 +85,10 @@ public class RepositoryFileSystemImpl implements RepositoryService {
 	}
 
 	@Override
-	public void putAsset(String assetPath, String string,
+	public String putAsset(String assetPath, String string,
 			ByteArrayInputStream byteArrayInputStream, MultipartFile file) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }

@@ -25,6 +25,6 @@ public interface RepositoryService {
 	public FileStream getAssetByName(String path, String name,
 			HttpSession session) throws FileNotFoundException;
 
-	public void putAsset(String assetPath, String string,
+	public String putAsset(String assetPath, String string,
 			ByteArrayInputStream byteArrayInputStream, MultipartFile file);
 }
