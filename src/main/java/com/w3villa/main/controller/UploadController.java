@@ -312,9 +312,9 @@ public class UploadController {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			ImageIO.write(resizeImageJpg, "jpg", os);
 			System.out.println("session : " + session);
-			Users users = (Users) session.getAttribute("users");
-			folderPathOrignal = users.getUserName() + "/orignal";
-			folderPathLogo = users.getUserName() + "/logo";
+			String userName = (String) request.getParameter("userName");
+			folderPathOrignal = userName + "/orignal";
+			folderPathLogo = userName + "/logo";
 			System.out.println("folderPathOrignal : " + folderPathOrignal);
 			fileOrignalName = file.getOriginalFilename();
 			System.out.println("file name : " + file.getOriginalFilename());
