@@ -293,6 +293,8 @@ public class UploadController {
 		String folderPathOrignal = "";
 		String folderPathLogo = "";
 		String fileOrignalName = "";
+		String logoUrl = "";
+		String orignalUrl = "";
 		try {
 			System.out.println("started uploading");
 			MultipartFile file = mrequest.getFile("Filedata");
@@ -311,24 +313,26 @@ public class UploadController {
 			ImageIO.write(resizeImageJpg, "jpg", os);
 			System.out.println("session : " + session);
 			Users users = (Users) session.getAttribute("users");
-			folderPathOrignal = users.getUserName() + "/orignal/";
-			folderPathLogo = users.getUserName() + "/logo/";
+			folderPathOrignal = users.getUserName() + "/orignal";
+			folderPathLogo = users.getUserName() + "/logo";
 			System.out.println("folderPathOrignal : " + folderPathOrignal);
 			fileOrignalName = file.getOriginalFilename();
 			System.out.println("file name : " + file.getOriginalFilename());
-			repositoryService.putAsset(ASSET_PATH,
-					folderPathOrignal + file.getOriginalFilename(),
+			orignalUrl = repositoryService.putAsset(folderPathOrignal,
+					folderPathOrignal
+					+ "/" + file.getOriginalFilename(),
 					new ByteArrayInputStream(file.getBytes()), file);
 			System.out.println("Orignal file uploaded");
-			repositoryService.putAsset(ASSET_PATH,
-					folderPathLogo + file.getOriginalFilename(),
+			logoUrl = repositoryService.putAsset(folderPathLogo,
+					folderPathLogo + "/"
+					+ file.getOriginalFilename(),
 					new ByteArrayInputStream(os.toByteArray()), file);
 			System.out.println("Logo file uploaded");
 
 		} catch (Exception e) {
 			throw e;
 		}
-		return "true";
+		return logoUrl;
 
 	}
 

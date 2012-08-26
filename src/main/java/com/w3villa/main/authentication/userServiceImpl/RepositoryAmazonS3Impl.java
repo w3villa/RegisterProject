@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,9 +102,32 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 			// ignore folders
 			if (!summary.getKey().endsWith(FOLDER_SUFFIX)) {
 				result.add(summary.getKey().substring(path.length()));
+				s3.generatePresignedUrl(bucket, summary.getKey(), new Date());
 			}
 		}
 		return result;
+	}
+
+	public List<String> getUrlList(String path) {
+		List<String> result = new ArrayList<String>();
+		ObjectListing objList = s3.listObjects(bucket, getS3Path(path));
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 1);
+		for (S3ObjectSummary summary : objList.getObjectSummaries()) {
+			// ignore folders
+			System.out.println("summary.getKey() :" + summary.getKey());
+			if (!summary.getKey().endsWith(FOLDER_SUFFIX)) {
+				result.add(s3.generatePresignedUrl(bucket, summary.getKey(),
+						cal.getTime()).toString());
+			}
+		}
+		return result;
+	}
+
+	public String getUrl(String key) {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 1);
+		return s3.generatePresignedUrl(bucket, key, cal.getTime()).toString();
 	}
 
 	@Override
@@ -150,7 +175,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 	}
 
 	@Override
-	public void putAsset(String assetPath, String assetName,
+	public String putAsset(String assetPath, String assetName,
 			ByteArrayInputStream byteArrayInputStream, MultipartFile file) {
 		ObjectMetadata meta = new ObjectMetadata();
 		meta.setContentLength(byteArrayInputStream.available());
@@ -170,6 +195,6 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 		if (upload.isDone()) {
 			System.out.println("file Uploaded.");
 		}
-
+		return getUrl(assetName);
 	}
 }
