@@ -36,6 +36,7 @@ import com.w3villa.main.authentication.userService.ContactUsService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
 import com.w3villa.main.authentication.userService.UsersService;
+import com.w3villa.main.util.CommonUtil;
 import com.w3villa.voBean.UploadBean;
 
 /**
@@ -65,20 +66,18 @@ public class HomeController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	private CommonUtil commonUtil;
+
 	@RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
 	public String homeUser(Locale locale, Model model,
 			HttpServletRequest request, HttpSession session) throws Exception {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		Users users = usersService.findByUserName(user.getUsername(), true);
-		System.out.println("users : " + users);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_USER);
-		System.out.println("session : " + session);
-		// List<AmazonStructure> assetList = getAssestList(users, null,
-		// session);
-		// System.out.println(assetList);
-		// session.setAttribute("assetList", assetList);
+		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_LOGO);
 		model.addAttribute("uploadBean", new UploadBean());
 		return "homeUser";
 	}
@@ -92,10 +91,6 @@ public class HomeController {
 		Users users = usersService.findByUserName(user.getUsername(), true);
 		session.setAttribute("users", users);
 		session.setAttribute("role", ProjectConstant.ROLE_ADMIN);
-		System.out.println("session : " + session);
-		List<AmazonStructure> assetList = getAssestList(users, null, session);
-		System.out.println(assetList);
-		session.setAttribute("assetList", assetList);
 		return "homeAdmin";
 	}
 

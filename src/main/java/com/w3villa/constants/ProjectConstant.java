@@ -16,4 +16,8 @@ public class ProjectConstant {
 
 	public static String MAIL_SUBJECT_CONTACT_US = "Thanks for contacting IGILD.";
 	public static String MAIL_FORM_CONTACT_US = "pinkmaniya@gmail.com";
+
+	public static String IMAGE_TYPE_ORIGNAL = "orignal";
+	public static String IMAGE_TYPE_LOGO = "logo";
+	public static String IMAGE_TYPE_THUMB = "thumb";
 }

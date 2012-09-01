@@ -96,4 +96,10 @@ public class ImageMappingServiceImpl implements ImageMappingService {
 
 	}
 
+	@Override
+	public boolean updateSeqNo(int id, int seqNo) {
+		imageMappingDAO.updateSeqNo(id, seqNo);
+		return true;
+	}
+
 }

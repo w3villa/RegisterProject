@@ -25,4 +25,6 @@ public interface ImageMappingService {
 
 	void deleteRecordsById(int id);
 
+	boolean updateSeqNo(int id, int seqNo);
+
 }

@@ -131,4 +131,13 @@ public class ImageMappingDAOImpl extends CustomHibernateDAOSupport implements
 
 	}
 
+	@Override
+	public boolean updateSeqNo(int id, int seqNo) {
+		Query query = getSession().createQuery(
+				"update ImageMapping imageMapping set sequenceNo = " + seqNo
+						+ "  where imageMappingId = " + id);
+		query.executeUpdate();
+		return true;
+	}
+
 }

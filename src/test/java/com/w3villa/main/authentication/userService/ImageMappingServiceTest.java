@@ -37,6 +37,7 @@ public class ImageMappingServiceTest {
 	// deleteSelectedTest();
 	// }
 
+	@Test
 	public void getSequenceNoTest(){
 		sequenceNo = imageMappingService.getNewSequenceNo(userId);
 		assertFalse(sequenceNo == 0);
@@ -50,10 +51,10 @@ public class ImageMappingServiceTest {
 		assertTrue(imageMappings.size() != 0);
 	}
 
-	@Test
-	public void deleteAllTest() {
-		imageMappingService.deleteRecordsByUserId(userId);
-	}
+	// @Test
+	// public void deleteAllTest() {
+	// imageMappingService.deleteRecordsByUserId(userId);
+	// }
 
 	public void deleteSelectedTest() {
 		ImageMapping imageMapping = imageMappingService.recordsAccToSeq(userId,
