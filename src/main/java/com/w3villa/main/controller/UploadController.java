@@ -31,12 +31,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.w3villa.constants.ProjectConstant;
-import com.w3villa.main.authentication.bean.ImageDetailBean;
 import com.w3villa.main.authentication.constant.RegisterConstant;
-import com.w3villa.main.authentication.domain.ImageMapping;
 import com.w3villa.main.authentication.domain.Users;
 import com.w3villa.main.authentication.userService.ImageMappingService;
 import com.w3villa.main.authentication.userService.RepositoryService;
+import com.w3villa.main.util.CommonUtil;
 import com.w3villa.upload.UploadFileResponse;
 import com.w3villa.upload.UploadInfoBean;
 import com.w3villa.voBean.UploadBean;
@@ -55,6 +54,9 @@ public class UploadController {
 
 	@Autowired
 	private ImageMappingService imageMappingService;
+
+	@Autowired
+	private CommonUtil commonUtil;
 
 	@RequestMapping(value = "/FileUpload", method = RequestMethod.POST)
 	public @ResponseBody
@@ -391,34 +393,24 @@ public class UploadController {
 	@RequestMapping(value = "/ListUploadedImages", method = RequestMethod.GET)
 	public String getAllImages(Model model, HttpServletRequest request,
 			HttpSession session) {
-		getImages(model, session);
+		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_THUMB);
 		return "imageListView";
 	}
 
-	private void getImages(Model model, HttpSession session) {
-		Users users = (Users) session.getAttribute("users");
-		List<ImageDetailBean> imageDetailBeans = new ArrayList<ImageDetailBean>();
-		ImageDetailBean imageDetailBean = null;
-		List<ImageMapping> imageMappings = imageMappingService.listRecord(users
-				.getUserId());
-		String url = "";
-		for (ImageMapping imageMapping : imageMappings) {
-			imageDetailBean = new ImageDetailBean();
-			imageDetailBean.setId(imageMapping.getImageMappingId());
-			imageDetailBean.setSequenceNo(imageMapping.getSequenceNo());
-			url = repositoryService.getUrl("igild/" + users.getUserId()
-					+ "/thumb" + "/" + imageMapping.getImagePath());
-			imageDetailBean.setPath(url);
-			imageDetailBeans.add(imageDetailBean);
-		}
-		model.addAttribute("imageDetailBeans", imageDetailBeans);
-	}
-	
-	@RequestMapping(value = "/updateUploadedImages", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/updateUploadedImages")
 	public String updateUploadedImages(Model model, HttpServletRequest request,
 			HttpSession session) {
 		String csv = request.getParameter("csv");
-		getImages(model, session);
+		String[] ids = csv.split(",");
+		for (int i = 1; i <= ids.length; i++) {
+			if (!"".equals(ids[i - 1])) {
+				imageMappingService
+						.updateSeqNo(Integer.parseInt(ids[i - 1]), i);
+			}
+		}
+
+		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_THUMB);
 		return "imageListView";
 	}
 }
