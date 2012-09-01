@@ -31,8 +31,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.w3villa.constants.ProjectConstant;
+import com.w3villa.main.authentication.bean.ImageDetailBean;
 import com.w3villa.main.authentication.constant.RegisterConstant;
+import com.w3villa.main.authentication.domain.ImageMapping;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.ImageMappingService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.upload.UploadFileResponse;
 import com.w3villa.upload.UploadInfoBean;
@@ -49,6 +52,9 @@ public class UploadController {
 
 	@Autowired
 	private RepositoryService repositoryService;
+
+	@Autowired
+	private ImageMappingService imageMappingService;
 
 	@RequestMapping(value = "/FileUpload", method = RequestMethod.POST)
 	public @ResponseBody
@@ -292,9 +298,11 @@ public class UploadController {
 			HttpSession session) throws Exception {
 		String folderPathOrignal = "";
 		String folderPathLogo = "";
+		String folderPathThumb = "";
 		String fileOrignalName = "";
 		String logoUrl = "";
 		String orignalUrl = "";
+		String thumbUrl = "";
 		try {
 			System.out.println("started uploading");
 			MultipartFile file = mrequest.getFile("Filedata");
@@ -304,30 +312,45 @@ public class UploadController {
 			int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB
 					: originalImage.getType();
 
-			BufferedImage resizeImageJpg = resizeImage(originalImage, type);
+			BufferedImage resizeImageJpgLogo = resizeImageLogo(originalImage,
+					type);
 			// ImageIO.write(resizeImageJpg, "jpg", new
 			// File("c:\\resizedImage\\"
 			// + mrequest.getFile("Filedata").getOriginalFilename()
 			// + "_small.jpg"));
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(resizeImageJpg, "jpg", os);
+			ByteArrayOutputStream osLogo = new ByteArrayOutputStream();
+			ImageIO.write(resizeImageJpgLogo, "jpg", osLogo);
+
+			BufferedImage resizeImageJpgThumb = resizeImageThumb(originalImage,
+					type);
+			ByteArrayOutputStream osThumb = new ByteArrayOutputStream();
+			ImageIO.write(resizeImageJpgThumb, "jpg", osThumb);
+
 			System.out.println("session : " + session);
-			String userName = (String) request.getParameter("userName");
-			folderPathOrignal = userName + "/orignal";
-			folderPathLogo = userName + "/logo";
-			System.out.println("folderPathOrignal : " + folderPathOrignal);
+			// String userName = request.getParameter("userName");
+			String userId = request.getParameter("userId");
+
+			folderPathOrignal = "igild/" + userId + "/orignal";
+			folderPathLogo = "igild/" + userId + "/logo";
+			folderPathThumb = "igild/" + userId + "/thumb";
+
 			fileOrignalName = file.getOriginalFilename();
-			System.out.println("file name : " + file.getOriginalFilename());
 			orignalUrl = repositoryService.putAsset(folderPathOrignal,
-					folderPathOrignal
-					+ "/" + file.getOriginalFilename(),
+					folderPathOrignal + "/" + file.getOriginalFilename(),
 					new ByteArrayInputStream(file.getBytes()), file);
 			System.out.println("Orignal file uploaded");
-			logoUrl = repositoryService.putAsset(folderPathLogo,
-					folderPathLogo + "/"
-					+ file.getOriginalFilename(),
-					new ByteArrayInputStream(os.toByteArray()), file);
+			logoUrl = repositoryService.putAsset(folderPathLogo, folderPathLogo
+					+ "/" + file.getOriginalFilename(),
+					new ByteArrayInputStream(osLogo.toByteArray()), file);
 			System.out.println("Logo file uploaded");
+
+			thumbUrl = repositoryService.putAsset(folderPathLogo,
+					folderPathThumb + "/" + file.getOriginalFilename(),
+					new ByteArrayInputStream(osThumb.toByteArray()), file);
+			System.out.println("Thumb file uploaded");
+
+			saveImageMappingData(Integer.parseInt(userId),
+					file.getOriginalFilename());
 
 		} catch (Exception e) {
 			throw e;
@@ -336,8 +359,12 @@ public class UploadController {
 
 	}
 
-	private static BufferedImage resizeImage(BufferedImage originalImage,
-			int type) {
+	private void saveImageMappingData(int userId, String fileName) {
+		int sequenceNo = imageMappingService.getNewSequenceNo(userId);
+		imageMappingService.saveRecord(userId, sequenceNo, fileName);
+	}
+
+	private BufferedImage resizeImageLogo(BufferedImage originalImage, int type) {
 		BufferedImage resizedImage = new BufferedImage(
 				RegisterConstant.IMG_WIDTH_1, RegisterConstant.IMG_HEIGHT_1,
 				type);
@@ -347,5 +374,51 @@ public class UploadController {
 		g.dispose();
 
 		return resizedImage;
+	}
+
+	private BufferedImage resizeImageThumb(BufferedImage originalImage, int type) {
+		BufferedImage resizedImage = new BufferedImage(
+				RegisterConstant.IMG_WIDTH_2, RegisterConstant.IMG_HEIGHT_2,
+				type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, RegisterConstant.IMG_WIDTH_2,
+				RegisterConstant.IMG_HEIGHT_2, null);
+		g.dispose();
+
+		return resizedImage;
+	}
+
+	@RequestMapping(value = "/ListUploadedImages", method = RequestMethod.GET)
+	public String getAllImages(Model model, HttpServletRequest request,
+			HttpSession session) {
+		getImages(model, session);
+		return "imageListView";
+	}
+
+	private void getImages(Model model, HttpSession session) {
+		Users users = (Users) session.getAttribute("users");
+		List<ImageDetailBean> imageDetailBeans = new ArrayList<ImageDetailBean>();
+		ImageDetailBean imageDetailBean = null;
+		List<ImageMapping> imageMappings = imageMappingService.listRecord(users
+				.getUserId());
+		String url = "";
+		for (ImageMapping imageMapping : imageMappings) {
+			imageDetailBean = new ImageDetailBean();
+			imageDetailBean.setId(imageMapping.getImageMappingId());
+			imageDetailBean.setSequenceNo(imageMapping.getSequenceNo());
+			url = repositoryService.getUrl("igild/" + users.getUserId()
+					+ "/thumb" + "/" + imageMapping.getImagePath());
+			imageDetailBean.setPath(url);
+			imageDetailBeans.add(imageDetailBean);
+		}
+		model.addAttribute("imageDetailBeans", imageDetailBeans);
+	}
+	
+	@RequestMapping(value = "/updateUploadedImages", method = RequestMethod.GET)
+	public String updateUploadedImages(Model model, HttpServletRequest request,
+			HttpSession session) {
+		String csv = request.getParameter("csv");
+		getImages(model, session);
+		return "imageListView";
 	}
 }

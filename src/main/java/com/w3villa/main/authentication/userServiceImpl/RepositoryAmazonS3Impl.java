@@ -124,6 +124,7 @@ public class RepositoryAmazonS3Impl implements RepositoryService {
 		return result;
 	}
 
+	@Override
 	public String getUrl(String key) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 1);

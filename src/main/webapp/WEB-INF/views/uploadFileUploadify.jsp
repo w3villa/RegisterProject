@@ -24,7 +24,7 @@ $(function() {
 	$('#file_upload').uploadify({
 		'swf' : 'resources/swf/uploadify/uploadify.swf',
 		'uploader' : '${pageContext.servletContext.contextPath}/FileUploadUploadify',
-		'formData' : { 'userName' : '${sessionScope.users.userName}' },
+		'formData' : { 'userName' : '${sessionScope.users.userName}','userId' : '${sessionScope.users.userId}' },
 		'onUploadStart' : function(file) {
 	    },
 		'onUploadSuccess' : function(file,data,response) {

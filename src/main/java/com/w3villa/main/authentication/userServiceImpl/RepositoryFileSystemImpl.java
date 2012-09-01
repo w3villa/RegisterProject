@@ -91,4 +91,10 @@ public class RepositoryFileSystemImpl implements RepositoryService {
 		return null;
 	}
 
+	@Override
+	public String getUrl(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

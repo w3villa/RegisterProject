@@ -24,6 +24,11 @@
 		<jsp:include page="uploadFileUploadify.jsp"></jsp:include>
 		<div class="uploader"></div>
 	</div>
+	<div class="gap10px"></div>
+	<div class="hr"></div>
+	<div class="slideshow" align="center">
+		<a href="${pageContext.servletContext.contextPath}/ListUploadedImages">Click here to proceed Next</a>
+	</div>
 </div>
 <script type="text/javascript" src="resources/js/slides.jquery.js"></script>
 <script>

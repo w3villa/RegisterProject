@@ -27,4 +27,6 @@ public interface RepositoryService {
 
 	public String putAsset(String assetPath, String string,
 			ByteArrayInputStream byteArrayInputStream, MultipartFile file);
+
+	String getUrl(String key);
 }

@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-	<table-filter match-name="style_preference"></table-filter>
-	<table-filter match-name="user_roles"></table-filter>
-	<table-filter match-name="user_style_prefernces_mpg"></table-filter>
-	<table-filter match-name="users"></table-filter>
+	<type-mapping>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"></sql-type>
+	</type-mapping>
+	<table-filter match-name="image_mapping"></table-filter>
 </hibernate-reverse-engineering>
