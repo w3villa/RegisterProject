@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import com.w3villa.main.authentication.bean.ImageDetailBean;
 import com.w3villa.main.authentication.domain.ImageMapping;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.AlbumChoiceService;
 import com.w3villa.main.authentication.userService.ImageMappingService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 
@@ -23,6 +24,9 @@ public class CommonUtil {
 
 	@Autowired
 	private RepositoryService repositoryService;
+
+	@Autowired
+	private AlbumChoiceService albumChoiceService;
 
 	public void getImages(Model model, HttpSession session, String imageType) {
 		Users users = (Users) session.getAttribute("users");
@@ -43,6 +47,13 @@ public class CommonUtil {
 		if (imageDetailBeans.size() == 0)
 			imageDetailBeans = null;
 		model.addAttribute("imageDetailBeans", imageDetailBeans);
+	}
+
+	public void getAlbumChoices(Model model, HttpSession session) {
+		Users users = (Users) session.getAttribute("users");
+		model.addAttribute("albumChoiceList",
+				albumChoiceService.getAlbumChoiceList());
+
 	}
 
 }

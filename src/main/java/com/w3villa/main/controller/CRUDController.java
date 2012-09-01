@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.w3villa.constants.ProjectConstant;
+import com.w3villa.main.authentication.bean.AlbumChoiceBean;
 import com.w3villa.main.authentication.bean.StylePreferenceBean;
 import com.w3villa.main.authentication.bean.UserEntityBean;
+import com.w3villa.main.authentication.userService.AlbumChoiceService;
 import com.w3villa.main.authentication.userService.ContactUsService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
 import com.w3villa.main.authentication.userService.UsersService;
@@ -25,6 +27,9 @@ public class CRUDController {
 
 	@Autowired
 	StylePreferenceService stylePreferenceService;
+
+	@Autowired
+	private AlbumChoiceService albumChoiceService;
 
 	@Autowired
 	ContactUsService contactUsService;
@@ -94,6 +99,66 @@ public class CRUDController {
 			model.addAttribute("status", Status);
 			model.addAttribute("message", message);
 			return "crud/stylePreferencesCRUD";
+		}
+	}
+
+	@RequestMapping(value = "/crudAlbumChoice", method = RequestMethod.GET)
+	public String crudAlbumChoiceNavigate(Locale locale, Model model,
+			HttpServletRequest request) throws Exception {
+		model.addAttribute(new AlbumChoiceBean());
+		model.addAttribute("objectList", albumChoiceService.getAllAlbumChoice());
+		return "crud/albumChoiceCRUD";
+	}
+
+	@RequestMapping(value = "/crudAlbumChoice", method = RequestMethod.POST)
+	public String crudAlbumChoice(@Valid AlbumChoiceBean albumChoiceBean,
+			BindingResult result, Model model, HttpServletRequest request)
+			throws Exception {
+		if (result.hasErrors()) {
+			model.addAttribute("objectList",
+					albumChoiceService.getAllAlbumChoice());
+			return "crud/albumChoiceCRUD";
+		} else {
+			String operation = request.getParameter("operation");
+			String Status = "";
+			String message = "";
+			if (ProjectConstant.CRUD_CRAETE.equals(operation)) {
+				try {
+					albumChoiceService.saveAlbumChoice(albumChoiceBean);
+					Status = ProjectConstant.UPLOAD_STATUS_PASS;
+					message = "Data saved successfully";
+				} catch (Exception e) {
+					e.printStackTrace();
+					Status = ProjectConstant.UPLOAD_STATUS_FAIL;
+					message = "Error saving data : " + e.getMessage();
+				}
+			} else if (ProjectConstant.CRUD_DELETE.equals(operation)) {
+				try {
+					albumChoiceService.delete(albumChoiceBean
+							.getAlbumChoiceId());
+					Status = ProjectConstant.UPLOAD_STATUS_PASS;
+					message = "Data deleted successfully";
+				} catch (Exception e) {
+					e.printStackTrace();
+					Status = ProjectConstant.UPLOAD_STATUS_FAIL;
+					message = "Error saving data : " + e.getMessage();
+				}
+			} else if (ProjectConstant.CRUD_UPDATE.equals(operation)) {
+				try {
+					albumChoiceService.update(albumChoiceBean);
+					Status = ProjectConstant.UPLOAD_STATUS_PASS;
+					message = "Data updated successfully";
+				} catch (Exception e) {
+					e.printStackTrace();
+					Status = ProjectConstant.UPLOAD_STATUS_FAIL;
+					message = "Error saving data : " + e.getMessage();
+				}
+			}
+			model.addAttribute("objectList",
+					albumChoiceService.getAllAlbumChoice());
+			model.addAttribute("status", Status);
+			model.addAttribute("message", message);
+			return "crud/albumChoiceCRUD";
 		}
 	}
 

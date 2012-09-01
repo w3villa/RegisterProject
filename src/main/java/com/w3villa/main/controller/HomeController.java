@@ -32,6 +32,7 @@ import com.w3villa.main.authentication.bean.AmazonStructure;
 import com.w3villa.main.authentication.bean.ContactUsBean;
 import com.w3villa.main.authentication.bean.UserEntityBean;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.AlbumChoiceService;
 import com.w3villa.main.authentication.userService.ContactUsService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.main.authentication.userService.StylePreferenceService;
@@ -53,6 +54,9 @@ public class HomeController {
 
 	@Autowired
 	private StylePreferenceService stylePreferenceService;
+
+	@Autowired
+	private AlbumChoiceService albumChoiceService;
 
 	@Autowired
 	private RepositoryService repositoryService;
@@ -131,12 +135,10 @@ public class HomeController {
 							userEntityBean.getUserName(), true);
 					session.setAttribute("users", users);
 					session.setAttribute("role", ProjectConstant.ROLE_USER);
-					List<AmazonStructure> assetList = getAssestList(users,
-							null, session);
-					session.setAttribute("assetList", assetList);
+					commonUtil.getAlbumChoices(model, session);
 				}
 				logger.info("RegisterMe() exit.");
-				return "homeUser";
+				return "albumChoice";
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("error", e.getMessage());
@@ -145,6 +147,13 @@ public class HomeController {
 			}
 
 		}
+	}
+
+	@RequestMapping(value = "/albumChoiceUpdate", method = RequestMethod.GET)
+	public String albumChoiceUpdate(Model model, HttpSession session) {
+		commonUtil.getAlbumChoices(model, session);
+		return "albumChoice";
+
 	}
 
 	@RequestMapping(value = "/contactus", method = RequestMethod.GET)

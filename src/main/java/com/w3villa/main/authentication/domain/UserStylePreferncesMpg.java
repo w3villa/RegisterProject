@@ -56,7 +56,7 @@ public class UserStylePreferncesMpg implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STYLE_PREFERENCE_ID", nullable = false)
 	public StylePreference getStylePreference() {
 		return this.stylePreference;

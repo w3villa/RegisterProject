@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="imageDetailBeans" value="${imageDetailBeans}" />
-<div class="hr"></div>
+<jsp:include page="userNavBar.jsp"></jsp:include>
 <div class="gap10px"></div>
 <div class="content">
 	<div class="slideshow" align="center">
