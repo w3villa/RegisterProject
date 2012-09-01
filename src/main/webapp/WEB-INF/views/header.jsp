@@ -3,7 +3,7 @@
 <html>
 <link href="resources/css/style.css" rel="stylesheet" type="text/css"
 	media="screen" />
-<script type="text/javascript" src="resources/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="resources/js/jquery-1.8.0.js"></script>
 <c:set var="roleUser" value="<%=ProjectConstant.ROLE_USER%>"/>
 <c:set var="roleAdmin" value="<%=ProjectConstant.ROLE_ADMIN%>"/>
 <c:choose>
