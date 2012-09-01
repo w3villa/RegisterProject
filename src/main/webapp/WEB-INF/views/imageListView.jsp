@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="imageDetailBeans" value="${imageDetailBeans}" />
 <div class="page_header">Manage Images</div>
 <div class="hr"></div>
@@ -22,8 +23,11 @@
 		</c:otherwise>
 	</c:choose>
 	</div>
-	<input type="hidden" class="position_ids" name="position_ids">
+	<form:form method="Post"
+		action="updateUploadedImages" >
+	<input type="hidden" class="position_ids" name="csv">
 	<input type="submit" class="button" class="update_positions" value="Update Positions">
+	</form:form>
 </div>
 
 <style>
