@@ -362,8 +362,8 @@ public class UploadController {
 	}
 
 	private void saveImageMappingData(int userId, String fileName) {
-		int sequenceNo = imageMappingService.getNewSequenceNo(userId);
-		imageMappingService.saveRecord(userId, sequenceNo, fileName);
+		// int sequenceNo = imageMappingService.getNewSequenceNo(userId);
+		imageMappingService.saveRecord(userId, fileName);
 	}
 
 	private BufferedImage resizeImageLogo(BufferedImage originalImage, int type) {
@@ -405,8 +405,8 @@ public class UploadController {
 		String[] ids = csv.split(",");
 		for (int i = 1; i <= ids.length; i++) {
 			if (!"".equals(ids[i - 1])) {
-				imageMappingService
-						.updateSeqNo(Integer.parseInt(ids[i - 1]), i);
+				// imageMappingService
+				// .updateSeqNo(Integer.parseInt(ids[i - 1]), i);
 			}
 		}
 

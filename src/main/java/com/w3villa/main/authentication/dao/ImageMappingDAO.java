@@ -14,17 +14,17 @@ public interface ImageMappingDAO {
 
 	public abstract ImageMapping getById(int id);
 
-	public abstract int getNewSequenceNo(int userId);
+	// public abstract int getNewSequenceNo(int userId);
 
-	public abstract List<ImageMapping> listRecordsFromTo(int userId,
-			int fromSeqNo, int toSeqNo);
-
-	public abstract ImageMapping recordsAccToSeq(int userId, int seqNo);
+	// public abstract List<ImageMapping> listRecordsFromTo(int userId,
+	// int fromSeqNo, int toSeqNo);
+	//
+	// public abstract ImageMapping recordsAccToSeq(int userId, int seqNo);
 
 	void deleteRecordsByUserId(int userId);
 
 	void deleteRecordsById(int id);
 
-	boolean updateSeqNo(int id, int seqNo);
+	// boolean updateSeqNo(int id, int seqNo);
 
 }

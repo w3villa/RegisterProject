@@ -22,8 +22,10 @@
 	<http pattern="/resources/**" security="none" />
 	<http pattern="/" security="none" />
 	<http pattern="/login*" security="none" />
+	<http pattern="/contactUs*" security="none" />
+	<http pattern="/RegisterMe*" security="none" />
 	<http pattern="/FileUploadUploadify*" security="none" />
-	<http use-expressions="false" auto-config="true"
+	<http use-expressions="false" auto-config="true" 
 		access-denied-page="/accessDenied" >
 		<form-login login-page='/login' authentication-failure-url="/loginfailed" default-target-url="/welcomeUser"/>
 		<intercept-url pattern="/welcomeUser*" access="ROLE_USER" />

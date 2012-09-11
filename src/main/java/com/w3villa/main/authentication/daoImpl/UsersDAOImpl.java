@@ -35,7 +35,11 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 		Criteria ctr = getSession().createCriteria(Users.class);
 		ctr.add(Restrictions.eq("emailId", users.getEmailId()).ignoreCase());
 		if (disableLazy)
-			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
+			if (disableLazy) {
+				ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
+				ctr.setFetchMode("userRoles", FetchMode.JOIN);
+				ctr.setFetchMode("userAlbumChoiceMpgs", FetchMode.JOIN);
+			}
 		List<Users> usersList = ctr.list();
 		// List<Users> usersList = getHibernateTemplate().findByExample(users);
 		if (usersList.size() > 0) {
@@ -56,8 +60,11 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 		Users users = null;
 		Criteria ctr = getSession().createCriteria(Users.class);
 		ctr.add(Restrictions.eq("userName", userName).ignoreCase());
-		if (disableLazy)
+		if (disableLazy) {
 			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
+			ctr.setFetchMode("userRoles", FetchMode.JOIN);
+			ctr.setFetchMode("userAlbumChoiceMpgs", FetchMode.JOIN);
+		}
 		List<Users> usersList = ctr.list();
 		// List<Users> usersList = getHibernateTemplate().findByExample(users);
 		if (usersList.size() > 0) {

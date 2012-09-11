@@ -33,6 +33,11 @@
 				<form:textarea path="description" class="user_input user_textarea" />
 				<span class="error"><form:errors path="description" /></span>
 			</div>
+			<div class="admin_fields">
+				<label>No. of Pages :</label>
+				<form:input path="noOfPages" cssClass="user_input" />
+				<span class="error"><form:errors path="noOfPages" /></span>
+			</div>
 			<div class="clear_both_admin"></div>
 		</div>
 		<div class="gap10px"></div>
@@ -53,6 +58,7 @@
 			<th style="width: 15px;">&nbsp;</th>
 			<th>Album Choice Name</th>
 			<th>Album Choice Description</th>
+			<th>No. of Pages</th>
 		</tr>
 		<c:choose>
 			<c:when test="${objectList != null && objectList != ''}">
@@ -62,6 +68,7 @@
 						<td><input type="radio" name="radioName" /></td>
 						<td class="style_pref_name">${object.name}</td>
 						<td class="style_pref_desc">${object.description}</td>
+						<td class="style_pref_NoOfPages">${object.noOfPages}</td>
 					</tr>
 				</c:forEach>
 			</c:when>
@@ -85,6 +92,7 @@ $(".admin_data tr").live("click", function() {
 	$("#albumChoiceId").val($(this).data("id"));
 	$("#name").val($(this).find(".style_pref_name").text());
 	$("#description").val($(this).find(".style_pref_desc").text());
+	$("#noOfPages").val($(this).find(".style_pref_NoOfPages").text());
 	$(this).find("input[type='radio']").attr("checked", true);
 	$(this).addClass("selected_row");
 // 	$("#save").attr("disabled",true);
@@ -121,6 +129,7 @@ function clearAll(){
 	$("#albumChoiceId").val('');
 	$("#name").val('');
 	$("#description").val('');
+	$("#noOfPages").val('');
 	$("#operation").val('');
 // 	$("#save").attr("disabled",false);
 // 	$("#update").attr("disabled",true);

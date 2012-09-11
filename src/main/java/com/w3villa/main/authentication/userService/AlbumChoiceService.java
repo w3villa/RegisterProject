@@ -17,4 +17,6 @@ public interface AlbumChoiceService {
 
 	public abstract void delete(String id);
 
+	public abstract AlbumChoice get(String id);
+
 }

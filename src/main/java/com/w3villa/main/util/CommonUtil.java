@@ -15,6 +15,7 @@ import com.w3villa.main.authentication.domain.Users;
 import com.w3villa.main.authentication.userService.AlbumChoiceService;
 import com.w3villa.main.authentication.userService.ImageMappingService;
 import com.w3villa.main.authentication.userService.RepositoryService;
+import com.w3villa.main.authentication.userService.UsersService;
 
 @Component
 public class CommonUtil {
@@ -28,6 +29,9 @@ public class CommonUtil {
 	@Autowired
 	private AlbumChoiceService albumChoiceService;
 
+	@Autowired
+	private UsersService usersService;
+
 	public void getImages(Model model, HttpSession session, String imageType) {
 		Users users = (Users) session.getAttribute("users");
 		List<ImageDetailBean> imageDetailBeans = new ArrayList<ImageDetailBean>();
@@ -38,7 +42,7 @@ public class CommonUtil {
 		for (ImageMapping imageMapping : imageMappings) {
 			imageDetailBean = new ImageDetailBean();
 			imageDetailBean.setId(imageMapping.getImageMappingId());
-			imageDetailBean.setSequenceNo(imageMapping.getSequenceNo());
+			// imageDetailBean.setSequenceNo(imageMapping.getSequenceNo());
 			url = repositoryService.getUrl("igild/" + users.getUserId() + "/"
 					+ imageType + "/" + imageMapping.getImagePath());
 			imageDetailBean.setPath(url);
@@ -50,7 +54,10 @@ public class CommonUtil {
 	}
 
 	public void getAlbumChoices(Model model, HttpSession session) {
-		Users users = (Users) session.getAttribute("users");
+		Users usersSession = (Users) session.getAttribute("users");
+		Users users = usersService.findByUserName(usersSession.getUserName(),
+				true);
+		session.setAttribute("users", users);
 		model.addAttribute("albumChoiceList",
 				albumChoiceService.getAlbumChoiceList());
 

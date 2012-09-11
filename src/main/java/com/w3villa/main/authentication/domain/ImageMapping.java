@@ -22,7 +22,6 @@ public class ImageMapping implements java.io.Serializable {
 
 	private Integer imageMappingId;
 	private Users users;
-	private Integer sequenceNo;
 	private String imagePath;
 
 	public ImageMapping() {
@@ -32,9 +31,8 @@ public class ImageMapping implements java.io.Serializable {
 		this.users = users;
 	}
 
-	public ImageMapping(Users users, Integer sequenceNo, String imagePath) {
+	public ImageMapping(Users users, String imagePath) {
 		this.users = users;
-		this.sequenceNo = sequenceNo;
 		this.imagePath = imagePath;
 	}
 
@@ -57,15 +55,6 @@ public class ImageMapping implements java.io.Serializable {
 
 	public void setUsers(Users users) {
 		this.users = users;
-	}
-
-	@Column(name = "sequence_no")
-	public Integer getSequenceNo() {
-		return this.sequenceNo;
-	}
-
-	public void setSequenceNo(Integer sequenceNo) {
-		this.sequenceNo = sequenceNo;
 	}
 
 	@Column(name = "image_path", length = 2000)

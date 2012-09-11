@@ -17,16 +17,22 @@ public class AlbumChoiceServiceImpl implements AlbumChoiceService {
 	@Autowired
 	private AlbumChoiceDAO albumChoiceDAO;
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#getAlbumChoiceList()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#
+	 * getAlbumChoiceList()
 	 */
 	@Override
 	public List<AlbumChoice> getAlbumChoiceList() {
 		return albumChoiceDAO.getAlbumChoiceList();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#getAllAlbumChoice()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#
+	 * getAllAlbumChoice()
 	 */
 	@Override
 	public List<AlbumChoiceBean> getAllAlbumChoice() {
@@ -40,8 +46,11 @@ public class AlbumChoiceServiceImpl implements AlbumChoiceService {
 		return albumChoiceBeanList;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#saveAlbumChoice(com.w3villa.main.authentication.bean.AlbumChoiceBean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#
+	 * saveAlbumChoice(com.w3villa.main.authentication.bean.AlbumChoiceBean)
 	 */
 	@Override
 	public void saveAlbumChoice(AlbumChoiceBean albumChoiceBean) {
@@ -50,8 +59,12 @@ public class AlbumChoiceServiceImpl implements AlbumChoiceService {
 		albumChoiceDAO.saveAlbumChoice(albumChoice);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#update(com.w3villa.main.authentication.bean.AlbumChoiceBean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#update
+	 * (com.w3villa.main.authentication.bean.AlbumChoiceBean)
 	 */
 	@Override
 	public void update(AlbumChoiceBean albumChoiceBean) {
@@ -62,8 +75,12 @@ public class AlbumChoiceServiceImpl implements AlbumChoiceService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#delete(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.w3villa.main.authentication.userServiceImpl.AlbumChoiceService#delete
+	 * (java.lang.String)
 	 */
 	@Override
 	public void delete(String id) {
@@ -72,11 +89,12 @@ public class AlbumChoiceServiceImpl implements AlbumChoiceService {
 
 	private AlbumChoiceBean getAlbumChoiceBean(AlbumChoice albumChoice) {
 		AlbumChoiceBean albumChoiceBean = new AlbumChoiceBean();
-		BeanUtils.copyProperties(albumChoice, albumChoiceBean,
-				new String[] { "albumChoiceId" });
+		BeanUtils.copyProperties(albumChoice, albumChoiceBean, new String[] {
+				"albumChoiceId", "noOfPages" });
 		if (albumChoice.getAlbumChoiceId() != null)
 			albumChoiceBean.setAlbumChoiceId(albumChoice.getAlbumChoiceId()
 					+ "");
+		albumChoiceBean.setNoOfPages(albumChoice.getNoOfPages() + "");
 		return albumChoiceBean;
 	}
 
@@ -89,8 +107,18 @@ public class AlbumChoiceServiceImpl implements AlbumChoiceService {
 		else {
 			albumChoice = new AlbumChoice();
 		}
-		BeanUtils.copyProperties(albumChoiceBean, albumChoice,
-				new String[] { "albumChoiceId" });
+		BeanUtils.copyProperties(albumChoiceBean, albumChoice, new String[] {
+				"albumChoiceId", "noOfPages" });
+		if (albumChoiceBean.getNoOfPages() != null
+				&& !"".equals(albumChoiceBean.getNoOfPages()))
+			albumChoice.setNoOfPages(Integer.parseInt(albumChoiceBean
+					.getNoOfPages()));
 		return albumChoice;
+	}
+
+	@Override
+	public AlbumChoice get(String id) {
+		return albumChoiceDAO.getById(Integer.parseInt(id));
+
 	}
 }

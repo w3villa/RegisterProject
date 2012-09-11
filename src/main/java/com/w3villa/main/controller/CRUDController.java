@@ -214,7 +214,7 @@ public class CRUDController {
 				try {
 					// stylePreferenceService.update(stylePreferenceBean);
 					String newPass = request.getParameter("newPass");
-					if (!"".equals(newPass)) {
+					if (newPass != null && !"".equals(newPass)) {
 						String encodedPass = encoder.encode(newPass);
 						userEntityBean.setPassword(encodedPass);
 					}

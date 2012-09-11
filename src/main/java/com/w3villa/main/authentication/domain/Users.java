@@ -47,6 +47,8 @@ public class Users implements java.io.Serializable {
 	private Set<UserStylePreferncesMpg> userStylePreferncesMpgs = new HashSet<UserStylePreferncesMpg>(
 			0);
 	private Set<UserRoles> userRoleses = new HashSet<UserRoles>(0);
+	private Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs = new HashSet<UserAlbumChoiceMpg>(
+			0);
 
 	public Users() {
 	}
@@ -68,7 +70,8 @@ public class Users implements java.io.Serializable {
 			String addressLine2, String city, String state, String country,
 			String contactNo, Date createdDt, Date updateDt,
 			Set<UserStylePreferncesMpg> userStylePreferncesMpgs,
-			Set<UserRoles> userRoleses) {
+			Set<UserRoles> userRoleses,
+			Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs) {
 		this.firstName = firstName;
 		this.password = password;
 		this.isActive = isActive;
@@ -84,6 +87,7 @@ public class Users implements java.io.Serializable {
 		this.updateDt = updateDt;
 		this.userStylePreferncesMpgs = userStylePreferncesMpgs;
 		this.userRoleses = userRoleses;
+		this.userAlbumChoiceMpgs = userAlbumChoiceMpgs;
 		this.userName = userName;
 	}
 
@@ -236,7 +240,8 @@ public class Users implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.MERGE })
 	public Set<UserStylePreferncesMpg> getUserStylePreferncesMpgs() {
 		return this.userStylePreferncesMpgs;
 	}
@@ -247,13 +252,26 @@ public class Users implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.MERGE })
 	public Set<UserRoles> getUserRoleses() {
 		return this.userRoleses;
 	}
 
 	public void setUserRoleses(Set<UserRoles> userRoleses) {
 		this.userRoleses = userRoleses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users", orphanRemoval = true)
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.MERGE })
+	public Set<UserAlbumChoiceMpg> getUserAlbumChoiceMpgs() {
+		return this.userAlbumChoiceMpgs;
+	}
+
+	public void setUserAlbumChoiceMpgs(
+			Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs) {
+		this.userAlbumChoiceMpgs = userAlbumChoiceMpgs;
 	}
 
 }

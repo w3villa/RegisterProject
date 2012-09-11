@@ -53,6 +53,11 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
+	public void updateUsers(Users users) {
+		usersDAO.update(users);
+	}
+
+	@Override
 	public void saveUser(UserEntityBean userEntityBean,
 			String[] stylePreferences) {
 		Users users = new Users();
@@ -60,8 +65,11 @@ public class UsersServiceImpl implements UsersService {
 		userEntityBean.setIsActive("Y");
 		String password = userEntityBean.getPassword();
 		String encodedPass = encoder.encode(password);
-		userEntityBean.setPassword(encodedPass);
+
 		getUserDomainFromVo(userEntityBean, users);
+		users.setUserName(userEntityBean.getUserName());
+		users.setPassword(encodedPass);
+		users.setIsActive("Y");
 		users.setCreatedDt(new Date());
 		users.setUpdateDt(new Date());
 
@@ -126,6 +134,9 @@ public class UsersServiceImpl implements UsersService {
 				Integer.parseInt(userEntityBean.getId()), false);
 		users = getUserDomainFromVo(userEntityBean, users);
 		users.setUpdateDt(new Date());
+		if (userEntityBean.getPassword() != null
+				&& !"".equals(userEntityBean.getPassword()))
+				users.setPassword(userEntityBean.getPassword());
 		usersDAO.update(users);
 	}
 
@@ -135,8 +146,18 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	private Users getUserDomainFromVo(UserEntityBean userEntityBean, Users users) {
+		Date createdDt = users.getCreatedDt();
+		Date updateDt = new Date();
+		String userName = users.getUserName();
+		String password = users.getPassword();
+		String isActive = users.getIsActive();
 		BeanUtils.copyProperties(userEntityBean, users, new String[] {
-				"createdDt", "updateDt" });
+				"createdDt", "updateDt","userName","password","isActive"});
+		users.setCreatedDt(createdDt);
+		users.setUpdateDt(updateDt);
+		users.setUserName(userName);
+		users.setPassword(password);
+		users.setIsActive(isActive);
 		return users;
 	}
 

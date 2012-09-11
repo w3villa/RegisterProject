@@ -26,6 +26,7 @@ public class AlbumChoice implements java.io.Serializable {
 	private Integer albumChoiceId;
 	private String name;
 	private String description;
+	private Integer noOfPages;
 	private Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs = new HashSet<UserAlbumChoiceMpg>(
 			0);
 
@@ -33,10 +34,11 @@ public class AlbumChoice implements java.io.Serializable {
 	}
 
 	public AlbumChoice(String name, String description,
-			Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs) {
+			Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs, Integer noOfPages) {
 		this.name = name;
 		this.description = description;
 		this.userAlbumChoiceMpgs = userAlbumChoiceMpgs;
+		this.noOfPages = noOfPages;
 	}
 
 	@Id
@@ -76,6 +78,15 @@ public class AlbumChoice implements java.io.Serializable {
 	public void setUserAlbumChoiceMpgs(
 			Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs) {
 		this.userAlbumChoiceMpgs = userAlbumChoiceMpgs;
+	}
+
+	@Column(name = "NO_OF_PAGES")
+	public Integer getNoOfPages() {
+		return noOfPages;
+	}
+
+	public void setNoOfPages(Integer noOfPages) {
+		this.noOfPages = noOfPages;
 	}
 
 }

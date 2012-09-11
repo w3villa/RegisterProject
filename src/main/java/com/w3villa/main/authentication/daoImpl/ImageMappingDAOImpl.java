@@ -6,7 +6,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class ImageMappingDAOImpl extends CustomHibernateDAOSupport implements
 	public List<ImageMapping> getImageMappingListFrUserId(int userId) {
 		Criteria criteria = getSession().createCriteria(ImageMapping.class);
 		criteria.add(Restrictions.eq("users.userId", userId));
-		criteria.addOrder(Order.asc("sequenceNo"));
+		criteria.addOrder(Order.asc("imagePath"));
 		return criteria.list();
 	}
 
@@ -71,47 +70,47 @@ public class ImageMappingDAOImpl extends CustomHibernateDAOSupport implements
 		return getHibernateTemplate().get(ImageMapping.class, id);
 	}
 
-	@Override
-	public int getNewSequenceNo(int userId) {
-		int seqNo = 0;
-		Criteria criteria = getSession().createCriteria(ImageMapping.class);
-		criteria.add(Restrictions.eq("users.userId", userId));
-		criteria.setProjection(Projections.max("sequenceNo"));
-		List<Integer> sequenceNos = criteria.list();
-		if (sequenceNos != null && sequenceNos.size() > 0) {
-			for (Integer sequenceNo : sequenceNos) {
-				if (sequenceNo != null)
-					seqNo = sequenceNo;
-			}
-		}
-		return (seqNo + 1);
-	}
+	// @Override
+	// public int getNewSequenceNo(int userId) {
+	// int seqNo = 0;
+	// Criteria criteria = getSession().createCriteria(ImageMapping.class);
+	// criteria.add(Restrictions.eq("users.userId", userId));
+	// criteria.setProjection(Projections.max("sequenceNo"));
+	// List<Integer> sequenceNos = criteria.list();
+	// if (sequenceNos != null && sequenceNos.size() > 0) {
+	// for (Integer sequenceNo : sequenceNos) {
+	// if (sequenceNo != null)
+	// seqNo = sequenceNo;
+	// }
+	// }
+	// return (seqNo + 1);
+	// }
 
-	@Override
-	public List<ImageMapping> listRecordsFromTo(int userId, int fromSeqNo,
-			int toSeqNo) {
-		List<ImageMapping> imageMappings = null;
-		Criteria criteria = getSession().createCriteria(ImageMapping.class);
-		criteria.add(Restrictions.eq("users.userId", userId));
-		criteria.add(Restrictions.between("sequenceNo", fromSeqNo, toSeqNo));
-		imageMappings = criteria.list();
-		return imageMappings;
-	}
+	// @Override
+	// public List<ImageMapping> listRecordsFromTo(int userId, int fromSeqNo,
+	// int toSeqNo) {
+	// List<ImageMapping> imageMappings = null;
+	// Criteria criteria = getSession().createCriteria(ImageMapping.class);
+	// criteria.add(Restrictions.eq("users.userId", userId));
+	// //criteria.add(Restrictions.between("sequenceNo", fromSeqNo, toSeqNo));
+	// imageMappings = criteria.list();
+	// return imageMappings;
+	// }
 
-	@Override
-	public ImageMapping recordsAccToSeq(int userId, int seqNo) {
-		ImageMapping imageMapping = null;
-		Criteria criteria = getSession().createCriteria(ImageMapping.class);
-		criteria.add(Restrictions.eq("users.userId", userId));
-		criteria.add(Restrictions.eq("sequenceNo", seqNo));
-		List<ImageMapping> imageMappings = criteria.list();
-		if (imageMappings != null && imageMappings.size() > 0) {
-			for (ImageMapping imageMappingInner : imageMappings) {
-				imageMapping = imageMappingInner;
-			}
-		}
-		return imageMapping;
-	}
+	// @Override
+	// public ImageMapping recordsAccToSeq(int userId, int seqNo) {
+	// ImageMapping imageMapping = null;
+	// Criteria criteria = getSession().createCriteria(ImageMapping.class);
+	// criteria.add(Restrictions.eq("users.userId", userId));
+	// criteria.add(Restrictions.eq("sequenceNo", seqNo));
+	// List<ImageMapping> imageMappings = criteria.list();
+	// if (imageMappings != null && imageMappings.size() > 0) {
+	// for (ImageMapping imageMappingInner : imageMappings) {
+	// imageMapping = imageMappingInner;
+	// }
+	// }
+	// return imageMapping;
+	// }
 
 	@Override
 	public void deleteRecordsByUserId(int userId) {
@@ -133,13 +132,13 @@ public class ImageMappingDAOImpl extends CustomHibernateDAOSupport implements
 
 	}
 
-	@Override
-	public boolean updateSeqNo(int id, int seqNo) {
-		Query query = getSession().createQuery(
-				"update ImageMapping imageMapping set sequenceNo = " + seqNo
-						+ "  where imageMappingId = " + id);
-		query.executeUpdate();
-		return true;
-	}
+	// @Override
+	// public boolean updateSeqNo(int id, int seqNo) {
+	// Query query = getSession().createQuery(
+	// "update ImageMapping imageMapping set sequenceNo = " + seqNo
+	// + "  where imageMappingId = " + id);
+	// query.executeUpdate();
+	// return true;
+	// }
 
 }

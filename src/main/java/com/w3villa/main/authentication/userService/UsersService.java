@@ -20,4 +20,6 @@ public interface UsersService {
 	void update(UserEntityBean userEntityBean) throws Exception;
 
 	void delete(int id);
+
+	void updateUsers(Users users);
 }

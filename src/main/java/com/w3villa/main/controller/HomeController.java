@@ -3,12 +3,14 @@ package com.w3villa.main.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,6 +35,8 @@ import com.w3villa.constants.ProjectConstant;
 import com.w3villa.main.authentication.bean.AmazonStructure;
 import com.w3villa.main.authentication.bean.ContactUsBean;
 import com.w3villa.main.authentication.bean.UserEntityBean;
+import com.w3villa.main.authentication.domain.AlbumChoice;
+import com.w3villa.main.authentication.domain.UserAlbumChoiceMpg;
 import com.w3villa.main.authentication.domain.Users;
 import com.w3villa.main.authentication.userService.AlbumChoiceService;
 import com.w3villa.main.authentication.userService.ContactUsService;
@@ -88,8 +94,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/welcomeAdmin", method = RequestMethod.GET)
 	public String homeAdmin(Locale locale, Model model,
-			HttpServletRequest request, HttpSession session)
-			throws Exception {
+			HttpServletRequest request, HttpSession session) throws Exception {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		Users users = usersService.findByUserName(user.getUsername(), true);
@@ -127,7 +132,8 @@ public class HomeController {
 						.getParameterValues("stylePreferences");
 				usersService.saveUser(userEntityBean, stylePreferences);
 				model.addAttribute("registerSuccess", "true");
-				boolean successFlag = autoLogin(userEntityBean.getUserName());
+				boolean successFlag = autoLogin(userEntityBean.getUserName(),
+						request);
 				if (successFlag) {
 					session = request.getSession();
 					session.setAttribute("emailId", userEntityBean.getEmailId());
@@ -250,22 +256,77 @@ public class HomeController {
 		return leftFolder;
 	}
 
-	public boolean autoLogin(String userName) {
+	public boolean autoLogin(String userName, HttpServletRequest request) {
 		try {
+
 			UserDetails userDetails = userDetailsService
 					.loadUserByUsername(userName);
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 					userName, userDetails.getPassword(),
 					userDetails.getAuthorities());
+
+			// generate session if one doesn't exist
+			request.getSession();
+
+			token.setDetails(new WebAuthenticationDetails(request));
+
 			Authentication authentication = authenticationManager
 					.authenticate(token);
+
 			SecurityContextHolder.getContext()
 					.setAuthentication(authentication);
-			} catch (Exception e) {
+
+			request.getSession()
+					.setAttribute(
+							HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+							SecurityContextHolder.getContext());
+
+		} catch (Exception e) {
 			SecurityContextHolder.getContext().setAuthentication(null);
 			logger.error("Exception", e);
 			return false;
 		}
 		return true;
+	}
+
+	@RequestMapping(value = "/saveAlbumChoice", method = RequestMethod.POST)
+	public String saveAlbumChoice(Model model, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		UserAlbumChoiceMpg userAlbumChoiceMpg = null;
+		AlbumChoice albumChoice = null;
+		Users usersSession = (Users) session.getAttribute("users");
+		Users users = usersService.findByUserName(usersSession.getUserName(),
+				true);
+		Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs = users
+				.getUserAlbumChoiceMpgs();
+		userAlbumChoiceMpgs.clear();// empty set
+
+		usersService.updateUsers(users);
+		String[] albumChoices = request.getParameterValues("album_choice");
+		if (albumChoices != null && albumChoices.length != 0) {
+			for (String albumChoiceId : albumChoices) {
+				albumChoice = albumChoiceService.get(albumChoiceId);
+				userAlbumChoiceMpg = new UserAlbumChoiceMpg();
+				userAlbumChoiceMpg.setAlbumChoice(albumChoice);
+				userAlbumChoiceMpg.setUsers(users);
+				userAlbumChoiceMpgs.add(userAlbumChoiceMpg);
+			}
+			usersService.updateUsers(users);
+		}
+		commonUtil.getAlbumChoices(model, session);
+		return "albumChoice";
+	}
+
+	@RequestMapping(value = "/manageProfile", method = RequestMethod.GET)
+	public String manageProfileNavigate(Model model, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		Users usersSession = (Users) session.getAttribute("users");
+		Users users = usersService.findByUserName(usersSession.getUserName(),
+				true);
+		UserEntityBean userEntityBean = new UserEntityBean();
+		BeanUtils.copyProperties(userEntityBean, users);
+		model.addAttribute(userEntityBean);
+		session.setAttribute("users", users);
+		return "manageProfile";
 	}
 }

@@ -69,9 +69,9 @@
 				<span class="error"><form:errors path="country" /></span>
 			</div>
 			<div class="admin_fields">
-				<label for="country">New Password (Empty if don't want to change)</label> <input type="text"
+				<label for="newPass">New Password (Empty if don't want to change)</label> <input type="text"
 					name="newPass" id="newPass" class="user_input" /> <span
-					class="error"><form:errors path="country" /></span>
+					class="error"></span>
 			</div>
 			<div class="clear_both_admin"></div>
 		</div>

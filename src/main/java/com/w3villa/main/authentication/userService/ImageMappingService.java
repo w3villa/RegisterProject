@@ -6,18 +6,18 @@ import com.w3villa.main.authentication.domain.ImageMapping;
 
 public interface ImageMappingService {
 
-	public abstract int getNewSequenceNo(int userId);
+	// public abstract int getNewSequenceNo(int userId);
 
 	public abstract ImageMapping getById(int id);
 
-	public abstract void saveRecord(int userId, int sequenceNo, String imagePath);
+	public abstract void saveRecord(int userId, String imagePath);
 
 	public abstract List<ImageMapping> listRecord(int userId);
 
-	public abstract List<ImageMapping> listRecordsFromTo(int userId,
-			int fromSeqNo, int toSeqNo);
+	// public abstract List<ImageMapping> listRecordsFromTo(int userId,
+	// int fromSeqNo, int toSeqNo);
 
-	public abstract ImageMapping recordsAccToSeq(int userId, int seqNo);
+	// public abstract ImageMapping recordsAccToSeq(int userId, int seqNo);
 
 	public abstract void updateRecord(ImageMapping imageMapping);
 
@@ -25,6 +25,6 @@ public interface ImageMappingService {
 
 	void deleteRecordsById(int id);
 
-	boolean updateSeqNo(int id, int seqNo);
+	// boolean updateSeqNo(int id, int seqNo);
 
 }

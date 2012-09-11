@@ -16,36 +16,48 @@ public class ImageMappingServiceImpl implements ImageMappingService {
 	@Autowired
 	private ImageMappingDAO imageMappingDAO;
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#getNewSequenceNo()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#
+	 * getNewSequenceNo()
 	 */
-	@Override
-	public int getNewSequenceNo(int userId) {
-		return imageMappingDAO.getNewSequenceNo(userId);
-	}
+	// @Override
+	// public int getNewSequenceNo(int userId) {
+	// return imageMappingDAO.getNewSequenceNo(userId);
+	// }
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#getById(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.w3villa.main.authentication.userServiceImpl.ImageMappingService#getById
+	 * (int)
 	 */
 	@Override
 	public ImageMapping getById(int id) {
 		return imageMappingDAO.getById(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#saveRecord(int, int, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#
+	 * saveRecord(int, int, java.lang.String)
 	 */
 	@Override
-	public void saveRecord(int userId, int sequenceNo, String imagePath) {
+	public void saveRecord(int userId, String imagePath) {
 		Users users = new Users();
 		users.setUserId(userId);
-		ImageMapping imageMapping = new ImageMapping(users, sequenceNo,
-				imagePath);
+		ImageMapping imageMapping = new ImageMapping(users, imagePath);
 		imageMappingDAO.saveImageMapping(imageMapping);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#listRecord(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#
+	 * listRecord(int)
 	 */
 	@Override
 	public List<ImageMapping> listRecord(int userId) {
@@ -54,30 +66,39 @@ public class ImageMappingServiceImpl implements ImageMappingService {
 		return imageMappings;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#listRecordsFromTo(int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#
+	 * listRecordsFromTo(int, int, int)
 	 */
-	@Override
-	public List<ImageMapping> listRecordsFromTo(int userId, int fromSeqNo,
-			int toSeqNo) {
-		List<ImageMapping> imageMappings = null;
-		imageMappings = imageMappingDAO.listRecordsFromTo(userId, fromSeqNo,
-				toSeqNo);
-		return imageMappings;
-	}
+	// @Override
+	// public List<ImageMapping> listRecordsFromTo(int userId, int fromSeqNo,
+	// int toSeqNo) {
+	// List<ImageMapping> imageMappings = null;
+	// imageMappings = imageMappingDAO.listRecordsFromTo(userId, fromSeqNo,
+	// toSeqNo);
+	// return imageMappings;
+	// }
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#listRecordsAccToSeq(int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#
+	 * listRecordsAccToSeq(int, int)
 	 */
-	@Override
-	public ImageMapping recordsAccToSeq(int userId, int seqNo) {
-		ImageMapping imageMapping = null;
-		imageMapping = imageMappingDAO.recordsAccToSeq(userId, seqNo);
-		return imageMapping;
-	}
+	// @Override
+	// public ImageMapping recordsAccToSeq(int userId, int seqNo) {
+	// ImageMapping imageMapping = null;
+	// imageMapping = imageMappingDAO.recordsAccToSeq(userId, seqNo);
+	// return imageMapping;
+	// }
 
-	/* (non-Javadoc)
-	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#updateRecord(com.w3villa.main.authentication.domain.ImageMapping)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.w3villa.main.authentication.userServiceImpl.ImageMappingService#
+	 * updateRecord(com.w3villa.main.authentication.domain.ImageMapping)
 	 */
 	@Override
 	public void updateRecord(ImageMapping imageMapping) {
@@ -96,10 +117,10 @@ public class ImageMappingServiceImpl implements ImageMappingService {
 
 	}
 
-	@Override
-	public boolean updateSeqNo(int id, int seqNo) {
-		imageMappingDAO.updateSeqNo(id, seqNo);
-		return true;
-	}
+	// @Override
+	// public boolean updateSeqNo(int id, int seqNo) {
+	// imageMappingDAO.updateSeqNo(id, seqNo);
+	// return true;
+	// }
 
 }
