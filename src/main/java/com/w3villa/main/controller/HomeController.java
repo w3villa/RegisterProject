@@ -259,8 +259,12 @@ public class HomeController {
 	public boolean autoLogin(String userName, HttpServletRequest request) {
 		try {
 
+			// Provides User information. Its a Spring interface :
+			// org.springframework.security.core.userdetails.UserDetails
 			UserDetails userDetails = userDetailsService
 					.loadUserByUsername(userName);
+			// Create a token using spring provided class :
+			// org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 					userName, userDetails.getPassword(),
 					userDetails.getAuthorities());
@@ -268,14 +272,22 @@ public class HomeController {
 			// generate session if one doesn't exist
 			request.getSession();
 
+			// save details as WebAuthenticationDetails records the remote
+			// address and will also set the session Id if a session already
+			// exists (it won't create one).
 			token.setDetails(new WebAuthenticationDetails(request));
 
+			// authenticationManager injected as spring bean, you can use custom
+			// or spring provided authentication manager
 			Authentication authentication = authenticationManager
 					.authenticate(token);
 
+			// Need to set this as thread locale as available throughout
 			SecurityContextHolder.getContext()
 					.setAuthentication(authentication);
 
+			// Set SPRING_SECURITY_CONTEXT attribute in session as Spring
+			// identifies context through this attribute
 			request.getSession()
 					.setAttribute(
 							HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,

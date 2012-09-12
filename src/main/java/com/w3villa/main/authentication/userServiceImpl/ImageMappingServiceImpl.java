@@ -1,11 +1,13 @@
 package com.w3villa.main.authentication.userServiceImpl;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.w3villa.main.authentication.dao.ImageMappingDAO;
+import com.w3villa.main.authentication.domain.ImageAlbumChoiceMapping;
 import com.w3villa.main.authentication.domain.ImageMapping;
 import com.w3villa.main.authentication.domain.Users;
 import com.w3villa.main.authentication.userService.ImageMappingService;
@@ -49,7 +51,8 @@ public class ImageMappingServiceImpl implements ImageMappingService {
 	public void saveRecord(int userId, String imagePath) {
 		Users users = new Users();
 		users.setUserId(userId);
-		ImageMapping imageMapping = new ImageMapping(users, imagePath);
+		ImageMapping imageMapping = new ImageMapping(users, imagePath,
+				new HashSet<ImageAlbumChoiceMapping>());
 		imageMappingDAO.saveImageMapping(imageMapping);
 	}
 
