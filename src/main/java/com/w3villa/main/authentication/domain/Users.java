@@ -49,6 +49,7 @@ public class Users implements java.io.Serializable {
 	private Set<UserRoles> userRoleses = new HashSet<UserRoles>(0);
 	private Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs = new HashSet<UserAlbumChoiceMpg>(
 			0);
+	private Set<ImageMapping> imageMappings = new HashSet<ImageMapping>(0);
 
 	public Users() {
 	}
@@ -272,6 +273,17 @@ public class Users implements java.io.Serializable {
 	public void setUserAlbumChoiceMpgs(
 			Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs) {
 		this.userAlbumChoiceMpgs = userAlbumChoiceMpgs;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users", orphanRemoval = true)
+	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
+			org.hibernate.annotations.CascadeType.MERGE })
+	public Set<ImageMapping> getImageMappings() {
+		return imageMappings;
+	}
+
+	public void setImageMappings(Set<ImageMapping> imageMappings) {
+		this.imageMappings = imageMappings;
 	}
 
 }

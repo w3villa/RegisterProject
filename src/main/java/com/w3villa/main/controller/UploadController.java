@@ -32,7 +32,11 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import com.w3villa.constants.ProjectConstant;
 import com.w3villa.main.authentication.constant.RegisterConstant;
+import com.w3villa.main.authentication.domain.ImageAlbumChoiceMapping;
+import com.w3villa.main.authentication.domain.ImageMapping;
+import com.w3villa.main.authentication.domain.UserAlbumChoiceMpg;
 import com.w3villa.main.authentication.domain.Users;
+import com.w3villa.main.authentication.userService.ImageAlbumChoiceMappingService;
 import com.w3villa.main.authentication.userService.ImageMappingService;
 import com.w3villa.main.authentication.userService.RepositoryService;
 import com.w3villa.main.util.CommonUtil;
@@ -57,6 +61,9 @@ public class UploadController {
 
 	@Autowired
 	private CommonUtil commonUtil;
+
+	@Autowired
+	private ImageAlbumChoiceMappingService imageAlbumChoiceMappingService;
 
 	@RequestMapping(value = "/FileUpload", method = RequestMethod.POST)
 	public @ResponseBody
@@ -403,6 +410,7 @@ public class UploadController {
 			HttpSession session) {
 		String csv = request.getParameter("csv");
 		String[] ids = csv.split(",");
+		ImageMapping imageMapping = null;
 		for (int i = 1; i <= ids.length; i++) {
 			if (!"".equals(ids[i - 1])) {
 				// imageMappingService
@@ -412,5 +420,18 @@ public class UploadController {
 
 		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_THUMB);
 		return "imageListView";
+	}
+
+	private void saveImageAlbumChoiceMapping(int imageMappingId,
+			int userAlbumChoiceMpgId, int sequenceNo) {
+		ImageMapping imageMapping = new ImageMapping();
+		imageMapping.setImageMappingId(imageMappingId);
+		UserAlbumChoiceMpg userAlbumChoiceMpg = new UserAlbumChoiceMpg();
+		userAlbumChoiceMpg.setUserAlbumChoiceMpgId(userAlbumChoiceMpgId);
+		ImageAlbumChoiceMapping imageAlbumChoiceMapping = new ImageAlbumChoiceMapping(
+				imageMapping, userAlbumChoiceMpg, sequenceNo);
+		imageAlbumChoiceMappingService
+				.saveImageAlbumChoiceMapping(imageAlbumChoiceMapping);
+
 	}
 }

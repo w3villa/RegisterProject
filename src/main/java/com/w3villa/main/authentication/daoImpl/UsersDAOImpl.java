@@ -39,6 +39,7 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 				ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
 				ctr.setFetchMode("userRoles", FetchMode.JOIN);
 				ctr.setFetchMode("userAlbumChoiceMpgs", FetchMode.JOIN);
+				ctr.setFetchMode("imageMappings", FetchMode.JOIN);
 			}
 		List<Users> usersList = ctr.list();
 		// List<Users> usersList = getHibernateTemplate().findByExample(users);
@@ -64,6 +65,7 @@ public class UsersDAOImpl extends CustomHibernateDAOSupport implements UsersDAO 
 			ctr.setFetchMode("userStylePreferncesMpgs", FetchMode.JOIN);
 			ctr.setFetchMode("userRoles", FetchMode.JOIN);
 			ctr.setFetchMode("userAlbumChoiceMpgs", FetchMode.JOIN);
+			ctr.setFetchMode("imageMappings", FetchMode.JOIN);
 		}
 		List<Users> usersList = ctr.list();
 		// List<Users> usersList = getHibernateTemplate().findByExample(users);
