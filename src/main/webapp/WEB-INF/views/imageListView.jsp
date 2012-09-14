@@ -5,65 +5,86 @@
 <div class="hr"></div>
 <div class="gap10px"></div>
 <div class="content">
-<div class="demo">
+<c:forEach items="${sessionScope.users.userAlbumChoiceMpgs}" var="userAlbumChoiceMpg">
+	<span>${userAlbumChoiceMpg.albumChoice.name}</span>
+	<div class="user_albums" data-uacm_id="${userAlbumChoiceMpg.userAlbumChoiceMpgId}">
+		<div style="width:${userAlbumChoiceMpg.albumChoice.noOfPages * 107}px">
+			<c:forEach var="i" begin="1" end="${userAlbumChoiceMpg.albumChoice.noOfPages}">
+				<div class="album_number" data-seq='${i}'></div>
+			</c:forEach>				
+		</div>
+	</div>
+</c:forEach>
+
+<b>Uploaded Images</b>
+<div class="list_images">	
 	<c:choose>
-		<c:when test="${imageDetailBeans != null && imageDetailBeans != ''}">
-			<ul id="sortable">
-				<c:forEach var="imageDetailBean" items="${imageDetailBeans}"
-					varStatus="myCounter">
-					<c:set var="listSize" value="${listSize + 1 }" />
-					<li class="ui-state-default">
-						<img src="${imageDetailBean.path}" data-id="${imageDetailBean.id}">
-					</li>
-				</c:forEach>
-			</ul>			
+		<c:when test="${imageDetailBeans != null && imageDetailBeans != ''}">	
+			<c:forEach var="imageDetailBean" items="${imageDetailBeans}"
+				varStatus="myCounter">
+				<c:set var="listSize" value="${listSize + 1 }" />
+				<img src="${imageDetailBean.path}" data-id="${imageDetailBean.id}">
+			</c:forEach>
 		</c:when>
 		<c:otherwise>
 			<td align="center" colspan="3">No data Found</td>
 		</c:otherwise>
 	</c:choose>
 	</div>
-	<form:form method="Post"
-		action="updateUploadedImages" >
-	<input type="hidden" class="position_ids" name="csv">
-	<input type="submit" class="button" class="update_positions" value="Update Positions">
-	</form:form>
 </div>
 
-<style>
-#sortable { list-style-type: none; margin: 0; padding: 0; }
-#sortable li { 
-	margin: 0 3px 3px 3px; 
-	padding: 0.4em; 
-	padding-left: 1.5em; 
-	font-size: 1.4em; 
-	cursor:move;
-	height:100px; 
-}
-</style>
+
 <script type="text/javascript" src="resources/js/jquery.ui.core.js"></script>
-<script type="text/javascript" src="resources/js/widget.js"></script>
-<script type="text/javascript" src="resources/js/mouse.js"></script>
-<script type="text/javascript" src="resources/js/sortable.js"></script>
+<style>
+.album_number {
+    border: 1px solid;
+    float: left;
+    height: 75px;
+    margin: 0 5px 5px 0;
+    width: 100px;
+}
 
-
-
+.user_albums {
+    height: 100px;
+    margin-top: 15px;
+    overflow: auto;
+    
+ }  
+ 
+ .list_images img {
+ 	cursor: move;
+ 	margin: 0 14px 14px 0px;
+ }
+ 
+ .list_images {
+ 	margin-top:20px;
+ 	height:200px;
+ 	width:960px;
+ 	overflow:scroll;
+ }
+</style>
 
 <script>
-var getUpdatedPosition = function() {
-	var arr = [];
-	$("#sortable li img").each(function() {
-		arr.push($(this).data("id"));
-	});
-	return arr;
-}
-$(function() {
-	$("#sortable").sortable({
-		stop: function(event, ui) {
-			$(".position_ids").val(getUpdatedPosition());	
+	var updatePosition = function(userAlbumChoiceMpgId, sequenceNo, imageMappingId) {
+		$.ajax({
+			url: "u",
+			data: {userAlbumChoiceMpgId: userAlbumChoiceMpgId, sequenceNo: sequenceNo, imageMappingId: imageMappingId},
+			method: 'get'
+		})
+	};
+	$(".list_images img").draggable({
+		cursor: "move",
+		helper: function( event ) {
+			return $("<img src='"+ $(this).attr("src") +"' />");
 		}
 	});
-	$( "ul, li" ).disableSelection();
+	$(".album_number").droppable({
+		drop: function( event, ui ) {
+			dragged_image = $(ui.draggable);
+			pan = $(this);
+			pan.html("<img src='" + dragged_image.attr("src") + "' />");
+			updatePosition(pan.closest(".user_albums").data("uacm_id"), pan.data("seq"), dragged_image.data("id"));
+		}
+	});
 	
-});
 </script>
