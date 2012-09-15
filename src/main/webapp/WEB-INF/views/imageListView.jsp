@@ -38,7 +38,7 @@
 		</div>
 	</c:forEach>
 
-	<span class="uploaded_images">Uploaded Images</span>
+	<span class="uploaded_images">Uploaded Images </span><span class="info">(Drag images to the upper album boxes)</span>
 	<div class="list_images">
 		<c:choose>
 			<c:when test="${imageDetailBeans != null && imageDetailBeans != ''}">
@@ -104,19 +104,42 @@
     font-weight: bold;
     text-align: center;
 }
+
+.info {
+	color:silver;
+	font-size: 12px;
+}
 </style>
 
 <script>
 	var imageJson = {};
+	
 	$(".list_images img").each(function(index, elementImg) {
 		imageJson[$(elementImg).data("id")] = $(elementImg).attr("src");  
 	});
+	
 	$(".album_number").each(function(index, elementDiv) {
 	    var img_id = $(elementDiv).data("image_id");
 	    if(img_id) {
 	        $(elementDiv).html("<img src='"+imageJson[img_id]+"' />")
 	    }
 	});
+	
+	var duplicateImage = function(image_id, pan) {
+		image_ids = [];
+		pan.closest(".user_albums").find(".album_number").each(function(index, elementDiv) {
+			id = $(elementDiv).data("image_id");
+			if(id) {
+				image_ids.push(id);
+			}
+		});
+		var use_image = true;
+		if($.inArray(image_id, image_ids) != -1) {
+			use_image = confirm("You love it so much, you want to use it again?");
+		}
+		return(use_image);
+	};
+	
 	var updatePosition = function(imageAlbumChoiceMappingId, userAlbumChoiceMpgId, sequenceNo, imageMappingId, pan) {
 		$.ajax({
 			url : "${pageContext.servletContext.contextPath}/updateUploadedImages",
@@ -129,6 +152,7 @@
 			method : 'get',
 			success : function(data, textStatus, jqXHR) {
 				pan.data("id", data);
+				pan.data("image_id", imageMappingId);
 			}
 		});
 	};
@@ -141,10 +165,13 @@
 	$(".album_number").droppable({
 		hoverClass: "album_number_hover",
 		drop : function(event, ui) {
-			dragged_image = $(ui.draggable);
 			pan = $(this);
-			pan.html("<img src='" + dragged_image.attr("src") + "' />");
-			updatePosition(pan.data("id"), pan.closest(".user_albums").data("uacm_id"), pan.data("seq"), dragged_image.data("id"), pan);
+			dragged_image = $(ui.draggable);
+			image_id = dragged_image.data("id"); 
+			if(duplicateImage(image_id, pan)) {
+				pan.html("<img src='" + dragged_image.attr("src") + "' />");
+				updatePosition(pan.data("id"), pan.closest(".user_albums").data("uacm_id"), pan.data("seq"), image_id, pan);	
+			}
 		}
 	});
 	$(".album_number").live("mouseenter", function() {
