@@ -6,7 +6,7 @@
 <div class="gap10px"></div>
 <div class="content">
 <c:forEach items="${sessionScope.users.userAlbumChoiceMpgs}" var="userAlbumChoiceMpg">
-	<span>${userAlbumChoiceMpg.albumChoice.name}</span>
+	<span class="album_name">${userAlbumChoiceMpg.albumChoice.name}</span>
 	<div class="user_albums" data-uacm_id="${userAlbumChoiceMpg.userAlbumChoiceMpgId}">
 		<div style="width:${userAlbumChoiceMpg.albumChoice.noOfPages * 107}px">
 			<c:forEach var="i" begin="1" end="${userAlbumChoiceMpg.albumChoice.noOfPages}">
@@ -16,7 +16,7 @@
 	</div>
 </c:forEach>
 
-<b>Uploaded Images</b>
+<span class="uploaded_images">Uploaded Images</span>
 <div class="list_images">	
 	<c:choose>
 		<c:when test="${imageDetailBeans != null && imageDetailBeans != ''}">	
@@ -46,9 +46,8 @@
 
 .user_albums {
     height: 100px;
-    margin-top: 15px;
     overflow: auto;
-    
+    margin: 5px 0 20px;
  }  
  
  .list_images img {
@@ -57,11 +56,22 @@
  }
  
  .list_images {
- 	margin-top:20px;
- 	height:200px;
- 	width:960px;
- 	overflow:scroll;
+ 	height: 200px;
+ 	width: 960px;
+ 	overflow: auto;
+ 	margin-top:5px;
  }
+ 
+ .album_name {
+ 	font-weight: bold;
+ 	font-size: 13px; 
+ }
+ 
+ .uploaded_images {
+ 	font-weight: bold;
+ 	font-size: 15px;
+ }
+ 
 </style>
 
 <script>
