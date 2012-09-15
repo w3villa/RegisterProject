@@ -18,7 +18,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -82,10 +81,7 @@ public class HomeController {
 	@RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
 	public String homeUser(Locale locale, Model model,
 			HttpServletRequest request, HttpSession session) throws Exception {
-		User user = (User) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		Users users = usersService.findByUserName(user.getUsername(), true);
-		session.setAttribute("users", users);
+		commonUtil.updateUsersInSession(session);
 		session.setAttribute("role", ProjectConstant.ROLE_USER);
 		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_LOGO);
 		model.addAttribute("uploadBean", new UploadBean());
@@ -95,10 +91,7 @@ public class HomeController {
 	@RequestMapping(value = "/welcomeAdmin", method = RequestMethod.GET)
 	public String homeAdmin(Locale locale, Model model,
 			HttpServletRequest request, HttpSession session) throws Exception {
-		User user = (User) SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		Users users = usersService.findByUserName(user.getUsername(), true);
-		session.setAttribute("users", users);
+		commonUtil.updateUsersInSession(session);
 		session.setAttribute("role", ProjectConstant.ROLE_ADMIN);
 		return "homeAdmin";
 	}
@@ -157,6 +150,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/albumChoiceUpdate", method = RequestMethod.GET)
 	public String albumChoiceUpdate(Model model, HttpSession session) {
+		commonUtil.updateUsersInSession(session);
 		commonUtil.getAlbumChoices(model, session);
 		return "albumChoice";
 
@@ -326,6 +320,7 @@ public class HomeController {
 			usersService.updateUsers(users);
 		}
 		commonUtil.getAlbumChoices(model, session);
+		commonUtil.updateUsersInSession(session);
 		return "albumChoice";
 	}
 
