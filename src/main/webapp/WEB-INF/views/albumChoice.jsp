@@ -4,10 +4,8 @@
 
 <c:set var="objectList" value="${albumChoiceList}" />
 <c:set var="selectedList" value="${sessionScope.users.userAlbumChoiceMpgs}"/>
-<div class="gap10px"></div>
 <div class="page_header">Choose Your Album style</div>
-<br>
-<br>
+<div class="gap10px"></div>
 <form action="${pageContext.servletContext.contextPath}/saveAlbumChoice"
 	style="padding: 0px; margin: 0px;" method="post">
 	<c:choose>

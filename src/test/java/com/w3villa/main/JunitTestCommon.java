@@ -101,10 +101,13 @@ public class JunitTestCommon {
 						}
 
 					}
-
+					imageAlbumChoiceMappingService
+							.deleteRecordsByUserAlbumChoiceMpgId(userAlbumChoiceMpg
+									.getUserAlbumChoiceMpgId());
 				}
 
 			}
+
 		}
 
 	}

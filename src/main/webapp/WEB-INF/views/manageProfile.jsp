@@ -1,11 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="userNavBar.jsp"></jsp:include>
-
-<div class="gap10px"></div>
 <div class="page_header">Manage Profile</div>
-<br>
-<br>
+<div class="gap10px"></div>
 <form:form modelAttribute="userEntityBean" method="Post"
 	action="manageProfile">
 

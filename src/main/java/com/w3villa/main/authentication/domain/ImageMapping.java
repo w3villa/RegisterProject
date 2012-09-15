@@ -4,8 +4,8 @@ package com.w3villa.main.authentication.domain;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ public class ImageMapping implements java.io.Serializable {
 	private Integer imageMappingId;
 	private Users users;
 	private String imagePath;
-	private Set<ImageAlbumChoiceMapping> imageAlbumChoiceMappings = new HashSet<ImageAlbumChoiceMapping>();
+	private List<ImageAlbumChoiceMapping> imageAlbumChoiceMappings = new ArrayList<ImageAlbumChoiceMapping>();
 
 	public ImageMapping() {
 	}
@@ -39,7 +39,7 @@ public class ImageMapping implements java.io.Serializable {
 	}
 
 	public ImageMapping(Users users, String imagePath,
-			Set<ImageAlbumChoiceMapping> imageAlbumChoiceMappings) {
+			List<ImageAlbumChoiceMapping> imageAlbumChoiceMappings) {
 		this.users = users;
 		this.imagePath = imagePath;
 		this.imageAlbumChoiceMappings = imageAlbumChoiceMappings;
@@ -78,12 +78,12 @@ public class ImageMapping implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "imageMapping", orphanRemoval = true)
 	@Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE,
 			org.hibernate.annotations.CascadeType.MERGE })
-	public Set<ImageAlbumChoiceMapping> getImageAlbumChoiceMappings() {
+	public List<ImageAlbumChoiceMapping> getImageAlbumChoiceMappings() {
 		return imageAlbumChoiceMappings;
 	}
 
 	public void setImageAlbumChoiceMappings(
-			Set<ImageAlbumChoiceMapping> imageAlbumChoiceMappings) {
+			List<ImageAlbumChoiceMapping> imageAlbumChoiceMappings) {
 		this.imageAlbumChoiceMappings = imageAlbumChoiceMappings;
 	}
 

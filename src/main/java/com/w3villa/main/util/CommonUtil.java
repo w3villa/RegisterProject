@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
@@ -61,6 +63,13 @@ public class CommonUtil {
 		model.addAttribute("albumChoiceList",
 				albumChoiceService.getAlbumChoiceList());
 
+	}
+
+	public void updateUsersInSession(HttpSession session) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		Users users = usersService.findByUserName(user.getUsername(), true);
+		session.setAttribute("users", users);
 	}
 
 }

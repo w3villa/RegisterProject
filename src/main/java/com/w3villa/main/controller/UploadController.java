@@ -401,25 +401,67 @@ public class UploadController {
 	public String getAllImages(Model model, HttpServletRequest request,
 			HttpSession session) {
 		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_THUMB);
+		commonUtil.updateUsersInSession(session);
 		return "imageListView";
 	}
 
-
 	@RequestMapping(value = "/updateUploadedImages")
+	@ResponseBody
 	public String updateUploadedImages(Model model, HttpServletRequest request,
-			HttpSession session) {
-		String csv = request.getParameter("csv");
-		String[] ids = csv.split(",");
+			HttpSession session) throws Exception {
+		String imageAlbumChoiceMappingId = null;
+		String userAlbumChoiceMpgId = null;
+		String sequenceNo = null;
+		String imageMappingId = null;
+		ImageAlbumChoiceMapping imageAlbumChoiceMapping = null;
 		ImageMapping imageMapping = null;
-		for (int i = 1; i <= ids.length; i++) {
-			if (!"".equals(ids[i - 1])) {
-				// imageMappingService
-				// .updateSeqNo(Integer.parseInt(ids[i - 1]), i);
-			}
-		}
+		UserAlbumChoiceMpg userAlbumChoiceMpg = null;
+		try {
+			imageAlbumChoiceMappingId = request
+					.getParameter("imageAlbumChoiceMappingId");
+			userAlbumChoiceMpgId = request.getParameter("userAlbumChoiceMpgId");
+			sequenceNo = request.getParameter("sequenceNo");
+			imageMappingId = request.getParameter("imageMappingId");
+			if (imageAlbumChoiceMappingId != null
+					&& !"".equals(imageAlbumChoiceMappingId)) {// update record
 
-		commonUtil.getImages(model, session, ProjectConstant.IMAGE_TYPE_THUMB);
-		return "imageListView";
+				imageAlbumChoiceMapping = imageAlbumChoiceMappingService
+						.getById(Integer.parseInt(imageAlbumChoiceMappingId));
+				imageMapping = new ImageMapping();
+				imageMapping
+						.setImageMappingId(Integer.parseInt(imageMappingId));
+				userAlbumChoiceMpg = new UserAlbumChoiceMpg();
+				userAlbumChoiceMpg.setUserAlbumChoiceMpgId(Integer
+						.parseInt(userAlbumChoiceMpgId));
+				imageAlbumChoiceMapping.setSequenceNo(Integer
+						.parseInt(sequenceNo));
+				imageAlbumChoiceMapping.setImageMapping(imageMapping);
+				imageAlbumChoiceMapping
+						.setUserAlbumChoiceMpg(userAlbumChoiceMpg);
+				imageAlbumChoiceMappingService
+						.updateImageAlbumChoiceMapping(imageAlbumChoiceMapping);
+			} else {// save new record
+				imageAlbumChoiceMapping = new ImageAlbumChoiceMapping();
+				imageMapping = new ImageMapping();
+				imageMapping
+						.setImageMappingId(Integer.parseInt(imageMappingId));
+				userAlbumChoiceMpg = new UserAlbumChoiceMpg();
+				userAlbumChoiceMpg.setUserAlbumChoiceMpgId(Integer
+						.parseInt(userAlbumChoiceMpgId));
+				imageAlbumChoiceMapping.setSequenceNo(Integer
+						.parseInt(sequenceNo));
+				imageAlbumChoiceMapping.setImageMapping(imageMapping);
+				imageAlbumChoiceMapping
+						.setUserAlbumChoiceMpg(userAlbumChoiceMpg);
+				imageAlbumChoiceMappingId = imageAlbumChoiceMappingService
+						.saveImageAlbumChoiceMapping(imageAlbumChoiceMapping)
+						+ "";
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return imageAlbumChoiceMappingId;
 	}
 
 	private void saveImageAlbumChoiceMapping(int imageMappingId,
@@ -434,4 +476,5 @@ public class UploadController {
 				.saveImageAlbumChoiceMapping(imageAlbumChoiceMapping);
 
 	}
+
 }
