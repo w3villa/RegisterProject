@@ -12,7 +12,7 @@
 	<div class="admin_form">
 		<div class="admin_fields">
 			<label for="firstName">First Name</label>
-			<form:input path="firstName"  cssClass="user_input" />
+			<form:input path="firstName" cssClass="user_input" />
 			<span class="error"><form:errors path="firstName" /></span>
 		</div>
 		<div class="admin_fields">
@@ -65,6 +65,10 @@
 
 	<div class="gap10px"></div>
 	<div class="gap10px"></div>
-		<input type="submit" name="save" id="save" value="Save"
-		class="button1" />
+	<input type="submit" name="save" id="save" value="Save" class="button1" />
 </form:form>
+<script>
+	if ('${message}' != '') {
+		alert('${message}');
+	}
+</script>

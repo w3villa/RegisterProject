@@ -1,9 +1,11 @@
 package com.w3villa.main.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
@@ -77,6 +80,9 @@ public class HomeController {
 
 	@Autowired
 	private CommonUtil commonUtil;
+
+	@Autowired
+	private PasswordEncoder encoder;
 
 	@RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
 	public String homeUser(Locale locale, Model model,
@@ -303,22 +309,33 @@ public class HomeController {
 		Users usersSession = (Users) session.getAttribute("users");
 		Users users = usersService.findByUserName(usersSession.getUserName(),
 				true);
+		String[] albumChoices = request.getParameterValues("album_choice");
 		SortedSet<UserAlbumChoiceMpg> userAlbumChoiceMpgs = users
 				.getUserAlbumChoiceMpgs();
-		userAlbumChoiceMpgs.clear();// empty set
-
-		usersService.updateUsers(users);
-		String[] albumChoices = request.getParameterValues("album_choice");
+		// userAlbumChoiceMpgs.clear();// empty set
+		SortedSet<UserAlbumChoiceMpg> alreadyPresent = new TreeSet<UserAlbumChoiceMpg>();
+		alreadyPresent.addAll(userAlbumChoiceMpgs);
+		SortedSet<UserAlbumChoiceMpg> toBePresent = new TreeSet<UserAlbumChoiceMpg>();
 		if (albumChoices != null && albumChoices.length != 0) {
 			for (String albumChoiceId : albumChoices) {
 				albumChoice = albumChoiceService.get(albumChoiceId);
 				userAlbumChoiceMpg = new UserAlbumChoiceMpg();
 				userAlbumChoiceMpg.setAlbumChoice(albumChoice);
 				userAlbumChoiceMpg.setUsers(users);
-				userAlbumChoiceMpgs.add(userAlbumChoiceMpg);
+				toBePresent.add(userAlbumChoiceMpg);
+				if (!userAlbumChoiceMpgs.contains(userAlbumChoiceMpg)) {
+					userAlbumChoiceMpgs.add(userAlbumChoiceMpg);
+				}
 			}
-			usersService.updateUsers(users);
 		}
+		Iterator<UserAlbumChoiceMpg> iterator = alreadyPresent.iterator();
+		while (iterator.hasNext()) {
+			userAlbumChoiceMpg = iterator.next();
+			if (!toBePresent.contains(userAlbumChoiceMpg)) {
+				userAlbumChoiceMpgs.remove(userAlbumChoiceMpg);
+			}
+		}
+		usersService.updateUsers(users);
 		commonUtil.getAlbumChoices(model, session);
 		commonUtil.updateUsersInSession(session);
 		model.addAttribute("message", "Album choices saved Successfully.");
@@ -333,8 +350,37 @@ public class HomeController {
 				true);
 		UserEntityBean userEntityBean = new UserEntityBean();
 		BeanUtils.copyProperties(userEntityBean, users);
+		userEntityBean.setId(users.getUserId() + "");
 		model.addAttribute(userEntityBean);
 		session.setAttribute("users", users);
 		return "manageProfile";
+	}
+
+	@RequestMapping(value = "/manageProfile", method = RequestMethod.POST)
+	public String manageProfileSave(@Valid UserEntityBean userEntityBean,
+			BindingResult result, Model model, HttpSession session,
+			HttpServletRequest request) throws Exception {
+		if (result.hasErrors()) {
+			model.addAttribute("message",
+					"Please correct the provided informations.");
+			return "manageProfile";
+		} else {
+
+			String newPass = request.getParameter("newPass");
+			if (newPass != null && !"".equals(newPass)) {
+				String encodedPass = encoder.encode(newPass);
+				userEntityBean.setPassword(encodedPass);
+			}
+			usersService.update(userEntityBean);
+			userEntityBean = new UserEntityBean();
+			Users usersSession = (Users) session.getAttribute("users");
+			Users users = usersService.findByUserName(
+					usersSession.getUserName(), true);
+			BeanUtils.copyProperties(userEntityBean, users);
+			model.addAttribute(userEntityBean);
+			session.setAttribute("users", users);
+			model.addAttribute("message", "Profile updated Successfully.");
+			return "manageProfile";
+		}
 	}
 }
