@@ -32,6 +32,10 @@
 </form>
 <script type="text/javascript">
 
+if('${message}' != ''){
+	alert('${message}');
+}
+
 <c:forEach var="selected" items="${selectedList}" >
 $("#${selected.albumChoice.albumChoiceId}").attr('checked','checked');
 </c:forEach>

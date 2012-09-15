@@ -24,7 +24,8 @@ import org.hibernate.annotations.Cascade;
  */
 @Entity
 @Table(name = "user_album_choice_mpg", catalog = "w3villdb")
-public class UserAlbumChoiceMpg implements java.io.Serializable {
+public class UserAlbumChoiceMpg implements java.io.Serializable,
+		Comparable<UserAlbumChoiceMpg> {
 
 	private Integer userAlbumChoiceMpgId;
 	private AlbumChoice albumChoice;
@@ -82,6 +83,12 @@ public class UserAlbumChoiceMpg implements java.io.Serializable {
 	public void setImageAlbumChoiceMappings(
 			List<ImageAlbumChoiceMapping> imageAlbumChoiceMappings) {
 		this.imageAlbumChoiceMappings = imageAlbumChoiceMappings;
+	}
+
+	@Override
+	public int compareTo(UserAlbumChoiceMpg o) {
+		return this.getAlbumChoice().getAlbumChoiceId()
+				.compareTo(o.getAlbumChoice().getAlbumChoiceId());
 	}
 
 }

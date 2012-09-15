@@ -3,7 +3,7 @@ package com.w3villa.main.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.SortedSet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -303,7 +303,7 @@ public class HomeController {
 		Users usersSession = (Users) session.getAttribute("users");
 		Users users = usersService.findByUserName(usersSession.getUserName(),
 				true);
-		Set<UserAlbumChoiceMpg> userAlbumChoiceMpgs = users
+		SortedSet<UserAlbumChoiceMpg> userAlbumChoiceMpgs = users
 				.getUserAlbumChoiceMpgs();
 		userAlbumChoiceMpgs.clear();// empty set
 
@@ -321,6 +321,7 @@ public class HomeController {
 		}
 		commonUtil.getAlbumChoices(model, session);
 		commonUtil.updateUsersInSession(session);
+		model.addAttribute("message", "Album choices saved Successfully.");
 		return "albumChoice";
 	}
 
